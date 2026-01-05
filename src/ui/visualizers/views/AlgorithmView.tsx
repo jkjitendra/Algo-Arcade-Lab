@@ -10,6 +10,13 @@ import { PartitionView } from "./PartitionView";
 import { RunView } from "./RunView";
 import { ModeView } from "./ModeView";
 import { VotingView } from "./VotingView";
+import { StringCharacterView } from "./StringCharacterView";
+import { FrequencyHistogramView } from "./FrequencyHistogramView";
+import { LPSArrayView } from "./LPSArrayView";
+import { HashView } from "./HashView";
+import { DPTableView } from "./DPTableView";
+import { SearchVisualizationView } from "./SearchVisualizationView";
+import { StackView } from "./StackView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -100,6 +107,48 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
         />
       ) : null;
 
+    case "string-chars":
+      return auxiliaryState.stringChars ? (
+        <StringCharacterView stringChars={auxiliaryState.stringChars} />
+      ) : null;
+
+    case "frequency":
+      return auxiliaryState.frequencyState ? (
+        <FrequencyHistogramView frequencyState={auxiliaryState.frequencyState} />
+      ) : null;
+
+    case "lps":
+      return auxiliaryState.lpsState ? (
+        <LPSArrayView lpsState={auxiliaryState.lpsState} />
+      ) : null;
+
+    case "hash":
+      return auxiliaryState.hashState ? (
+        <HashView hashState={auxiliaryState.hashState} />
+      ) : null;
+
+    case "dp-table":
+      return auxiliaryState.dpTableState ? (
+        <DPTableView dpTableState={auxiliaryState.dpTableState} />
+      ) : null;
+
+    case "search-range":
+      return auxiliaryState.searchRangeData ? (
+        <SearchVisualizationView searchData={auxiliaryState.searchRangeData} />
+      ) : null;
+
+    case "stack":
+      return auxiliaryState.stackData ? (
+        <StackView
+          stackData={auxiliaryState.stackData}
+          phase={auxiliaryState.phase}
+        />
+      ) : null;
+
+    case "matrix":
+      // Matrix visualization - placeholder for now
+      return null;
+
     case "insertion":
       return null;
 
@@ -107,3 +156,4 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
       return null;
   }
 }
+
