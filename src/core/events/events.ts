@@ -205,8 +205,20 @@ export interface SearchRangeData {
   exponentialRange?: number[];  // For exponential search
 }
 
+// Stack visualization data
+export interface StackData {
+  elements: (number | string)[];
+  capacity?: number;
+  topIndex: number;
+  highlight?: number[];
+  animating?: 'push' | 'pop';
+  animatingValue?: number | string;
+  outputQueue?: (number | string)[];  // For expression conversions
+  message?: string;  // Reason/explanation for current operation
+}
+
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -230,6 +242,8 @@ export interface AuxiliaryState {
   matrixSearchState?: MatrixSearchState;
   // Search range state for search algorithms
   searchRangeData?: SearchRangeData;
+  // Stack visualization state
+  stackData?: StackData;
 }
 
 export interface BaseEvent {
