@@ -92,7 +92,7 @@ export function AlgorithmParams({ parameters, values, onChange }: AlgorithmParam
 
       <div className="space-y-3">
         {parameters.map((param) => (
-          <div key={param.id} className={param.type === 'select' ? 'space-y-1' : 'flex items-center justify-between gap-4'}>
+          <div key={param.id} className={param.type === 'select' || param.type === 'text' ? 'space-y-1' : 'flex items-center justify-between gap-4'}>
             <label className="text-sm text-[var(--text-secondary)] flex-shrink-0">
               {param.label}
             </label>
@@ -120,6 +120,17 @@ export function AlgorithmParams({ parameters, values, onChange }: AlgorithmParam
                   </option>
                 ))}
               </select>
+            )}
+
+            {param.type === 'text' && (
+              <input
+                type="text"
+                value={(values[param.id] as string ?? param.default).toUpperCase()}
+                onChange={(e) => handleChange(param.id, e.target.value.toUpperCase())}
+                placeholder={param.placeholder || 'Enter text...'}
+                maxLength={param.maxLength || 20}
+                className="w-full bg-[var(--bg-secondary)] text-[var(--text-primary)] border border-[var(--border-primary)] rounded-lg px-2 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)]"
+              />
             )}
           </div>
         ))}
