@@ -10,7 +10,43 @@ interface ArrayInputEditorProps {
   onApply?: () => void;
   maxSize?: number;
   algorithmParams?: ReactNode;
+  algorithmId?: string;
+  onParamsChange?: (params: Record<string, string>) => void;
 }
+
+// Pre-defined rotated sorted arrays for better visualization
+const rotatedArraySamples = [
+  [4, 5, 6, 7, 0, 1, 2, 3],
+  [6, 7, 8, 9, 10, 1, 2, 3, 4, 5],
+  [15, 18, 22, 25, 3, 5, 8, 10, 12],
+  [50, 60, 70, 80, 10, 20, 30, 40],
+  [7, 9, 11, 13, 15, 1, 3, 5],
+  [23, 34, 45, 56, 67, 12, 14, 17, 19],
+  [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7],
+  [40, 50, 60, 5, 10, 15, 20, 25, 30],
+  [11, 13, 15, 17, 19, 2, 4, 6, 8, 10],
+  [70, 80, 90, 100, 20, 30, 40, 50, 60],
+  [5, 6, 7, 8, 9, 10, 1, 2, 3, 4],
+  [25, 30, 35, 40, 5, 10, 15, 20],
+  [9, 12, 15, 18, 21, 3, 6],
+  [33, 44, 55, 66, 11, 22],
+  [16, 18, 20, 22, 24, 2, 4, 6, 8, 10, 12, 14],
+];
+
+// Stack algorithms that allow empty arrays
+const stackAlgorithms = [
+  'stack-operations',
+  'balanced-parentheses',
+  'infix-to-postfix',
+  'infix-to-prefix',
+  'postfix-evaluation',
+  'prefix-evaluation',
+  'next-greater-element',
+  'next-smaller-element',
+  'stock-span',
+  'largest-rectangle-histogram',
+  'valid-stack-sequences',
+];
 
 export function ArrayInputEditor({
   value,
@@ -18,10 +54,27 @@ export function ArrayInputEditor({
   onApply,
   maxSize = 20,
   algorithmParams,
+  algorithmId,
+  onParamsChange,
 }: ArrayInputEditorProps) {
   const [inputText, setInputText] = useState(value.join(", "));
   const [error, setError] = useState<string | null>(null);
   const lastExternalValue = useRef<string>(value.join(", "));
+
+  // Check if this is a stack algorithm (allows empty arrays)
+  const isStackAlgorithm = algorithmId && stackAlgorithms.includes(algorithmId);
+
+  // Get minimum required elements based on algorithm
+  const getMinElements = () => {
+    if (isStackAlgorithm) {
+      // Stack operations like isEmpty need to allow empty arrays
+      if (algorithmId === 'stack-operations') return 0;
+      // Other stack algorithms need at least 1 element
+      return 1;
+    }
+    // Sorting and other algorithms need at least 2
+    return 2;
+  };
 
   // Sync internal state ONLY when value prop changes from external source
   useEffect(() => {
@@ -36,7 +89,13 @@ export function ArrayInputEditor({
   }, [value]);
 
   const parseInput = (text: string): { values: number[]; error: string | null } => {
+    const minElements = getMinElements();
+
+    // Allow empty for stack operations isEmpty check
     if (!text.trim()) {
+      if (minElements === 0) {
+        return { values: [], error: null };
+      }
       return { values: [], error: "Please enter some values" };
     }
 
@@ -58,7 +117,10 @@ export function ArrayInputEditor({
       return { values: [], error: `Maximum ${maxSize} values allowed` };
     }
 
-    if (values.length < 2) {
+    if (values.length < minElements) {
+      if (minElements === 1) {
+        return { values: [], error: "Need at least 1 value" };
+      }
       return { values: [], error: "Need at least 2 values to sort" };
     }
 
@@ -69,7 +131,7 @@ export function ArrayInputEditor({
     setInputText(text);
     const { values, error } = parseInput(text);
     setError(error);
-    if (!error && values.length > 0) {
+    if (!error) {
       lastExternalValue.current = values.join(", "); // Track what we're sending up
       onChange(values);
     }
@@ -83,10 +145,64 @@ export function ArrayInputEditor({
   };
 
   const generateRandom = () => {
-    const size = Math.floor(Math.random() * 10) + 5; // 5-14 elements
-    const values = Array.from({ length: size }, () =>
-      Math.floor(Math.random() * 100) + 1
-    );
+    let values: number[];
+
+    // For rotated array algorithms, use pre-defined valid rotated arrays
+    if (algorithmId === 'rotated-array-search' || algorithmId === 'rotated-array-min') {
+      values = rotatedArraySamples[Math.floor(Math.random() * rotatedArraySamples.length)];
+    } else if (algorithmId === 'balanced-parentheses') {
+      // Generate random parentheses expressions (using ASCII codes)
+      const parenthesesSamples = [
+        [40, 41],  // ()
+        [40, 40, 41, 41],  // (())
+        [40, 91, 93, 41],  // ([])
+        [123, 40, 91, 93, 41, 125],  // {([])
+        [40, 123, 91, 93, 125, 41],  // ({[]})
+        [40, 41, 91, 93, 123, 125],  // ()[]{}
+        [91, 40, 123, 125, 41, 93],  // [({})
+        [40, 91, 123, 125, 93, 41],  // ([{}])
+        [123, 123, 91, 91, 40, 40, 41, 41, 93, 93, 125, 125],  // {{[[()]]}}
+        [40, 91, 41, 93],  // ([)] - unbalanced for variety
+        [40, 40, 40, 41, 41],  // ((() - unbalanced
+        [91, 93, 40, 41, 123, 91, 93, 125],  // [](]{[]}
+        [40, 123, 40, 41, 125, 41],  // ({()})
+      ];
+      values = parenthesesSamples[Math.floor(Math.random() * parenthesesSamples.length)];
+    } else if (algorithmId === 'valid-stack-sequences') {
+      // Generate push sequence (1 to n)
+      const size = Math.floor(Math.random() * 5) + 3; // 3-7 elements
+      values = Array.from({ length: size }, (_, i) => i + 1);
+
+      // Generate a valid or invalid pop sequence
+      const isValid = Math.random() > 0.3; // 70% chance of valid sequence
+      let popSequence: number[];
+
+      if (isValid) {
+        // Generate valid pop sequence using simulation
+        popSequence = generateValidPopSequence(values);
+      } else {
+        // Generate random (likely invalid) pop sequence
+        popSequence = [...values].sort(() => Math.random() - 0.5);
+      }
+
+      // Update the pop sequence parameter
+      if (onParamsChange) {
+        onParamsChange({ popSequence: popSequence.join(',') });
+      }
+    } else if (isStackAlgorithm) {
+      // Stack algorithms - generate smaller random array
+      const size = Math.floor(Math.random() * 6) + 3; // 3-8 elements
+      values = Array.from({ length: size }, () =>
+        Math.floor(Math.random() * 50) + 1
+      );
+    } else {
+      // Default random generation for other algorithms
+      const size = Math.floor(Math.random() * 10) + 5; // 5-14 elements
+      values = Array.from({ length: size }, () =>
+        Math.floor(Math.random() * 100) + 1
+      );
+    }
+
     setInputText(values.join(", "));
     setError(null);
     onChange(values);
@@ -94,7 +210,30 @@ export function ArrayInputEditor({
     setTimeout(() => onApply?.(), 0);
   };
 
-  const isValid = !error && value.length >= 2;
+  // Helper function to generate a valid pop sequence
+  const generateValidPopSequence = (pushed: number[]): number[] => {
+    const stack: number[] = [];
+    const popped: number[] = [];
+    const remaining = [...pushed];
+
+    while (remaining.length > 0 || stack.length > 0) {
+      // Randomly decide to push or pop
+      if (stack.length === 0 || (remaining.length > 0 && Math.random() > 0.5)) {
+        // Push next element
+        if (remaining.length > 0) {
+          stack.push(remaining.shift()!);
+        }
+      } else {
+        // Pop from stack
+        popped.push(stack.pop()!);
+      }
+    }
+
+    return popped;
+  };
+
+  const minElements = getMinElements();
+  const isValid = !error && value.length >= minElements;
 
   return (
     <div className="space-y-3">
@@ -117,7 +256,7 @@ export function ArrayInputEditor({
         <textarea
           value={inputText}
           onChange={(e) => handleInputChange(e.target.value)}
-          placeholder="Enter numbers separated by commas (e.g., 64, 34, 25, 12, 22)"
+          placeholder={isStackAlgorithm ? "Enter numbers (can be empty for isEmpty check)" : "Enter numbers separated by commas (e.g., 64, 34, 25, 12, 22)"}
           className={`w-full px-3 py-2 rounded-lg border text-sm font-mono resize-none bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:ring-2 transition-all ${error
             ? "border-red-500 focus:ring-red-500/20"
             : isValid
@@ -151,7 +290,7 @@ export function ArrayInputEditor({
           handleApply();
           onApply?.();
         }}
-        disabled={!isValid}
+        disabled={!!error}
         className="w-full gap-2 bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] hover:from-[var(--color-primary-600)] hover:to-[var(--color-secondary-600)] disabled:opacity-50"
       >
         <Play className="h-4 w-4" />
@@ -163,7 +302,7 @@ export function ArrayInputEditor({
         <div className="text-xs text-[var(--text-secondary)]">
           <span className="font-medium">{value.length} elements: </span>
           <span className="font-mono break-all">
-            [{value.join(", ")}]
+            [{value.length > 0 ? value.join(", ") : "empty"}]
           </span>
         </div>
       )}
