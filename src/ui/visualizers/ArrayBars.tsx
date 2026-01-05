@@ -68,6 +68,18 @@ export function ArrayBars({ values, markedIndices, pointers = [], maxValue }: Ar
     return map;
   }, [pointers]);
 
+  // Handle empty arrays
+  if (values.length === 0) {
+    return (
+      <div className="relative w-full h-full min-h-[200px] p-4 flex items-center justify-center">
+        <div className="text-center text-[var(--text-tertiary)]">
+          <div className="text-4xl mb-2">📭</div>
+          <div className="text-sm">Empty Array</div>
+        </div>
+      </div>
+    );
+  }
+
   const bars = useMemo(() => {
     return values.map((value, index) => {
       // For arrays with negatives: normalize to 0-100 range
