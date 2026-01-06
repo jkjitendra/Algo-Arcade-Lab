@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { VisualizerClient } from "@/ui/visualizers/VisualizerClient";
 
 interface VisualizePageProps {
@@ -11,6 +12,11 @@ export default async function VisualizePage({ params, searchParams }: VisualizeP
   const { locale } = await params;
   const { algorithm, category } = await searchParams;
   setRequestLocale(locale);
+
+  // Require both algorithm and category to access - redirect otherwise
+  if (!algorithm || !category) {
+    redirect(`/${locale}/topics`);
+  }
 
   return <VisualizeContent initialAlgorithm={algorithm} category={category} />;
 }
