@@ -20,7 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DSA Visualizer - Learn Data Structures & Algorithms",
+  title: "Algo Arcade Lab - Learn Data Structures & Algorithms",
   description:
     "Interactive visualizations to help you master DSA concepts with step-by-step animations",
   keywords: [
