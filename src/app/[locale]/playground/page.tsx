@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = await getTranslations({ locale });
 
   return {
-    title: "Code Playground - DSA Visualizer",
+    title: "Code Playground - Algo Arcade Lab",
     description: "Write, run, and visualize sorting algorithms in real-time",
   };
 }
