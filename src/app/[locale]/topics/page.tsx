@@ -75,7 +75,7 @@ const topics = [
     description: "FIFO data structure",
   },
   {
-    key: "linkedLists",
+    key: "linked-lists",
     icon: Link2,
     color: "from-rose-500 to-red-500",
     level: "Intermediate",
@@ -125,7 +125,7 @@ const topics = [
   },
   // === EXPERT ===
   {
-    key: "dynamicProgramming",
+    key: "dynamic-programming",
     icon: Calculator,
     color: "from-teal-500 to-cyan-500",
     level: "Expert",
@@ -133,7 +133,7 @@ const topics = [
     description: "Optimized recursive solutions",
   },
   {
-    key: "greedy",
+    key: "greedy-algorithms",
     icon: Zap,
     color: "from-yellow-500 to-orange-500",
     level: "Expert",
