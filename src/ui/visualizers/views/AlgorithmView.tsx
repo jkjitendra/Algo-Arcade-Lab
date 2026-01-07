@@ -17,6 +17,7 @@ import { HashView } from "./HashView";
 import { DPTableView } from "./DPTableView";
 import { SearchVisualizationView } from "./SearchVisualizationView";
 import { StackView } from "./StackView";
+import { QueueView } from "./QueueView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -145,6 +146,14 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
         />
       ) : null;
 
+    case "queue":
+      return auxiliaryState.queueData ? (
+        <QueueView
+          queueData={auxiliaryState.queueData}
+          phase={auxiliaryState.phase}
+        />
+      ) : null;
+
     case "matrix":
       // Matrix visualization - placeholder for now
       return null;
@@ -156,4 +165,5 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
       return null;
   }
 }
+
 
