@@ -86,6 +86,18 @@ import { nextSmallerElementInfo } from "@/core/algorithms/stacks/nextSmallerElem
 import { stockSpanInfo } from "@/core/algorithms/stacks/stockSpanInfo";
 import { largestRectangleHistogramInfo } from "@/core/algorithms/stacks/largestRectangleHistogramInfo";
 import { validStackSequencesInfo } from "@/core/algorithms/stacks/validStackSequencesInfo";
+// Queue algorithm info
+import { queueOperationsInfo } from "@/core/algorithms/queues/queueOperationsInfo";
+import { circularQueueInfo } from "@/core/algorithms/queues/circularQueueInfo";
+import { dequeInfo } from "@/core/algorithms/queues/dequeInfo";
+import { priorityQueueInfo } from "@/core/algorithms/queues/priorityQueueInfo";
+import { queueUsingTwoStacksInfo } from "@/core/algorithms/queues/queueUsingTwoStacksInfo";
+import { stackUsingTwoQueuesInfo } from "@/core/algorithms/queues/stackUsingTwoQueuesInfo";
+import { lruCacheInfo } from "@/core/algorithms/queues/lruCacheInfo";
+import { slidingWindowMaximumInfo } from "@/core/algorithms/queues/slidingWindowMaximumInfo";
+import { firstNonRepeatingCharacterInfo } from "@/core/algorithms/queues/firstNonRepeatingCharacterInfo";
+import { generateBinaryNumbersInfo } from "@/core/algorithms/queues/generateBinaryNumbersInfo";
+import { circularTourInfo } from "@/core/algorithms/queues/circularTourInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -159,6 +171,18 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "stock-span": [100, 80, 60, 70, 60, 75, 85],
   "largest-rectangle-histogram": [2, 1, 5, 6, 2, 3],
   "valid-stack-sequences": [1, 2, 3, 4, 5],
+  // Queues topic
+  "queue-operations": [10, 20, 30, 40, 50],
+  "circular-queue": [1, 2, 3, 4],
+  "deque": [10, 20, 30, 40],
+  "priority-queue": [30, 20, 50, 10, 40],
+  "queue-using-two-stacks": [1, 2, 3, 4, 5],
+  "stack-using-two-queues": [1, 2, 3, 4, 5],
+  "lru-cache": [1, 2, 3, 4],
+  "sliding-window-maximum": [1, 3, -1, -3, 5, 3, 6, 7],
+  "first-non-repeating-character": [97, 98, 99, 97, 100, 99],  // "abcadc"
+  "generate-binary-numbers": [],
+  "circular-tour": [4, 6, 6, 5, 7, 3, 4, 5],  // petrol1, distance1, petrol2, distance2, ...
 };
 
 // Map algorithm IDs to their info
@@ -234,6 +258,18 @@ const algorithmInfoMap: Record<string, any> = {
   "stock-span": stockSpanInfo,
   "largest-rectangle-histogram": largestRectangleHistogramInfo,
   "valid-stack-sequences": validStackSequencesInfo,
+  // Queues
+  "queue-operations": queueOperationsInfo,
+  "circular-queue": circularQueueInfo,
+  "deque": dequeInfo,
+  "priority-queue": priorityQueueInfo,
+  "queue-using-two-stacks": queueUsingTwoStacksInfo,
+  "stack-using-two-queues": stackUsingTwoQueuesInfo,
+  "lru-cache": lruCacheInfo,
+  "sliding-window-maximum": slidingWindowMaximumInfo,
+  "first-non-repeating-character": firstNonRepeatingCharacterInfo,
+  "generate-binary-numbers": generateBinaryNumbersInfo,
+  "circular-tour": circularTourInfo,
 };
 
 // Map algorithm IDs to their category
@@ -306,6 +342,18 @@ const algorithmCategoryMap: Record<string, string> = {
   "stock-span": "stacks",
   "largest-rectangle-histogram": "stacks",
   "valid-stack-sequences": "stacks",
+  // Queues
+  "queue-operations": "queues",
+  "circular-queue": "queues",
+  "deque": "queues",
+  "priority-queue": "queues",
+  "queue-using-two-stacks": "queues",
+  "stack-using-two-queues": "queues",
+  "lru-cache": "queues",
+  "sliding-window-maximum": "queues",
+  "first-non-repeating-character": "queues",
+  "generate-binary-numbers": "queues",
+  "circular-tour": "queues",
 };
 
 interface VisualizerClientProps {
@@ -331,16 +379,17 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     if (cat === "strings") return "string-operations";
     if (cat === "searching") return "linear-search";
     if (cat === "stacks") return "stack-operations";
+    if (cat === "queues") return "queue-operations";
     return "bubble-sort";
   };
 
   const selectedAlgorithm = algorithmId || initialAlgorithm || getDefaultAlgorithmForCategory(category);
 
-  // Check if this is a stack algorithm (allows empty arrays)
-  const isStackAlgorithm = algorithmCategoryMap[selectedAlgorithm] === 'stacks';
+  // Check if this is a stack or queue algorithm (allows empty arrays)
+  const isStackOrQueueAlgorithm = algorithmCategoryMap[selectedAlgorithm] === 'stacks' || algorithmCategoryMap[selectedAlgorithm] === 'queues';
 
-  // For stack algorithms, allow empty arrays; for others, fall back to default
-  const currentInputArray = (inputArray.length > 0 || isStackAlgorithm) ? inputArray : getDefaultArray(selectedAlgorithm);
+  // For stack/queue algorithms, allow empty arrays; for others, fall back to default
+  const currentInputArray = (inputArray.length > 0 || isStackOrQueueAlgorithm) ? inputArray : getDefaultArray(selectedAlgorithm);
 
   const algorithm = getAlgorithm(selectedAlgorithm);
   const allAlgorithms = getAllAlgorithms();
@@ -368,11 +417,11 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
   const handleRun = () => {
     const state = usePlayerStore.getState();
     const algoId = state.algorithmId || "bubble-sort";
-    const isStack = algorithmCategoryMap[algoId] === 'stacks';
-    const input = (state.inputArray.length > 0 || isStack) ? state.inputArray : getDefaultArray(algoId);
+    const isStackOrQueue = algorithmCategoryMap[algoId] === 'stacks' || algorithmCategoryMap[algoId] === 'queues';
+    const input = (state.inputArray.length > 0 || isStackOrQueue) ? state.inputArray : getDefaultArray(algoId);
 
-    // Stack algorithms can have 0 elements, others need at least 2
-    const minRequired = isStack ? 0 : 2;
+    // Stack/Queue algorithms can have 0 elements, others need at least 2
+    const minRequired = isStackOrQueue ? 0 : 2;
     if (input.length >= minRequired) {
       loadAlgorithm(algoId, input, algorithmParams);
     }

@@ -15,7 +15,7 @@ export function Footer() {
           {/* Brand Column */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)]">
+              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] pb-1">
                 Algo Arcade Lab
               </span>
             </div>

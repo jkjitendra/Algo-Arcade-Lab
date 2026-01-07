@@ -31,7 +31,7 @@ export function Hero({ locale, verifiedCount = 0 }: HeroProps) {
           </div>
         )}
 
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--text-primary)] to-[var(--text-secondary)] mb-8 tracking-tight animate-slide-up">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--text-primary)] to-[var(--text-secondary)] mb-8 tracking-tight animate-slide-up pb-2">
           Master Algorithms Visually
         </h1>
 
@@ -41,7 +41,7 @@ export function Hero({ locale, verifiedCount = 0 }: HeroProps) {
 
         <div className="flex flex-col sm:flex-row gap-5 justify-center items-center animate-slide-up" style={{ animationDelay: "200ms" }}>
           <Link
-            href={`/${locale}/visualize`}
+            href={`/${locale}/topics`}
             className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-[var(--color-primary-600)] rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[var(--color-primary-500)]/20"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

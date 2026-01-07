@@ -99,7 +99,7 @@ export function TopicHighlights({ locale, topics = [] }: TopicHighlightsProps) {
               <div className={`h-32 bg-gradient-to-br ${topic.color} relative overflow-hidden group-hover:scale-105 transition-transform duration-500`}>
                 <div className="absolute inset-0 bg-black/10 transition-opacity group-hover:opacity-0" />
                 <div className="absolute bottom-4 left-4">
-                  <h3 className="text-xl font-bold text-white shadow-sm">
+                  <h3 className="text-xl font-bold text-white">
                     {topic.title}
                   </h3>
                 </div>

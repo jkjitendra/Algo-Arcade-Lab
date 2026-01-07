@@ -38,7 +38,7 @@ export default function CheatsheetPage() {
           {/* Title */}
           <h1 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
             {t("title").split(" ")[0]}{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)]">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] pb-1">
               {t("title").split(" ").slice(1).join(" ")}
             </span>
           </h1>
