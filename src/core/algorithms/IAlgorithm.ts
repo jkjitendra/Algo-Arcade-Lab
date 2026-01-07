@@ -20,6 +20,8 @@ export interface NumberParameter {
   min: number;
   max: number;
   step?: number;
+  /** Show this parameter only when another parameter has specific value(s) */
+  dependsOn?: { parameterId: string; values: string[] };
 }
 
 export interface SelectParameter {
@@ -28,6 +30,8 @@ export interface SelectParameter {
   label: string;
   default: string;
   options: { value: string; label: string }[];
+  /** Show this parameter only when another parameter has specific value(s) */
+  dependsOn?: { parameterId: string; values: string[] };
 }
 
 export interface TextParameter {
@@ -37,6 +41,8 @@ export interface TextParameter {
   default: string;
   placeholder?: string;
   maxLength?: number;
+  /** Show this parameter only when another parameter has specific value(s) */
+  dependsOn?: { parameterId: string; values: string[] };
 }
 
 export type AlgorithmParameter = NumberParameter | SelectParameter | TextParameter;
