@@ -69,6 +69,19 @@ import { nextSmallerElement } from './stacks/nextSmallerElement';
 import { stockSpan } from './stacks/stockSpan';
 import { largestRectangleHistogram } from './stacks/largestRectangleHistogram';
 import { validStackSequences } from './stacks/validStackSequences';
+// Queue algorithms
+import { queueOperations } from './queues/queueOperations';
+import { circularQueue } from './queues/circularQueue';
+import { deque } from './queues/deque';
+import { priorityQueue } from './queues/priorityQueue';
+import { queueUsingTwoStacks } from './queues/queueUsingTwoStacks';
+import { stackUsingTwoQueues } from './queues/stackUsingTwoQueues';
+import { lruCache } from './queues/lruCache';
+import { slidingWindowMaximum } from './queues/slidingWindowMaximum';
+import { firstNonRepeatingCharacter } from './queues/firstNonRepeatingCharacter';
+import { generateBinaryNumbers } from './queues/generateBinaryNumbers';
+import { circularTour } from './queues/circularTour';
+
 
 /**
  * Registry of all available algorithms
@@ -207,3 +220,21 @@ registerAlgorithm(nextSmallerElement);
 registerAlgorithm(stockSpan);
 registerAlgorithm(largestRectangleHistogram);
 registerAlgorithm(validStackSequences);
+
+// ============ QUEUES ============
+// Tier 1: Core Operations
+registerAlgorithm(queueOperations);
+// Tier 2: Queue Variants
+registerAlgorithm(circularQueue);
+registerAlgorithm(deque);
+registerAlgorithm(priorityQueue);
+// Tier 3: Implementations with Two Data Structures
+registerAlgorithm(queueUsingTwoStacks);
+registerAlgorithm(stackUsingTwoQueues);
+// Tier 4: Advanced Applications
+registerAlgorithm(lruCache);
+registerAlgorithm(slidingWindowMaximum);
+registerAlgorithm(firstNonRepeatingCharacter);
+registerAlgorithm(generateBinaryNumbers);
+registerAlgorithm(circularTour);
+
