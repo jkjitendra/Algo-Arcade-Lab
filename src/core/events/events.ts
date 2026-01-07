@@ -217,8 +217,47 @@ export interface StackData {
   message?: string;  // Reason/explanation for current operation
 }
 
+// Queue visualization data
+export interface QueueData {
+  elements: (number | string)[];
+  capacity?: number;
+  frontIndex: number;
+  rearIndex: number;
+  highlight?: number[];
+  animating?: 'enqueue' | 'dequeue' | 'dequeueRear';
+  animatingValue?: number | string;
+  // For circular queue visualization
+  isCircular?: boolean;
+  // For priority queue
+  priorities?: number[];
+  // For deque (double-ended queue)
+  isDeque?: boolean;
+  // For dual-structure visualizations (queue using stacks, stack using queues)
+  secondaryStack1?: (number | string)[];
+  secondaryStack2?: (number | string)[];
+  transferringElement?: number | string;
+  transferDirection?: 'stack1ToStack2' | 'stack2ToStack1';
+  secondaryQueue1?: (number | string)[];
+  secondaryQueue2?: (number | string)[];
+  // For LRU Cache
+  cacheMap?: { key: number; value: number }[];
+  // For sliding window maximum
+  windowStart?: number;
+  windowEnd?: number;
+  maxDeque?: number[];
+  // For binary number generation
+  generatedNumbers?: string[];
+  // For circular tour / gas station
+  stations?: { petrol: number; distance: number }[];
+  currentStation?: number;
+  fuel?: number;
+  startStation?: number;
+  // General message
+  message?: string;
+}
+
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -244,6 +283,8 @@ export interface AuxiliaryState {
   searchRangeData?: SearchRangeData;
   // Stack visualization state
   stackData?: StackData;
+  // Queue visualization state
+  queueData?: QueueData;
 }
 
 export interface BaseEvent {
