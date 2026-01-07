@@ -33,8 +33,9 @@ const rotatedArraySamples = [
   [16, 18, 20, 22, 24, 2, 4, 6, 8, 10, 12, 14],
 ];
 
-// Stack algorithms that allow empty arrays
-const stackAlgorithms = [
+// Stack and Queue algorithms that allow empty arrays
+const emptyArrayAllowedAlgorithms = [
+  // Stack algorithms
   'stack-operations',
   'balanced-parentheses',
   'infix-to-postfix',
@@ -46,6 +47,18 @@ const stackAlgorithms = [
   'stock-span',
   'largest-rectangle-histogram',
   'valid-stack-sequences',
+  // Queue algorithms
+  'queue-operations',
+  'circular-queue',
+  'deque',
+  'priority-queue',
+  'queue-using-two-stacks',
+  'stack-using-two-queues',
+  'lru-cache',
+  'sliding-window-maximum',
+  'first-non-repeating-character',
+  'generate-binary-numbers',
+  'circular-tour',
 ];
 
 export function ArrayInputEditor({
@@ -61,14 +74,27 @@ export function ArrayInputEditor({
   const [error, setError] = useState<string | null>(null);
   const lastExternalValue = useRef<string>(value.join(", "));
 
-  // Check if this is a stack algorithm (allows empty arrays)
-  const isStackAlgorithm = algorithmId && stackAlgorithms.includes(algorithmId);
+  // Check if this is a stack/queue algorithm (allows empty arrays)
+  const isStackOrQueueAlgorithm = algorithmId && emptyArrayAllowedAlgorithms.includes(algorithmId);
 
   // Get minimum required elements based on algorithm
   const getMinElements = () => {
-    if (isStackAlgorithm) {
-      // Stack operations like isEmpty need to allow empty arrays
+    if (isStackOrQueueAlgorithm) {
+      // All queue algorithms can have empty arrays (for isEmpty, dequeue from empty, etc.)
+      // Queue algorithms are identified by their category in emptyArrayAllowedAlgorithms
+      const queueAlgorithms = [
+        'queue-operations', 'circular-queue', 'deque', 'priority-queue',
+        'queue-using-two-stacks', 'stack-using-two-queues', 'lru-cache',
+        'sliding-window-maximum', 'first-non-repeating-character',
+        'generate-binary-numbers', 'circular-tour'
+      ];
+
+      // All queue algorithms allow empty arrays
+      if (algorithmId && queueAlgorithms.includes(algorithmId)) return 0;
+
+      // Stack operations (isEmpty check) also need 0
       if (algorithmId === 'stack-operations') return 0;
+
       // Other stack algorithms need at least 1 element
       return 1;
     }
@@ -189,8 +215,8 @@ export function ArrayInputEditor({
       if (onParamsChange) {
         onParamsChange({ popSequence: popSequence.join(',') });
       }
-    } else if (isStackAlgorithm) {
-      // Stack algorithms - generate smaller random array
+    } else if (isStackOrQueueAlgorithm) {
+      // Stack/Queue algorithms - generate smaller random array
       const size = Math.floor(Math.random() * 6) + 3; // 3-8 elements
       values = Array.from({ length: size }, () =>
         Math.floor(Math.random() * 50) + 1
@@ -256,7 +282,7 @@ export function ArrayInputEditor({
         <textarea
           value={inputText}
           onChange={(e) => handleInputChange(e.target.value)}
-          placeholder={isStackAlgorithm ? "Enter numbers (can be empty for isEmpty check)" : "Enter numbers separated by commas (e.g., 64, 34, 25, 12, 22)"}
+          placeholder={isStackOrQueueAlgorithm ? "Enter numbers (can be empty for isEmpty check)" : "Enter numbers separated by commas (e.g., 64, 34, 25, 12, 22)"}
           className={`w-full px-3 py-2 rounded-lg border text-sm font-mono resize-none bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:ring-2 transition-all ${error
             ? "border-red-500 focus:ring-red-500/20"
             : isValid

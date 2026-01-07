@@ -83,6 +83,16 @@ export function AlgorithmParams({ parameters, values, onChange }: AlgorithmParam
 
   if (parameters.length === 0) return null;
 
+  // Filter parameters based on dependsOn conditions
+  const visibleParameters = parameters.filter((param) => {
+    if (!param.dependsOn) return true; // No condition, always visible
+
+    const { parameterId, values: allowedValues } = param.dependsOn;
+    const currentValue = values[parameterId] ?? parameters.find(p => p.id === parameterId)?.default;
+
+    return allowedValues.includes(currentValue as string);
+  });
+
   return (
     <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)]">
       <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
@@ -91,7 +101,7 @@ export function AlgorithmParams({ parameters, values, onChange }: AlgorithmParam
       </h3>
 
       <div className="space-y-3">
-        {parameters.map((param) => (
+        {visibleParameters.map((param) => (
           <div key={param.id} className={param.type === 'select' || param.type === 'text' ? 'space-y-1' : 'flex items-center justify-between gap-4'}>
             <label className="text-sm text-[var(--text-secondary)] flex-shrink-0">
               {param.label}
