@@ -118,7 +118,7 @@ export const lruCache: IAlgorithm<ArrayInput> = {
     yield createEvent.auxiliary({
       type: 'queue',
       queueData: {
-        elements: accessOrder,
+        elements: [...accessOrder], // Create copy to prevent reference issues
         frontIndex: accessOrder.length > 0 ? 0 : -1,
         rearIndex: accessOrder.length > 0 ? accessOrder.length - 1 : -1,
         cacheMap: cacheMapArray,
@@ -150,23 +150,45 @@ function* runLRUGet(
   }
 
   yield createEvent.highlight([3]);
-  // Move to end (most recently used)
+
+  // Save previous state for visualization
+  const previousAccessOrder = [...accessOrder];
   const idx = accessOrder.indexOf(key);
+
+  // Show PREVIOUS state - before moving key
+  const cacheMapArray1 = Array.from(cache.entries()).map(([k, v]) => ({ key: k, value: v }));
+  yield createEvent.auxiliary({
+    type: 'queue',
+    queueData: {
+      elements: [...accessOrder],
+      frontIndex: 0,
+      rearIndex: accessOrder.length - 1,
+      cacheMap: cacheMapArray1,
+      highlight: [idx],
+      lruAnimating: 'access',
+      lruAnimatingKey: key,
+      message: `Key ${key} found at position ${idx} (before move)`,
+    },
+  });
+
+  yield createEvent.message(`Moving key ${key} from position ${idx} to MRU position...`, 'explanation');
+
+  // Move to end (most recently used)
   accessOrder.splice(idx, 1);
   accessOrder.push(key);
 
-  yield createEvent.message(`Moving key ${key} to MRU position`, 'explanation');
-
-  const cacheMapArray = Array.from(cache.entries()).map(([k, v]) => ({ key: k, value: v }));
+  // Show AFTER state - key moved to MRU
+  const cacheMapArray2 = Array.from(cache.entries()).map(([k, v]) => ({ key: k, value: v }));
   yield createEvent.auxiliary({
     type: 'queue',
     queueData: {
       elements: accessOrder,
       frontIndex: 0,
       rearIndex: accessOrder.length - 1,
-      cacheMap: cacheMapArray,
+      cacheMap: cacheMapArray2,
       highlight: [accessOrder.length - 1],
-      message: `Accessed key ${key}`,
+      lruPreviousAccessOrder: previousAccessOrder,
+      message: `Key ${key} moved to MRU position (after move)`,
     },
   });
 
@@ -200,7 +222,7 @@ function* runLRUPut(
     yield createEvent.auxiliary({
       type: 'queue',
       queueData: {
-        elements: accessOrder,
+        elements: [...accessOrder], // Create copy to prevent reference issues
         frontIndex: 0,
         rearIndex: accessOrder.length - 1,
         cacheMap: cacheMapArray,
@@ -226,27 +248,45 @@ function* runLRUPut(
     yield createEvent.auxiliary({
       type: 'queue',
       queueData: {
-        elements: accessOrder,
+        elements: [...accessOrder], // Create copy to prevent reference issues
         frontIndex: accessOrder.length > 0 ? 0 : -1,
         rearIndex: accessOrder.length > 0 ? accessOrder.length - 1 : -1,
         cacheMap: cacheMapArray,
+        lruAnimating: 'evict',
         message: `Evicted ${lruKey}`,
       },
     });
   }
 
   yield createEvent.highlight([12]);
+
+  // Show animation of inserting new entry
+  const cacheMapArrayBefore = Array.from(cache.entries()).map(([k, v]) => ({ key: k, value: v }));
+  yield createEvent.auxiliary({
+    type: 'queue',
+    queueData: {
+      elements: [...accessOrder],
+      frontIndex: accessOrder.length > 0 ? 0 : -1,
+      rearIndex: accessOrder.length > 0 ? accessOrder.length - 1 : -1,
+      cacheMap: cacheMapArrayBefore,
+      lruAnimating: 'insert',
+      lruAnimatingKey: key,
+      message: `Adding ${key}=${value}...`,
+    },
+  });
+
   // Add new entry
   cache.set(key, value);
   accessOrder.push(key);
 
   yield createEvent.message(`Added ${key}=${value} to cache`, 'explanation');
 
+  // Show final state with new entry added
   const cacheMapArray = Array.from(cache.entries()).map(([k, v]) => ({ key: k, value: v }));
   yield createEvent.auxiliary({
     type: 'queue',
     queueData: {
-      elements: accessOrder,
+      elements: [...accessOrder], // Create copy to prevent reference issues
       frontIndex: 0,
       rearIndex: accessOrder.length - 1,
       cacheMap: cacheMapArray,
