@@ -239,19 +239,27 @@ export interface QueueData {
   transferDirection?: 'stack1ToStack2' | 'stack2ToStack1';
   secondaryQueue1?: (number | string)[];
   secondaryQueue2?: (number | string)[];
+  queueTransferElement?: number | string;
+  queueTransferDirection?: 'queue1ToQueue2' | 'queue2ToQueue1' | 'enqueueQueue2';
   // For LRU Cache
   cacheMap?: { key: number; value: number }[];
+  lruAnimating?: 'insert' | 'access' | 'evict';
+  lruAnimatingKey?: number;
+  lruPreviousAccessOrder?: (number | string)[];
   // For sliding window maximum
   windowStart?: number;
   windowEnd?: number;
   maxDeque?: number[];
   // For binary number generation
   generatedNumbers?: string[];
+  binaryTreeNodes?: { value: string; level: number; processed: boolean }[];
   // For circular tour / gas station
   stations?: { petrol: number; distance: number }[];
   currentStation?: number;
   fuel?: number;
   startStation?: number;
+  // For first non-repeating character - stream visualization
+  streamChars?: { char: string; index: number; highlight?: 'current' | 'found' }[];
   // General message
   message?: string;
 }
