@@ -5,6 +5,7 @@ interface AlgorithmInfo {
   name: string;
   description: string;
   howItWorks: string;
+  example?: string; // Optional step-by-step example
   keyInsight: string;
   bestFor: string[];
   avoidWhen: string[];
@@ -58,6 +59,18 @@ export function AlgorithmInfoCard({ info }: AlgorithmInfoCardProps) {
           <p className="text-sm text-[var(--text-secondary)] italic">&quot;{info.keyInsight}&quot;</p>
         </div>
       </div>
+
+      {/* Example (optional) */}
+      {info.example && (
+        <div className="p-3 rounded-lg bg-[var(--bg-tertiary)] border border-[var(--border-secondary)]">
+          <h4 className="text-sm font-medium text-amber-400 mb-2 flex items-center gap-1">
+            <span>📝</span> Example Walkthrough
+          </h4>
+          <pre className="text-xs text-[var(--text-secondary)] font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto">
+            {info.example}
+          </pre>
+        </div>
+      )}
 
       {/* Best For / Avoid When */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
