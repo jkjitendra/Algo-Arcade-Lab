@@ -12,6 +12,7 @@ interface ArrayInputEditorProps {
   algorithmParams?: ReactNode;
   algorithmId?: string;
   onParamsChange?: (params: Record<string, string>) => void;
+  displayAsChars?: boolean; // For algorithms like first-non-repeating-character
 }
 
 // Pre-defined rotated sorted arrays for better visualization
@@ -69,8 +70,17 @@ export function ArrayInputEditor({
   algorithmParams,
   algorithmId,
   onParamsChange,
+  displayAsChars = false,
 }: ArrayInputEditorProps) {
-  const [inputText, setInputText] = useState(value.join(", "));
+  // Convert ASCII to chars for display if displayAsChars is true
+  const formatForDisplay = (vals: number[]): string => {
+    if (displayAsChars) {
+      return vals.map(v => String.fromCharCode(v)).join(", ");
+    }
+    return vals.join(", ");
+  };
+
+  const [inputText, setInputText] = useState(formatForDisplay(value));
   const [error, setError] = useState<string | null>(null);
   const lastExternalValue = useRef<string>(value.join(", "));
 
@@ -104,7 +114,7 @@ export function ArrayInputEditor({
 
   // Sync internal state ONLY when value prop changes from external source
   useEffect(() => {
-    const newValueStr = value.join(", ");
+    const newValueStr = formatForDisplay(value);
     // Only sync if this is a different value than what we last saw AND 
     // different from current parsed input (external change, not user typing)
     if (newValueStr !== lastExternalValue.current) {
@@ -112,7 +122,8 @@ export function ArrayInputEditor({
       setInputText(newValueStr);
       setError(null);
     }
-  }, [value]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, displayAsChars]);
 
   const parseInput = (text: string): { values: number[]; error: string | null } => {
     const minElements = getMinElements();
@@ -129,13 +140,29 @@ export function ArrayInputEditor({
     const values: number[] = [];
 
     for (const part of parts) {
-      const num = parseInt(part, 10);
-      if (isNaN(num)) {
-        return { values: [], error: `Invalid number: "${part}"` };
+      let num: number;
+
+      if (displayAsChars) {
+        // Parse as characters
+        if (part.length === 1) {
+          num = part.charCodeAt(0);
+        } else {
+          // Try as number first (in case user enters ASCII directly)
+          num = parseInt(part, 10);
+          if (isNaN(num)) {
+            return { values: [], error: `Enter single characters (e.g., a, b, c)` };
+          }
+        }
+      } else {
+        num = parseInt(part, 10);
+        if (isNaN(num)) {
+          return { values: [], error: `Invalid number: "${part}"` };
+        }
+        if (num < -100 || num > 100) {
+          return { values: [], error: `Values must be between -100 and 100` };
+        }
       }
-      if (num < -100 || num > 100) {
-        return { values: [], error: `Values must be between -100 and 100` };
-      }
+
       values.push(num);
     }
 
@@ -158,7 +185,7 @@ export function ArrayInputEditor({
     const { values, error } = parseInput(text);
     setError(error);
     if (!error) {
-      lastExternalValue.current = values.join(", "); // Track what we're sending up
+      lastExternalValue.current = formatForDisplay(values); // Track what we're sending up
       onChange(values);
     }
   };
@@ -328,7 +355,7 @@ export function ArrayInputEditor({
         <div className="text-xs text-[var(--text-secondary)]">
           <span className="font-medium">{value.length} elements: </span>
           <span className="font-mono break-all">
-            [{value.length > 0 ? value.join(", ") : "empty"}]
+            [{value.length > 0 ? formatForDisplay(value) : "empty"}]
           </span>
         </div>
       )}
