@@ -26,15 +26,21 @@ export function QueueView({ queueData, phase }: QueueViewProps) {
     transferDirection,
     secondaryQueue1,
     secondaryQueue2,
+    queueTransferElement,
+    queueTransferDirection,
     cacheMap,
+    lruAnimating,
+    lruAnimatingKey,
     windowStart,
     windowEnd,
     maxDeque,
     generatedNumbers,
+    binaryTreeNodes,
     stations,
     currentStation,
     fuel,
     startStation,
+    streamChars,
     message,
   } = queueData;
 
@@ -169,6 +175,8 @@ export function QueueView({ queueData, phase }: QueueViewProps) {
       <DualQueueView
         queue1={secondaryQueue1 || []}
         queue2={secondaryQueue2 || []}
+        queueTransferElement={queueTransferElement}
+        queueTransferDirection={queueTransferDirection}
         phase={phase}
         message={message}
       />
@@ -181,6 +189,9 @@ export function QueueView({ queueData, phase }: QueueViewProps) {
       <LRUCacheView
         queue={elements}
         cacheMap={cacheMap}
+        lruAnimating={lruAnimating}
+        lruAnimatingKey={lruAnimatingKey}
+        highlight={highlight}
         phase={phase}
         message={message}
       />
@@ -201,12 +212,104 @@ export function QueueView({ queueData, phase }: QueueViewProps) {
     );
   }
 
+  // Render First Non-Repeating Character view (string + queue combined)
+  if (streamChars !== undefined) {
+    return (
+      <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)] space-y-4">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-[var(--text-primary)]">First Non-Repeating Character</h3>
+          {phase && <span className="text-xs text-amber-400 font-medium">{phase}</span>}
+        </div>
+
+        {/* Message */}
+        {message && (
+          <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium text-center">
+            ⚡ {message}
+          </div>
+        )}
+
+        {/* Stream Characters Visualization */}
+        <div>
+          <span className="text-xs text-[var(--text-secondary)] mb-2 block">Input Stream (characters)</span>
+          <div className="flex gap-1 flex-wrap border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2">
+            {streamChars.map((item, idx) => (
+              <div
+                key={idx}
+                className={`w-10 h-10 rounded flex items-center justify-center font-bold text-sm text-white transition-all duration-300
+                  ${item.highlight === 'current'
+                    ? 'bg-gradient-to-r from-amber-400 to-amber-600 ring-2 ring-amber-400 scale-110'
+                    : item.highlight === 'found'
+                      ? 'bg-gradient-to-r from-cyan-400 to-cyan-600'
+                      : 'bg-gradient-to-r from-slate-500 to-slate-600'}
+                `}
+              >
+                {item.char}
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between text-[10px] text-[var(--text-tertiary)] mt-1 px-1">
+            <span>Index: {streamChars.map((_, idx) => idx).join(', ')}</span>
+          </div>
+        </div>
+
+        {/* Queue Visualization */}
+        <div>
+          <span className="text-xs text-[var(--text-secondary)] mb-2 block">Candidate Queue (non-repeating characters)</span>
+          <div className="flex gap-1 flex-wrap border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-h-[50px]">
+            {elements.length > 0 ? (
+              <>
+                {frontIndex >= 0 && (
+                  <div className="text-emerald-400 text-xs font-medium self-center mr-1">FRONT ▼</div>
+                )}
+                {elements.map((elem, idx) => (
+                  <div
+                    key={idx}
+                    className={`w-10 h-10 rounded flex items-center justify-center font-bold text-sm text-white
+                      ${idx === 0
+                        ? 'bg-gradient-to-r from-emerald-400 to-emerald-600'
+                        : 'bg-gradient-to-r from-purple-400 to-purple-600'}
+                    `}
+                  >
+                    {elem}
+                  </div>
+                ))}
+                {rearIndex >= 0 && (
+                  <div className="text-cyan-400 text-xs font-medium self-center ml-1">▼ REAR</div>
+                )}
+              </>
+            ) : (
+              <span className="text-[var(--text-tertiary)] text-xs">Empty (no candidates)</span>
+            )}
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div className="flex gap-4 justify-center text-xs">
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-gradient-to-r from-amber-400 to-amber-600" />
+            <span className="text-[var(--text-secondary)]">Current</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-gradient-to-r from-cyan-400 to-cyan-600" />
+            <span className="text-[var(--text-secondary)]">Processed</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded bg-gradient-to-r from-emerald-400 to-emerald-600" />
+            <span className="text-[var(--text-secondary)]">First Non-Repeating</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Render binary number generation view
   if (generatedNumbers !== undefined) {
     return (
       <BinaryGenerationView
         queue={elements}
         generatedNumbers={generatedNumbers}
+        binaryTreeNodes={binaryTreeNodes}
         phase={phase}
         message={message}
       />
@@ -770,11 +873,15 @@ function DualStackView({
 function DualQueueView({
   queue1,
   queue2,
+  queueTransferElement,
+  queueTransferDirection,
   phase,
   message,
 }: {
   queue1: (number | string)[];
   queue2: (number | string)[];
+  queueTransferElement?: number | string;
+  queueTransferDirection?: 'queue1ToQueue2' | 'queue2ToQueue1' | 'enqueueQueue2';
   phase?: string;
   message?: string;
 }) {
@@ -793,9 +900,9 @@ function DualQueueView({
 
       <div className="flex flex-col gap-4">
         {/* Queue 1 */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <span className="text-xs text-[var(--text-secondary)] w-20">Queue 1:</span>
-          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-w-[200px]">
+          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-w-[200px] relative">
             {queue1.length > 0 ? queue1.map((elem, idx) => (
               <div
                 key={idx}
@@ -809,10 +916,21 @@ function DualQueueView({
           </div>
         </div>
 
+        {/* Transfer animation - element moving from Queue 1 to Queue 2 */}
+        {queueTransferDirection === 'queue1ToQueue2' && queueTransferElement !== undefined && (
+          <div className="flex justify-center items-center gap-2">
+            <span className="text-orange-400 text-sm">↓</span>
+            <div className="w-12 h-10 rounded flex items-center justify-center font-bold text-sm bg-gradient-to-r from-orange-400 to-orange-600 text-white shadow-lg animate-bounce">
+              {queueTransferElement}
+            </div>
+            <span className="text-orange-400 text-sm">↓</span>
+          </div>
+        )}
+
         {/* Queue 2 */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <span className="text-xs text-[var(--text-secondary)] w-20">Queue 2:</span>
-          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-w-[200px]">
+          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-w-[200px] relative">
             {queue2.length > 0 ? queue2.map((elem, idx) => (
               <div
                 key={idx}
@@ -823,7 +941,28 @@ function DualQueueView({
             )) : (
               <span className="text-[var(--text-tertiary)] text-xs">Empty</span>
             )}
+            {/* Enqueue animation - element entering from right side of Queue 2 */}
+            {queueTransferDirection === 'enqueueQueue2' && queueTransferElement !== undefined && (
+              <div className="absolute -right-16 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                <span className="text-emerald-400 text-lg">←</span>
+                <div className="w-10 h-10 rounded flex items-center justify-center font-bold text-sm bg-gradient-to-r from-emerald-400 to-emerald-600 text-white shadow-lg animate-bounce">
+                  {queueTransferElement}
+                </div>
+              </div>
+            )}
           </div>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="flex gap-4 mt-4 justify-center text-xs">
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded bg-gradient-to-r from-purple-400 to-purple-600" />
+          <span className="text-[var(--text-secondary)]">Queue 1</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 rounded bg-gradient-to-r from-orange-400 to-orange-600" />
+          <span className="text-[var(--text-secondary)]">Queue 2</span>
         </div>
       </div>
     </div>
@@ -833,11 +972,17 @@ function DualQueueView({
 function LRUCacheView({
   queue,
   cacheMap,
+  lruAnimating,
+  lruAnimatingKey,
+  highlight,
   phase,
   message,
 }: {
   queue: (number | string)[];
   cacheMap: { key: number; value: number }[];
+  lruAnimating?: 'insert' | 'access' | 'evict';
+  lruAnimatingKey?: number;
+  highlight?: number[];
   phase?: string;
   message?: string;
 }) {
@@ -858,18 +1003,33 @@ function LRUCacheView({
         {/* Access Order Queue */}
         <div>
           <span className="text-xs text-[var(--text-secondary)] mb-2 block">Access Order (LRU → MRU)</span>
-          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-h-[50px] flex-wrap">
-            {queue.length > 0 ? queue.map((elem, idx) => (
-              <div
-                key={idx}
-                className={`w-10 h-10 rounded flex items-center justify-center font-bold text-sm text-white
-                  ${idx === 0 ? 'bg-gradient-to-r from-red-400 to-red-600' : idx === queue.length - 1 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-slate-500 to-slate-600'}
-                `}
-              >
-                {elem}
-              </div>
-            )) : (
+          <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-h-[50px] flex-wrap relative">
+            {queue.length > 0 ? queue.map((elem, idx) => {
+              const isHighlighted = highlight?.includes(idx);
+              const isAnimatingAccess = lruAnimating === 'access' && elem === lruAnimatingKey;
+              return (
+                <div
+                  key={idx}
+                  className={`w-10 h-10 rounded flex items-center justify-center font-bold text-sm text-white transition-all duration-300
+                    ${idx === 0 ? 'bg-gradient-to-r from-red-400 to-red-600' : idx === queue.length - 1 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-slate-500 to-slate-600'}
+                    ${isHighlighted ? 'ring-2 ring-yellow-400 ring-offset-2 ring-offset-[var(--bg-secondary)]' : ''}
+                    ${isAnimatingAccess ? 'animate-pulse scale-110' : ''}
+                  `}
+                >
+                  {elem}
+                </div>
+              );
+            }) : (
               <span className="text-[var(--text-tertiary)] text-xs">Empty</span>
+            )}
+            {/* Insert animation - element entering from right */}
+            {lruAnimating === 'insert' && lruAnimatingKey !== undefined && (
+              <div className="absolute -right-14 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                <span className="text-emerald-400 text-lg">←</span>
+                <div className="w-10 h-10 rounded flex items-center justify-center font-bold text-sm bg-gradient-to-r from-emerald-400 to-emerald-600 text-white shadow-lg animate-bounce">
+                  {lruAnimatingKey}
+                </div>
+              </div>
             )}
           </div>
           <div className="flex justify-between text-[10px] text-[var(--text-tertiary)] mt-1 px-1">
@@ -882,13 +1042,21 @@ function LRUCacheView({
         <div>
           <span className="text-xs text-[var(--text-secondary)] mb-2 block">HashMap</span>
           <div className="border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] p-2">
-            {cacheMap.length > 0 ? cacheMap.map((entry, idx) => (
-              <div key={idx} className="flex items-center gap-2 py-1 border-b last:border-0 border-[var(--border-primary)]">
-                <span className="text-xs font-mono text-purple-400">{entry.key}</span>
-                <span className="text-[var(--text-tertiary)]">→</span>
-                <span className="text-xs font-mono text-cyan-400">{entry.value}</span>
-              </div>
-            )) : (
+            {cacheMap.length > 0 ? cacheMap.map((entry, idx) => {
+              const isAnimatingEntry = (lruAnimating === 'insert' || lruAnimating === 'access') && entry.key === lruAnimatingKey;
+              return (
+                <div
+                  key={idx}
+                  className={`flex items-center gap-2 py-1 border-b last:border-0 border-[var(--border-primary)] transition-all duration-300
+                    ${isAnimatingEntry ? 'bg-yellow-500/20 rounded' : ''}
+                  `}
+                >
+                  <span className={`text-xs font-mono ${isAnimatingEntry ? 'text-yellow-400' : 'text-purple-400'}`}>{entry.key}</span>
+                  <span className="text-[var(--text-tertiary)]">→</span>
+                  <span className={`text-xs font-mono ${isAnimatingEntry ? 'text-yellow-400' : 'text-cyan-400'}`}>{entry.value}</span>
+                </div>
+              );
+            }) : (
               <span className="text-[var(--text-tertiary)] text-xs">Empty</span>
             )}
           </div>
@@ -978,30 +1146,79 @@ function SlidingWindowView({
 function BinaryGenerationView({
   queue,
   generatedNumbers,
+  binaryTreeNodes,
   phase,
   message,
 }: {
   queue: (number | string)[];
   generatedNumbers: string[];
+  binaryTreeNodes?: { value: string; level: number; processed: boolean }[];
   phase?: string;
   message?: string;
 }) {
+  // Group nodes by level for tree display
+  const nodesByLevel = binaryTreeNodes?.reduce((acc, node) => {
+    if (!acc[node.level]) acc[node.level] = [];
+    acc[node.level].push(node);
+    return acc;
+  }, {} as Record<number, typeof binaryTreeNodes>) || {};
+
+  const levels = Object.keys(nodesByLevel).map(Number).sort((a, b) => a - b);
+
   return (
-    <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)]">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)] space-y-4">
+      <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-[var(--text-primary)]">Binary Number Generation</h3>
         {phase && <span className="text-xs text-amber-400 font-medium">{phase}</span>}
       </div>
 
       {message && (
-        <div className="mb-4 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium text-center">
+        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium text-center">
           ⚡ {message}
         </div>
       )}
 
+      {/* Binary Tree Visualization */}
+      {binaryTreeNodes && binaryTreeNodes.length > 0 && (
+        <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-secondary)]">
+          <span className="text-xs text-[var(--text-secondary)] mb-3 block">🌳 Binary Tree (BFS Order)</span>
+          <div className="space-y-2 overflow-x-auto">
+            {levels.slice(0, 5).map((level) => (
+              <div key={level} className="flex justify-center gap-1">
+                {nodesByLevel[level]?.map((node, idx) => (
+                  <div
+                    key={node.value}
+                    className={`px-2 py-1 rounded text-xs font-mono transition-all duration-300 ${node.processed
+                      ? 'bg-gradient-to-r from-emerald-400 to-emerald-600 text-white'
+                      : 'bg-gradient-to-r from-slate-400 to-slate-500 text-white opacity-60'
+                      }`}
+                    title={node.processed ? 'Output' : 'In Queue / Pending'}
+                  >
+                    {node.value}
+                  </div>
+                ))}
+              </div>
+            ))}
+            {levels.length > 5 && (
+              <div className="text-center text-xs text-[var(--text-tertiary)]">... more levels ...</div>
+            )}
+          </div>
+          <div className="flex gap-4 justify-center mt-3 text-xs">
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded bg-gradient-to-r from-emerald-400 to-emerald-600" />
+              <span className="text-[var(--text-secondary)]">Processed (Output)</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded bg-gradient-to-r from-slate-400 to-slate-500 opacity-60" />
+              <span className="text-[var(--text-secondary)]">Pending (In Queue)</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Current Queue */}
-      <div className="mb-4">
-        <span className="text-xs text-[var(--text-secondary)] mb-2 block">Queue</span>
+      <div>
+        <span className="text-xs text-[var(--text-secondary)] mb-2 block">Queue (pending binary numbers)</span>
         <div className="flex gap-1 border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-h-[40px] overflow-x-auto">
           {queue.length > 0 ? queue.map((elem, idx) => (
             <div
@@ -1018,7 +1235,7 @@ function BinaryGenerationView({
 
       {/* Generated Numbers */}
       <div>
-        <span className="text-xs text-[var(--text-secondary)] mb-2 block">Generated Binary Numbers</span>
+        <span className="text-xs text-[var(--text-secondary)] mb-2 block">Generated Binary Numbers (output)</span>
         <div className="flex gap-2 flex-wrap border-2 border-[var(--border-secondary)] rounded-lg bg-[var(--bg-secondary)] px-2 py-2 min-h-[40px]">
           {generatedNumbers.length > 0 ? generatedNumbers.map((num, idx) => (
             <div
@@ -1051,87 +1268,180 @@ function CircularTourView({
   phase?: string;
   message?: string;
 }) {
-  const radius = 120;
+  const radius = 100;
   const angleStep = 360 / stations.length;
 
+  // Calculate net gains for each station
+  const netGains = stations.map(s => s.petrol - s.distance);
+  const totalGain = netGains.reduce((a, b) => a + b, 0);
+  const maxPetrol = Math.max(...stations.map(s => s.petrol), 1);
+
   return (
-    <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)]">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-[var(--bg-tertiary)] rounded-xl p-4 border border-[var(--border-primary)] space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-[var(--text-primary)]">Circular Tour (Gas Station)</h3>
         <div className="flex gap-4 text-xs text-[var(--text-secondary)]">
-          {fuel !== undefined && <span>Fuel: <span className="text-amber-400 font-medium">{fuel}</span></span>}
-          {startStation !== undefined && <span>Start: <span className="text-emerald-400 font-medium">{startStation}</span></span>}
-          {phase && <span>Phase: <span className="text-cyan-400 font-medium">{phase}</span></span>}
+          {startStation !== undefined && <span>Start: <span className="text-emerald-400 font-medium">Station {startStation}</span></span>}
+          {phase && <span className="text-cyan-400 font-medium">{phase}</span>}
         </div>
       </div>
 
+      {/* Message */}
       {message && (
-        <div className="mb-4 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium text-center">
+        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium text-center">
           ⚡ {message}
         </div>
       )}
 
+      {/* Fuel Tank Gauge */}
+      <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-secondary)]">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs text-[var(--text-secondary)]">⛽ Current Fuel Tank</span>
+          <span className={`text-sm font-bold ${fuel !== undefined && fuel >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {fuel !== undefined ? fuel : 0} units
+          </span>
+        </div>
+        <div className="h-6 bg-[var(--bg-tertiary)] rounded-full overflow-hidden border border-[var(--border-primary)]">
+          <div
+            className={`h-full transition-all duration-500 ${fuel !== undefined && fuel >= 0 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-red-400 to-red-600'}`}
+            style={{ width: `${Math.min(Math.max((fuel || 0) * 5, 0), 100)}%` }}
+          />
+        </div>
+        <div className="text-xs text-[var(--text-tertiary)] mt-1 text-center">
+          {fuel !== undefined && fuel < 0 ? '❌ Tank empty! Need to reset start point' : fuel !== undefined && fuel > 0 ? '✅ Enough fuel to continue' : 'Ready to start'}
+        </div>
+      </div>
+
+      {/* Circular Route Diagram */}
       <div className="flex justify-center">
-        <div className="relative" style={{ width: radius * 2 + 100, height: radius * 2 + 100 }}>
+        <div className="relative" style={{ width: radius * 2 + 80, height: radius * 2 + 80 }}>
           {/* Circular road */}
           <div
             className="absolute border-4 border-dashed border-[var(--border-secondary)] rounded-full"
             style={{
               width: radius * 2,
               height: radius * 2,
-              left: 50,
-              top: 50,
+              left: 40,
+              top: 40,
             }}
           />
+
+          {/* Direction arrow in center */}
+          <div className="absolute text-2xl" style={{ left: radius + 30, top: radius + 25 }}>
+            🔄
+          </div>
 
           {/* Stations */}
           {stations.map((station, idx) => {
             const angle = (idx * angleStep - 90) * (Math.PI / 180);
-            const x = Math.cos(angle) * radius + radius + 50;
-            const y = Math.sin(angle) * radius + radius + 50;
+            const x = Math.cos(angle) * radius + radius + 40;
+            const y = Math.sin(angle) * radius + radius + 40;
             const isCurrent = idx === currentStation;
             const isStart = idx === startStation;
+            const netGain = station.petrol - station.distance;
 
             return (
               <div
                 key={idx}
                 className={`
-                  absolute w-14 h-14 rounded-full flex flex-col items-center justify-center font-bold text-xs
-                  transition-all duration-300 shadow-md
+                  absolute w-16 h-16 rounded-full flex flex-col items-center justify-center font-bold text-xs
+                  transition-all duration-300 shadow-lg
                   ${isCurrent
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-600 text-white ring-2 ring-amber-300 scale-110'
+                    ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white ring-4 ring-amber-300/50 scale-110 z-10'
                     : isStart
-                      ? 'bg-gradient-to-r from-emerald-400 to-emerald-600 text-white ring-2 ring-emerald-300'
-                      : 'bg-gradient-to-r from-slate-500 to-slate-600 text-white'
+                      ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-white ring-4 ring-emerald-300/50'
+                      : 'bg-gradient-to-br from-slate-500 to-slate-600 text-white'
                   }
                 `}
                 style={{
-                  left: x - 28,
-                  top: y - 28,
+                  left: x - 32,
+                  top: y - 32,
                 }}
+                title={`Station ${idx}: Petrol=${station.petrol}, Distance=${station.distance}, Net=${netGain >= 0 ? '+' : ''}${netGain}`}
               >
-                <span className="text-[10px]">⛽{station.petrol}</span>
-                <span className="text-[10px]">📏{station.distance}</span>
+                <span className="text-lg font-bold">{idx}</span>
+                <span className={`text-[9px] ${netGain >= 0 ? 'text-emerald-200' : 'text-red-200'}`}>
+                  {netGain >= 0 ? '+' : ''}{netGain}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
 
-      <div className="flex gap-4 mt-4 justify-center text-xs">
+      {/* Station Details Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-[var(--border-secondary)]">
+              <th className="px-2 py-1 text-left text-[var(--text-secondary)]">Station</th>
+              <th className="px-2 py-1 text-center text-[var(--text-secondary)]">⛽ Petrol</th>
+              <th className="px-2 py-1 text-center text-[var(--text-secondary)]">📏 Distance</th>
+              <th className="px-2 py-1 text-center text-[var(--text-secondary)]">Net Gain</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stations.map((station, idx) => {
+              const netGain = station.petrol - station.distance;
+              const isCurrent = idx === currentStation;
+              const isStart = idx === startStation;
+
+              return (
+                <tr
+                  key={idx}
+                  className={`border-b border-[var(--border-secondary)]/30 ${isCurrent ? 'bg-amber-500/20' : isStart ? 'bg-emerald-500/20' : ''}`}
+                >
+                  <td className="px-2 py-1.5">
+                    <span className={`font-medium ${isStart ? 'text-emerald-400' : isCurrent ? 'text-amber-400' : 'text-[var(--text-primary)]'}`}>
+                      {isStart ? '🚩 ' : isCurrent ? '🚗 ' : ''}Station {idx}
+                    </span>
+                  </td>
+                  <td className="px-2 py-1.5 text-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <div
+                        className="h-2 bg-gradient-to-r from-cyan-400 to-cyan-600 rounded"
+                        style={{ width: `${(station.petrol / maxPetrol) * 40}px` }}
+                      />
+                      <span className="text-cyan-400">{station.petrol}</span>
+                    </div>
+                  </td>
+                  <td className="px-2 py-1.5 text-center text-[var(--text-secondary)]">{station.distance}</td>
+                  <td className={`px-2 py-1.5 text-center font-bold ${netGain >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {netGain >= 0 ? '+' : ''}{netGain}
+                  </td>
+                </tr>
+              );
+            })}
+            <tr className="bg-[var(--bg-tertiary)]">
+              <td className="px-2 py-1.5 font-bold text-[var(--text-primary)]">Total</td>
+              <td className="px-2 py-1.5 text-center text-cyan-400 font-bold">{stations.reduce((a, s) => a + s.petrol, 0)}</td>
+              <td className="px-2 py-1.5 text-center text-[var(--text-secondary)] font-bold">{stations.reduce((a, s) => a + s.distance, 0)}</td>
+              <td className={`px-2 py-1.5 text-center font-bold ${totalGain >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                {totalGain >= 0 ? '+' : ''}{totalGain} {totalGain >= 0 ? '✅' : '❌'}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Legend */}
+      <div className="flex gap-4 justify-center text-xs flex-wrap">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600" />
           <span className="text-[var(--text-secondary)]">Start Station</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-full bg-gradient-to-br from-amber-400 to-amber-600" />
-          <span className="text-[var(--text-secondary)]">Current</span>
+          <span className="text-[var(--text-secondary)]">Current Station</span>
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-[10px]">⛽ = Petrol</span>
+          <span className="text-emerald-400">+N</span>
+          <span className="text-[var(--text-secondary)]">Net Gain</span>
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-[10px]">📏 = Distance</span>
+          <span className="text-red-400">-N</span>
+          <span className="text-[var(--text-secondary)]">Net Loss</span>
         </div>
       </div>
     </div>
