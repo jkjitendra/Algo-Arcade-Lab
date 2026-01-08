@@ -12,6 +12,11 @@ import { AlgoEvent, createEvent } from '../../events/events';
  * Space Complexity: O(n)
  */
 
+// Helper to calculate level from binary string
+function getLevel(binary: string): number {
+  return binary.length;
+}
+
 export const generateBinaryNumbers: IAlgorithm<ArrayInput> = {
   id: 'generate-binary-numbers',
   name: 'Generate Binary Numbers',
@@ -59,21 +64,27 @@ export const generateBinaryNumbers: IAlgorithm<ArrayInput> = {
     const queue: string[] = [];
     const result: string[] = [];
 
+    // Track all tree nodes for visualization
+    const treeNodes: Map<string, { value: string; level: number; processed: boolean }> = new Map();
+
     yield createEvent.message(`Generating binary numbers from 1 to ${n}`, 'info', 0);
     yield createEvent.highlight([0, 1, 2]);
 
     // Start with "1"
     queue.push("1");
+    treeNodes.set("1", { value: "1", level: 1, processed: false });
+
     yield createEvent.highlight([3]);
     yield createEvent.message(`Starting queue with "1"`, 'explanation');
 
     yield createEvent.auxiliary({
       type: 'queue',
       queueData: {
-        elements: queue,
+        elements: [...queue],
         frontIndex: 0,
         rearIndex: 0,
         generatedNumbers: [...result],
+        binaryTreeNodes: Array.from(treeNodes.values()),
       },
     });
 
@@ -82,23 +93,35 @@ export const generateBinaryNumbers: IAlgorithm<ArrayInput> = {
       const front = queue.shift()!;
       result.push(front);
 
+      // Mark as processed in tree
+      const node = treeNodes.get(front);
+      if (node) node.processed = true;
+
       yield createEvent.message(`Step ${i}: Dequeued "${front}"`, 'step');
 
       yield createEvent.highlight([6]);
       yield createEvent.message(`Added "${front}" to result`, 'explanation');
 
       yield createEvent.highlight([7, 8]);
-      queue.push(front + "0");
-      queue.push(front + "1");
-      yield createEvent.message(`Enqueued "${front}0" and "${front}1"`, 'explanation');
+      const child0 = front + "0";
+      const child1 = front + "1";
+      queue.push(child0);
+      queue.push(child1);
+
+      // Add children to tree
+      treeNodes.set(child0, { value: child0, level: getLevel(child0), processed: false });
+      treeNodes.set(child1, { value: child1, level: getLevel(child1), processed: false });
+
+      yield createEvent.message(`Enqueued "${child0}" and "${child1}"`, 'explanation');
 
       yield createEvent.auxiliary({
         type: 'queue',
         queueData: {
-          elements: queue,
+          elements: [...queue],
           frontIndex: queue.length > 0 ? 0 : -1,
           rearIndex: queue.length > 0 ? queue.length - 1 : -1,
           generatedNumbers: [...result],
+          binaryTreeNodes: Array.from(treeNodes.values()),
           message: `Generated: ${front}`,
         },
       });
