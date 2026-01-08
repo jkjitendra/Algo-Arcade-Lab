@@ -8,6 +8,7 @@ interface ArrayBarsProps {
   markedIndices: Map<number, string>;
   pointers?: VariablePointer[];
   maxValue?: number;
+  displayAsChars?: boolean; // For algorithms like first-non-repeating-character
 }
 
 const markColors: Record<string, { bg: string; border: string }> = {
@@ -46,7 +47,7 @@ const defaultColor = {
   border: "var(--color-primary-500)",
 };
 
-export function ArrayBars({ values, markedIndices, pointers = [], maxValue }: ArrayBarsProps) {
+export function ArrayBars({ values, markedIndices, pointers = [], maxValue, displayAsChars = false }: ArrayBarsProps) {
   const max = maxValue ?? Math.max(...values, 1);
   const min = Math.min(...values, 0);
   const hasNegative = min < 0;
@@ -166,7 +167,7 @@ export function ArrayBars({ values, markedIndices, pointers = [], maxValue }: Ar
                 className="absolute -bottom-6 text-xs font-medium text-[var(--text-secondary)]"
                 style={{ fontSize: Math.min(12, barWidth * 1.5) }}
               >
-                {bar.value}
+                {displayAsChars ? String.fromCharCode(bar.value) : bar.value}
               </span>
             )}
           </div>
