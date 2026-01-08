@@ -105,7 +105,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ArrowDownUp, BarChart3 } from "lucide-react";
+import { ChevronDown, ArrowDownUp, BarChart3, Play } from "lucide-react";
 
 const defaultArray = [64, 34, 25, 12, 22, 11, 90];
 
@@ -370,6 +370,12 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
   // Algorithm parameters state
   const [algorithmParams, setAlgorithmParams] = useState<Record<string, number | string>>({});
 
+  // Mounted state to fix hydration mismatch with Radix UI
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const getDefaultArray = (algoId: string) => algorithmDefaultArrays[algoId] || defaultArray;
 
   // Determine the default algorithm based on category
@@ -538,27 +544,37 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
         {/* Header bar */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)]">
           {/* Algorithm selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2">
-                <BarChart3 className="h-4 w-4" />
-                <span className="hidden xs:inline">{algorithm?.name ?? t("visualizer.selectAlgorithm")}</span>
-                <span className="xs:hidden">{algorithm?.name?.split(" ")[0] ?? "Select"}</span>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {algorithms.map((algo) => (
-                <DropdownMenuItem
-                  key={algo.id}
-                  onClick={() => handleAlgorithmChange(algo.id)}
-                  className={selectedAlgorithm === algo.id ? "bg-[var(--bg-tertiary)]" : ""}
-                >
-                  {algo.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {mounted && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden xs:inline">{algorithm?.name ?? t("visualizer.selectAlgorithm")}</span>
+                  <span className="xs:hidden">{algorithm?.name?.split(" ")[0] ?? "Select"}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {algorithms.map((algo) => (
+                  <DropdownMenuItem
+                    key={algo.id}
+                    onClick={() => handleAlgorithmChange(algo.id)}
+                    className={selectedAlgorithm === algo.id ? "bg-[var(--bg-tertiary)]" : ""}
+                  >
+                    {algo.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          {!mounted && (
+            <Button variant="outline" className="gap-2">
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden xs:inline">{algorithm?.name ?? "Select Algorithm"}</span>
+              <span className="xs:hidden">{algorithm?.name?.split(" ")[0] ?? "Select"}</span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          )}
 
           {/* Legend - context-aware based on algorithm type */}
           <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs ml-auto">
@@ -628,6 +644,32 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
                 ) : undefined
               }
             />
+          ) : selectedAlgorithm === 'generate-binary-numbers' ? (
+            /* Params-only view for Generate Binary Numbers */
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
+                  Binary Number Generation
+                </label>
+              </div>
+              <div className="px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-sm text-[var(--text-secondary)]">
+                Generates binary numbers 1 to N using a queue
+              </div>
+              {algorithm?.parameters && algorithm.parameters.length > 0 && (
+                <AlgorithmParams
+                  parameters={algorithm.parameters}
+                  values={algorithmParams}
+                  onChange={setAlgorithmParams}
+                />
+              )}
+              <Button
+                onClick={() => handleRun()}
+                className="w-full gap-2 bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] hover:from-[var(--color-primary-600)] hover:to-[var(--color-secondary-600)]"
+              >
+                <Play className="h-4 w-4" />
+                Generate
+              </Button>
+            </div>
           ) : (
             <ArrayInputEditor
               value={currentInputArray}
@@ -635,6 +677,7 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
               onApply={() => handleRun()}
               algorithmId={selectedAlgorithm}
               onParamsChange={(params) => setAlgorithmParams(prev => ({ ...prev, ...params }))}
+              displayAsChars={selectedAlgorithm === 'first-non-repeating-character'}
               algorithmParams={
                 algorithm?.parameters && algorithm.parameters.length > 0 ? (
                   <AlgorithmParams
@@ -702,7 +745,12 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
               ['balanced-parentheses', 'infix-to-postfix', 'infix-to-prefix', 'postfix-evaluation', 'prefix-evaluation'].includes(selectedAlgorithm) ? (
               <StringBars values={arrayState} markedIndices={markedIndices} pointers={pointers} />
             ) : (
-              <ArrayBars values={arrayState} markedIndices={markedIndices} pointers={pointers} />
+              <ArrayBars
+                values={arrayState}
+                markedIndices={markedIndices}
+                pointers={pointers}
+                displayAsChars={selectedAlgorithm === 'first-non-repeating-character'}
+              />
             )}
           </div>
         </div>
@@ -796,6 +844,32 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
                 ) : undefined
               }
             />
+          ) : selectedAlgorithm === 'generate-binary-numbers' ? (
+            /* Params-only view for Generate Binary Numbers */
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
+                  Binary Number Generation
+                </label>
+              </div>
+              <div className="px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-sm text-[var(--text-secondary)]">
+                Generates binary numbers 1 to N using a queue
+              </div>
+              {algorithm?.parameters && algorithm.parameters.length > 0 && (
+                <AlgorithmParams
+                  parameters={algorithm.parameters}
+                  values={algorithmParams}
+                  onChange={setAlgorithmParams}
+                />
+              )}
+              <Button
+                onClick={() => handleRun()}
+                className="w-full gap-2 bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-secondary-500)] hover:from-[var(--color-primary-600)] hover:to-[var(--color-secondary-600)]"
+              >
+                <Play className="h-4 w-4" />
+                Generate
+              </Button>
+            </div>
           ) : (
             <ArrayInputEditor
               value={currentInputArray}
@@ -803,6 +877,7 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
               onApply={() => handleRun()}
               algorithmId={selectedAlgorithm}
               onParamsChange={(params) => setAlgorithmParams(prev => ({ ...prev, ...params }))}
+              displayAsChars={selectedAlgorithm === 'first-non-repeating-character'}
               algorithmParams={
                 algorithm?.parameters && algorithm.parameters.length > 0 ? (
                   <AlgorithmParams
