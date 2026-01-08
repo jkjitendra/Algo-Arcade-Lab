@@ -62,6 +62,25 @@ export const firstNonRepeatingCharacter: IAlgorithm<ArrayInput> = {
     yield createEvent.message(`Stream: "${stream.join('')}"`, 'explanation');
     yield createEvent.highlight([0, 1, 2]);
 
+    // Helper to create streamChars with current highlight
+    const getStreamChars = (currentIdx: number) => stream.map((char, idx) => ({
+      char,
+      index: idx,
+      highlight: idx === currentIdx ? 'current' as const : idx < currentIdx ? 'found' as const : undefined,
+    }));
+
+    // Show initial state with both string and queue
+    yield createEvent.auxiliary({
+      type: 'queue',
+      queueData: {
+        elements: [],
+        frontIndex: -1,
+        rearIndex: -1,
+        streamChars: stream.map((char, idx) => ({ char, index: idx })),
+        message: 'Starting stream processing...',
+      },
+    });
+
     for (let i = 0; i < stream.length; i++) {
       const char = stream[i];
       yield createEvent.message(`Processing: '${char}'`, 'step');
@@ -73,30 +92,65 @@ export const firstNonRepeatingCharacter: IAlgorithm<ArrayInput> = {
 
       yield createEvent.message(`Added '${char}' to queue, freq[${char}] = ${freq.get(char)}`, 'explanation');
 
+      // Show current state with highlighted character
+      yield createEvent.auxiliary({
+        type: 'queue',
+        queueData: {
+          elements: [...queue],
+          frontIndex: queue.length > 0 ? 0 : -1,
+          rearIndex: queue.length > 0 ? queue.length - 1 : -1,
+          streamChars: getStreamChars(i),
+          message: `Added '${char}' to queue`,
+        },
+      });
+
       // Remove repeating characters from front
       yield createEvent.highlight([6, 7, 8]);
       while (queue.length > 0 && (freq.get(queue[0]) || 0) > 1) {
         const removed = queue.shift();
         yield createEvent.message(`Removing '${removed}' (frequency > 1)`, 'explanation');
-      }
 
-      yield createEvent.auxiliary({
-        type: 'queue',
-        queueData: {
-          elements: queue,
-          frontIndex: queue.length > 0 ? 0 : -1,
-          rearIndex: queue.length > 0 ? queue.length - 1 : -1,
-          message: queue.length > 0 ? `First non-repeating: '${queue[0]}'` : 'No unique character',
-        },
-      });
+        yield createEvent.auxiliary({
+          type: 'queue',
+          queueData: {
+            elements: [...queue],
+            frontIndex: queue.length > 0 ? 0 : -1,
+            rearIndex: queue.length > 0 ? queue.length - 1 : -1,
+            streamChars: getStreamChars(i),
+            message: `Removed '${removed}' (repeating)`,
+          },
+        });
+      }
 
       yield createEvent.highlight([9, 10, 11, 12]);
       if (queue.length > 0) {
         results.push(queue[0]);
         yield createEvent.message(`First non-repeating at step ${i + 1}: '${queue[0]}'`, 'info');
+
+        yield createEvent.auxiliary({
+          type: 'queue',
+          queueData: {
+            elements: [...queue],
+            frontIndex: 0,
+            rearIndex: queue.length - 1,
+            streamChars: getStreamChars(i),
+            message: `First non-repeating: '${queue[0]}'`,
+          },
+        });
       } else {
         results.push('#');
         yield createEvent.message(`No non-repeating character at step ${i + 1}`, 'info');
+
+        yield createEvent.auxiliary({
+          type: 'queue',
+          queueData: {
+            elements: [],
+            frontIndex: -1,
+            rearIndex: -1,
+            streamChars: getStreamChars(i),
+            message: 'No unique character',
+          },
+        });
       }
     }
 

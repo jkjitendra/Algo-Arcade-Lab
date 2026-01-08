@@ -106,9 +106,24 @@ function* runStackQueuePush(queue1: number[], queue2: number[], value: number): 
   yield createEvent.message(`Pushing ${value}...`, 'step');
   yield createEvent.highlight([0, 1]);
 
+  // Show animation of element entering Queue 2 from right
+  yield createEvent.message(`Enqueueing ${value} to Queue2...`, 'explanation');
+  yield createEvent.auxiliary({
+    type: 'queue',
+    queueData: {
+      elements: queue1,
+      frontIndex: 0,
+      rearIndex: queue1.length - 1,
+      secondaryQueue1: [...queue1],
+      secondaryQueue2: [...queue2],
+      queueTransferElement: value,
+      queueTransferDirection: 'enqueueQueue2',
+      message: `Adding ${value} to Queue2...`,
+    },
+  });
+
   // Enqueue to queue2
   queue2.push(value);
-  yield createEvent.message(`Enqueued ${value} to Queue2`, 'explanation');
 
   yield createEvent.auxiliary({
     type: 'queue',
@@ -123,12 +138,32 @@ function* runStackQueuePush(queue1: number[], queue2: number[], value: number): 
   });
 
   yield createEvent.highlight([2, 3]);
+  yield createEvent.message(`Transferring all elements from Queue1 → Queue2...`, 'explanation');
+
   // Transfer all from queue1 to queue2
   while (queue1.length > 0) {
-    const elem = queue1.shift()!;
-    queue2.push(elem);
-    yield createEvent.message(`Moving ${elem}: Queue1 → Queue2`, 'explanation');
+    const elem = queue1.shift()!; // Remove element from Queue 1 FIRST
 
+    // Show element removed from Queue 1 and now transferring to Queue 2
+    yield createEvent.auxiliary({
+      type: 'queue',
+      queueData: {
+        elements: queue2,
+        frontIndex: 0,
+        rearIndex: queue2.length - 1,
+        secondaryQueue1: [...queue1], // Queue 1 now WITHOUT the element
+        secondaryQueue2: [...queue2], // Queue 2 not yet with the element
+        queueTransferElement: elem,
+        queueTransferDirection: 'queue1ToQueue2',
+        message: `Transferring ${elem}...`,
+      },
+    });
+
+    // Add element to Queue 2
+    queue2.push(elem);
+    yield createEvent.message(`Moved ${elem}: Queue1 → Queue2`, 'explanation');
+
+    // Show final state after transfer
     yield createEvent.auxiliary({
       type: 'queue',
       queueData: {
@@ -136,8 +171,8 @@ function* runStackQueuePush(queue1: number[], queue2: number[], value: number): 
         frontIndex: 0,
         rearIndex: queue2.length - 1,
         secondaryQueue1: [...queue1],
-        secondaryQueue2: [...queue2],
-        message: `Transferring ${elem}`,
+        secondaryQueue2: [...queue2], // Queue 2 now WITH the element
+        message: `Transferred ${elem}`,
       },
     });
   }
