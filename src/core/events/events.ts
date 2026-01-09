@@ -264,8 +264,52 @@ export interface QueueData {
   message?: string;
 }
 
+// ============ Linked List Visualization Data ============
+
+export interface LinkedListNode {
+  id: number;
+  value: number;
+  highlight?: 'current' | 'slow' | 'fast' | 'match' | 'visited' | 'prev' | 'next' | 'head' | 'tail' | 'middle' | 'target' | 'cycle';
+  isHead?: boolean;
+  isTail?: boolean;
+  nextId?: number | null;
+  prevId?: number | null;  // For doubly linked list
+  childId?: number | null; // For multilevel list
+  level?: number;  // For multilevel list depth
+}
+
+export interface LinkedListData {
+  nodes: LinkedListNode[];
+  listType: 'singly' | 'doubly' | 'circular' | 'circular-doubly' | 'multilevel';
+  headId?: number | null;
+  tailId?: number | null;
+  // For two-pointer algorithms
+  pointers?: { nodeId: number; label: string; color?: string }[];
+  // For merge operations - second list
+  secondList?: LinkedListNode[];
+  secondHeadId?: number | null;
+  // For result/merged list
+  resultList?: LinkedListNode[];
+  resultHeadId?: number | null;
+  // Animation states
+  animating?: 'insert' | 'delete' | 'reverse' | 'merge' | 'traverse' | 'pending-insert';
+  animatingNodeId?: number;
+  // Pending insert visualization (node shown below the list before insertion)
+  pendingNode?: LinkedListNode;
+  pendingInsertAfterNodeId?: number | null; // Node after which the pending node will be inserted (Prev)
+  pendingNextNodeId?: number | null;        // Node which the pending node will replace/point to (Next)
+  // Cycle detection
+  cycleStartId?: number | null;
+  hasCycle?: boolean;
+  meetingPointId?: number | null;
+  // For intersection
+  intersectionId?: number | null;
+  // Message
+  message?: string;
+}
+
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -293,6 +337,8 @@ export interface AuxiliaryState {
   stackData?: StackData;
   // Queue visualization state
   queueData?: QueueData;
+  // Linked list visualization state
+  linkedListData?: LinkedListData;
 }
 
 export interface BaseEvent {
