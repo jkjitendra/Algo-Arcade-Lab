@@ -162,6 +162,29 @@ const queuesTiers = [
   },
 ];
 
+const linkedListsTiers = [
+  {
+    name: "Tier 1: Core Data Structures",
+    description: "Fundamental linked list types and operations",
+    algorithms: ["singly-linked-list", "doubly-linked-list", "circular-linked-list", "circular-doubly-linked-list"],
+  },
+  {
+    name: "Tier 2: Basic Algorithms",
+    description: "Essential pointer manipulation techniques",
+    algorithms: ["reverse-linked-list", "find-middle-element", "merge-sorted-lists"],
+  },
+  {
+    name: "Tier 3: Cycle Detection",
+    description: "Floyd's algorithm and cycle-related problems",
+    algorithms: ["detect-cycle", "find-cycle-start"],
+  },
+  {
+    name: "Tier 4: Advanced Problems",
+    description: "Complex linked list manipulations",
+    algorithms: ["remove-nth-from-end", "palindrome-linked-list", "intersection-point", "rotate-list", "flatten-multilevel-list"],
+  },
+];
+
 const algorithmNames: Record<string, string> = {
   // Arrays
   "array-operations": "Array Operations",
@@ -245,6 +268,21 @@ const algorithmNames: Record<string, string> = {
   "first-non-repeating-character": "First Non-Repeating Char",
   "generate-binary-numbers": "Generate Binary Numbers",
   "circular-tour": "Circular Tour",
+  // Linked Lists
+  "singly-linked-list": "Singly Linked List",
+  "doubly-linked-list": "Doubly Linked List",
+  "circular-linked-list": "Circular Linked List",
+  "circular-doubly-linked-list": "Circular Doubly Linked List",
+  "reverse-linked-list": "Reverse Linked List",
+  "find-middle-element": "Find Middle Element",
+  "merge-sorted-lists": "Merge Sorted Lists",
+  "detect-cycle": "Detect Cycle",
+  "find-cycle-start": "Find Cycle Start",
+  "remove-nth-from-end": "Remove N-th from End",
+  "palindrome-linked-list": "Palindrome Check",
+  "intersection-point": "Intersection Point",
+  "rotate-list": "Rotate List",
+  "flatten-multilevel-list": "Flatten Multilevel List",
 };
 
 const algorithmDescriptions: Record<string, string> = {
@@ -313,6 +351,21 @@ const algorithmDescriptions: Record<string, string> = {
   "first-non-repeating-character": "Stream unique character finder",
   "generate-binary-numbers": "BFS-style binary generation",
   "circular-tour": "Gas station starting point",
+  // Linked Lists
+  "singly-linked-list": "Insert, Delete, Traverse, Search operations",
+  "doubly-linked-list": "Bidirectional traversal with prev/next",
+  "circular-linked-list": "Last node points back to head",
+  "circular-doubly-linked-list": "Full circular bidirectional list",
+  "reverse-linked-list": "Iterative/recursive pointer reversal",
+  "find-middle-element": "Two-pointer slow & fast technique",
+  "merge-sorted-lists": "Combine two sorted lists",
+  "detect-cycle": "Floyd's cycle detection",
+  "find-cycle-start": "Find where cycle begins",
+  "remove-nth-from-end": "Two-pointer with gap technique",
+  "palindrome-linked-list": "Reverse half and compare",
+  "intersection-point": "Find where two lists meet",
+  "rotate-list": "Rotate list by k positions",
+  "flatten-multilevel-list": "Flatten nested doubly linked list",
 };
 
 function TopicContent({ locale, topic }: { locale: string; topic: string }) {
@@ -609,6 +662,59 @@ function TopicContent({ locale, topic }: { locale: string; topic: string }) {
                   <Link
                     key={algo}
                     href={`/${locale}/visualize?algorithm=${algo}&category=queues`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "linked-lists") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">🔗</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.linked-lists")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master linked list data structures and algorithms - from basic operations to advanced problems
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {linkedListsTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=linkedlists`}
                     className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
                   >
                     <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
