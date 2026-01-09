@@ -81,6 +81,21 @@ import { slidingWindowMaximum } from './queues/slidingWindowMaximum';
 import { firstNonRepeatingCharacter } from './queues/firstNonRepeatingCharacter';
 import { generateBinaryNumbers } from './queues/generateBinaryNumbers';
 import { circularTour } from './queues/circularTour';
+// Linked List algorithms
+import { singlyLinkedList } from './linkedlists/singlyLinkedList';
+import { doublyLinkedList } from './linkedlists/doublyLinkedList';
+import { circularLinkedList } from './linkedlists/circularLinkedList';
+import { circularDoublyLinkedList } from './linkedlists/circularDoublyLinkedList';
+import { reverseLinkedList } from './linkedlists/reverseLinkedList';
+import { detectCycle } from './linkedlists/detectCycle';
+import { findCycleStart } from './linkedlists/findCycleStart';
+import { findMiddle } from './linkedlists/findMiddle';
+import { mergeSortedLists } from './linkedlists/mergeSortedLists';
+import { removeNthFromEnd } from './linkedlists/removeNthFromEnd';
+import { palindromeLinkedList } from './linkedlists/palindromeLinkedList';
+import { intersectionPoint } from './linkedlists/intersectionPoint';
+import { rotateList } from './linkedlists/rotateList';
+import { flattenMultilevelList } from './linkedlists/flattenMultilevelList';
 
 
 /**
@@ -237,4 +252,24 @@ registerAlgorithm(slidingWindowMaximum);
 registerAlgorithm(firstNonRepeatingCharacter);
 registerAlgorithm(generateBinaryNumbers);
 registerAlgorithm(circularTour);
+
+// ============ LINKED LISTS ============
+// Tier 1: Core Data Structures
+registerAlgorithm(singlyLinkedList);
+registerAlgorithm(doublyLinkedList);
+registerAlgorithm(circularLinkedList);
+registerAlgorithm(circularDoublyLinkedList);
+// Tier 2: Core Algorithms
+registerAlgorithm(reverseLinkedList);
+registerAlgorithm(findMiddle);
+registerAlgorithm(mergeSortedLists);
+registerAlgorithm(removeNthFromEnd);
+// Tier 3: Cycle Detection
+registerAlgorithm(detectCycle);
+registerAlgorithm(findCycleStart);
+// Tier 4: Advanced Algorithms
+registerAlgorithm(palindromeLinkedList);
+registerAlgorithm(intersectionPoint);
+registerAlgorithm(rotateList);
+registerAlgorithm(flattenMultilevelList);
 
