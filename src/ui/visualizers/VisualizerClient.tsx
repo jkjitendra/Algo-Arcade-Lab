@@ -98,6 +98,21 @@ import { slidingWindowMaximumInfo } from "@/core/algorithms/queues/slidingWindow
 import { firstNonRepeatingCharacterInfo } from "@/core/algorithms/queues/firstNonRepeatingCharacterInfo";
 import { generateBinaryNumbersInfo } from "@/core/algorithms/queues/generateBinaryNumbersInfo";
 import { circularTourInfo } from "@/core/algorithms/queues/circularTourInfo";
+// Linked List algorithm info
+import { singlyLinkedListInfo } from "@/core/algorithms/linkedlists/singlyLinkedListInfo";
+import { doublyLinkedListInfo } from "@/core/algorithms/linkedlists/doublyLinkedListInfo";
+import { circularLinkedListInfo } from "@/core/algorithms/linkedlists/circularLinkedListInfo";
+import { circularDoublyLinkedListInfo } from "@/core/algorithms/linkedlists/circularDoublyLinkedListInfo";
+import { reverseLinkedListInfo } from "@/core/algorithms/linkedlists/reverseLinkedListInfo";
+import { detectCycleInfo } from "@/core/algorithms/linkedlists/detectCycleInfo";
+import { findCycleStartInfo } from "@/core/algorithms/linkedlists/findCycleStartInfo";
+import { findMiddleInfo } from "@/core/algorithms/linkedlists/findMiddleInfo";
+import { mergeSortedListsInfo } from "@/core/algorithms/linkedlists/mergeSortedListsInfo";
+import { removeNthFromEndInfo } from "@/core/algorithms/linkedlists/removeNthFromEndInfo";
+import { palindromeLinkedListInfo } from "@/core/algorithms/linkedlists/palindromeLinkedListInfo";
+import { intersectionPointInfo } from "@/core/algorithms/linkedlists/intersectionPointInfo";
+import { rotateListInfo } from "@/core/algorithms/linkedlists/rotateListInfo";
+import { flattenMultilevelListInfo } from "@/core/algorithms/linkedlists/flattenMultilevelListInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -183,6 +198,21 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "first-non-repeating-character": [97, 98, 99, 97, 100, 99],  // "abcadc"
   "generate-binary-numbers": [],
   "circular-tour": [4, 6, 6, 5, 7, 3, 4, 5],  // petrol1, distance1, petrol2, distance2, ...
+  // Linked Lists topic
+  "singly-linked-list": [1, 2, 3, 4, 5],
+  "doubly-linked-list": [1, 2, 3, 4, 5],
+  "circular-linked-list": [1, 2, 3, 4, 5],
+  "circular-doubly-linked-list": [1, 2, 3, 4, 5],
+  "reverse-linked-list": [1, 2, 3, 4, 5],
+  "detect-cycle": [1, 2, 3, 4, 5, 6],
+  "find-cycle-start": [1, 2, 3, 4, 5, 6],
+  "find-middle": [1, 2, 3, 4, 5, 6, 7],
+  "merge-sorted-lists": [1, 3, 5, 2, 4, 6],
+  "remove-nth-from-end": [1, 2, 3, 4, 5],
+  "palindrome-linked-list": [1, 2, 3, 2, 1],
+  "intersection-point": [1, 2, 3, 4, 5, 6, 7, 8],
+  "rotate-list": [1, 2, 3, 4, 5],
+  "flatten-multilevel-list": [1, 2, 3, 4, 5, 6, 7],
 };
 
 // Map algorithm IDs to their info
@@ -270,6 +300,21 @@ const algorithmInfoMap: Record<string, any> = {
   "first-non-repeating-character": firstNonRepeatingCharacterInfo,
   "generate-binary-numbers": generateBinaryNumbersInfo,
   "circular-tour": circularTourInfo,
+  // Linked Lists
+  "singly-linked-list": singlyLinkedListInfo,
+  "doubly-linked-list": doublyLinkedListInfo,
+  "circular-linked-list": circularLinkedListInfo,
+  "circular-doubly-linked-list": circularDoublyLinkedListInfo,
+  "reverse-linked-list": reverseLinkedListInfo,
+  "detect-cycle": detectCycleInfo,
+  "find-cycle-start": findCycleStartInfo,
+  "find-middle": findMiddleInfo,
+  "merge-sorted-lists": mergeSortedListsInfo,
+  "remove-nth-from-end": removeNthFromEndInfo,
+  "palindrome-linked-list": palindromeLinkedListInfo,
+  "intersection-point": intersectionPointInfo,
+  "rotate-list": rotateListInfo,
+  "flatten-multilevel-list": flattenMultilevelListInfo,
 };
 
 // Map algorithm IDs to their category
@@ -354,6 +399,21 @@ const algorithmCategoryMap: Record<string, string> = {
   "first-non-repeating-character": "queues",
   "generate-binary-numbers": "queues",
   "circular-tour": "queues",
+  // Linked Lists
+  "singly-linked-list": "linkedlists",
+  "doubly-linked-list": "linkedlists",
+  "circular-linked-list": "linkedlists",
+  "circular-doubly-linked-list": "linkedlists",
+  "reverse-linked-list": "linkedlists",
+  "detect-cycle": "linkedlists",
+  "find-cycle-start": "linkedlists",
+  "find-middle": "linkedlists",
+  "merge-sorted-lists": "linkedlists",
+  "remove-nth-from-end": "linkedlists",
+  "palindrome-linked-list": "linkedlists",
+  "intersection-point": "linkedlists",
+  "rotate-list": "linkedlists",
+  "flatten-multilevel-list": "linkedlists",
 };
 
 interface VisualizerClientProps {
@@ -386,6 +446,7 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     if (cat === "searching") return "linear-search";
     if (cat === "stacks") return "stack-operations";
     if (cat === "queues") return "queue-operations";
+    if (cat === "linkedlists") return "singly-linked-list";
     return "bubble-sort";
   };
 

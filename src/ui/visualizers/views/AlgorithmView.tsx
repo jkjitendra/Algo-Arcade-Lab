@@ -18,6 +18,7 @@ import { DPTableView } from "./DPTableView";
 import { SearchVisualizationView } from "./SearchVisualizationView";
 import { StackView } from "./StackView";
 import { QueueView } from "./QueueView";
+import { LinkedListView } from "./LinkedListView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -150,6 +151,14 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
       return auxiliaryState.queueData ? (
         <QueueView
           queueData={auxiliaryState.queueData}
+          phase={auxiliaryState.phase}
+        />
+      ) : null;
+
+    case "linkedlist":
+      return auxiliaryState.linkedListData ? (
+        <LinkedListView
+          linkedListData={auxiliaryState.linkedListData}
           phase={auxiliaryState.phase}
         />
       ) : null;
