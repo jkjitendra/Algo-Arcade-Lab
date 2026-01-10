@@ -113,7 +113,7 @@ export function LinkedListView({ linkedListData, phase }: LinkedListViewProps) {
         <div className="relative flex flex-col items-center">
           {/* Pointer labels above node */}
           {pointersHere.length > 0 && (
-            <div className="absolute -top-6 flex gap-1">
+            <div className="absolute -top-16 flex gap-1">
               {pointersHere.map((ptr, i) => (
                 <span
                   key={i}
@@ -149,13 +149,7 @@ export function LinkedListView({ linkedListData, phase }: LinkedListViewProps) {
           >
             {node.value}
 
-            {/* Doubly linked list - prev pointer visual */}
-            {(linkedListData.listType === 'doubly' || linkedListData.listType === 'circular-doubly') &&
-              node.prevId !== null && index > 0 && (
-                <div className="absolute -left-3 top-1/2 -translate-y-1/2">
-                  <div className="w-2.5 h-0.5 bg-slate-400"></div>
-                </div>
-              )}
+
           </div>
 
           {/* Cycle indicator */}
@@ -178,38 +172,55 @@ export function LinkedListView({ linkedListData, phase }: LinkedListViewProps) {
               INTERSECT
             </span>
           )}
+
+          {/* Circular Link Arrow (Red Return Path) */}
+          {isLast && typeof orderedNodes === 'object' && 'lastPointsToHead' in orderedNodes && orderedNodes.lastPointsToHead && (
+            <div className="absolute top-14 right-1/2 w-0 h-0 pointer-events-none z-0">
+              <svg
+                width={index * 88}
+                height={50}
+                className="absolute top-0 right-0 overflow-visible"
+                style={{ transform: 'translateX(0px)' }}
+              >
+                <path
+                  d={`M ${index * 88} 0 V 30 H -24 V 10`}
+                  fill="none"
+                  stroke="#8FA1B9"
+                  strokeWidth="2"
+                />
+                <polygon
+                  points="-6,12 0,0 6,12"
+                  fill="#8FA1B9"
+                  transform="translate(-24, 3)"
+                />
+                {linkedListData.listType === 'circular-doubly' && (
+                  <polygon
+                    points="-6,12 0,0 6,12"
+                    fill="#8FA1B9"
+                    transform={`translate(${index * 88}, 0)`}
+                  />
+                )}
+              </svg>
+            </div>
+          )}
         </div>
 
         {/* Arrow to next node */}
         {!isLast && (
-          <div className="flex items-center mx-1">
+          <div className="flex items-center mx-1 relative">
+            {/* Left Arrow Head (for doubly) */}
+            {(linkedListData.listType === 'doubly' || linkedListData.listType === 'circular-doubly') && (
+              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[8px] border-r-slate-400 mr-[-0.5px]"></div>
+            )}
+
             <div className="w-6 h-0.5 bg-slate-400"></div>
-            <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[8px] border-l-slate-400"></div>
+
+            {/* Right Arrow Head (standard) */}
+            <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[8px] border-l-slate-400 ml-[-0.5px]"></div>
           </div>
         )}
 
-        {/* Circular arrow back to head */}
-        {isLast && typeof orderedNodes === 'object' && 'lastPointsToHead' in orderedNodes && orderedNodes.lastPointsToHead && (
-          <div className="flex items-center">
-            <div className="relative ml-2">
-              <svg width="50" height="40" viewBox="0 0 50 40" className="text-slate-400">
-                <path
-                  d="M 0 20 Q 25 20 25 5 Q 25 -10 -20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeDasharray="4,2"
-                />
-                <polygon
-                  points="-24,17 -16,20 -24,23"
-                  fill="currentColor"
-                  transform="rotate(-10, -20, 20)"
-                />
-              </svg>
-              <span className="absolute -top-2 left-4 text-[9px] text-slate-400">to head</span>
-            </div>
-          </div>
-        )}
+
 
         {/* Pending Node Overlay (for Insert at Position) */}
         {/* Pending Node Overlay (for Insert at Position) */}
@@ -387,7 +398,7 @@ export function LinkedListView({ linkedListData, phase }: LinkedListViewProps) {
       </div>
 
       {/* Main List */}
-      <div className="flex items-center flex-wrap gap-y-8 pt-4 pb-32">
+      <div className="flex items-center flex-wrap gap-y-8 pt-12 pb-32">
         {nodes.map((node, index) => renderNode(node, index, index === nodes.length - 1))}
         {nodes.length === 0 && (
           <div className="flex items-center gap-2 text-slate-500">
