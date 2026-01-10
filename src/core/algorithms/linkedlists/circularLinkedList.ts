@@ -3,6 +3,12 @@ import { ArrayInput } from '../../models';
 import { AlgoEvent, createEvent, LinkedListNode } from '../../events/events';
 
 /**
+ * Helper to deep clone nodes for visualization history.
+ * Prevents downstream mutations from affecting previous steps.
+ */
+const cloneNodes = (nodes: LinkedListNode[]) => nodes.map(node => ({ ...node }));
+
+/**
  * Circular Linked List Operations
  * 
  * A singly linked list where the last node points back to the first.
@@ -152,7 +158,7 @@ export const circularLinkedList: IAlgorithm<ArrayInput> = {
     yield createEvent.auxiliary({
       type: 'linkedlist',
       linkedListData: {
-        nodes: [...nodes],
+        nodes: cloneNodes(nodes),
         listType: 'circular',
         headId,
       },
@@ -194,7 +200,7 @@ function* runInsert(nodes: LinkedListNode[], headId: number | null, value: numbe
     yield createEvent.auxiliary({
       type: 'linkedlist',
       linkedListData: {
-        nodes: [...nodes],
+        nodes: cloneNodes(nodes),
         listType: 'circular',
         headId: newId,
       },
@@ -217,7 +223,7 @@ function* runInsert(nodes: LinkedListNode[], headId: number | null, value: numbe
     yield createEvent.auxiliary({
       type: 'linkedlist',
       linkedListData: {
-        nodes: [...nodes],
+        nodes: cloneNodes(nodes),
         listType: 'circular',
         headId,
         pointers: [{ nodeId: current.id, label: 'current', color: 'yellow' }],
@@ -245,7 +251,7 @@ function* runInsert(nodes: LinkedListNode[], headId: number | null, value: numbe
   yield createEvent.auxiliary({
     type: 'linkedlist',
     linkedListData: {
-      nodes: [...nodes],
+      nodes: cloneNodes(nodes),
       listType: 'circular',
       headId,
       animating: 'insert',
@@ -260,7 +266,7 @@ function* runInsert(nodes: LinkedListNode[], headId: number | null, value: numbe
   yield createEvent.auxiliary({
     type: 'linkedlist',
     linkedListData: {
-      nodes: [...nodes],
+      nodes: cloneNodes(nodes),
       listType: 'circular',
       headId,
     },
@@ -285,6 +291,30 @@ function* runDelete(nodes: LinkedListNode[], headId: number | null, value: numbe
   if (head && head.nextId === headId && head.value === value) {
     yield createEvent.highlight([2, 3]);
     yield createEvent.message(`Single node with value ${value}, removing it`, 'explanation');
+
+    // Found state
+    head.highlight = 'target';
+    yield createEvent.auxiliary({
+      type: 'linkedlist',
+      linkedListData: {
+        nodes: cloneNodes(nodes),
+        listType: 'circular',
+        headId,
+      },
+    });
+
+    yield createEvent.auxiliary({
+      type: 'linkedlist',
+      linkedListData: {
+        nodes: cloneNodes(nodes),
+        listType: 'circular',
+        headId,
+        animating: 'delete',
+        animatingNodeId: head.id,
+      },
+    });
+
+    yield createEvent.message(`Deleting node ${value}`, 'explanation');
 
     const index = nodes.findIndex(n => n.id === headId);
     nodes.splice(index, 1);
@@ -318,10 +348,23 @@ function* runDelete(nodes: LinkedListNode[], headId: number | null, value: numbe
       prev.highlight = 'prev';
       nextNode.highlight = 'target';
 
+      // Show found state first
       yield createEvent.auxiliary({
         type: 'linkedlist',
         linkedListData: {
-          nodes: [...nodes],
+          nodes: cloneNodes(nodes),
+          listType: 'circular',
+          headId,
+        },
+      });
+
+      yield createEvent.message(`Found ${value}, removing it`, 'explanation');
+
+      // Then start delete animation
+      yield createEvent.auxiliary({
+        type: 'linkedlist',
+        linkedListData: {
+          nodes: cloneNodes(nodes),
           listType: 'circular',
           headId,
           animating: 'delete',
@@ -329,7 +372,7 @@ function* runDelete(nodes: LinkedListNode[], headId: number | null, value: numbe
         },
       });
 
-      yield createEvent.message(`Found ${value}, removing it`, 'explanation');
+      yield createEvent.message(`Deleting node ${value}`, 'explanation');
 
       prev.nextId = nextNode.nextId;
       if (nextNode.isTail) prev.isTail = true;
@@ -356,7 +399,7 @@ function* runDelete(nodes: LinkedListNode[], headId: number | null, value: numbe
     yield createEvent.auxiliary({
       type: 'linkedlist',
       linkedListData: {
-        nodes: [...nodes],
+        nodes: cloneNodes(nodes),
         listType: 'circular',
         headId,
         pointers: [{ nodeId: prev.id, label: 'prev', color: 'orange' }],
@@ -371,6 +414,30 @@ function* runDelete(nodes: LinkedListNode[], headId: number | null, value: numbe
   if (head && head.value === value) {
     yield createEvent.highlight([10, 11, 12]);
     head.highlight = 'target';
+
+    // Show found state first
+    yield createEvent.auxiliary({
+      type: 'linkedlist',
+      linkedListData: {
+        nodes: cloneNodes(nodes),
+        listType: 'circular',
+        headId,
+      },
+    });
+
+    // Then start delete animation
+    yield createEvent.auxiliary({
+      type: 'linkedlist',
+      linkedListData: {
+        nodes: cloneNodes(nodes),
+        listType: 'circular',
+        headId,
+        animating: 'delete',
+        animatingNodeId: head.id,
+      },
+    });
+
+    yield createEvent.message(`Deleting node ${value}`, 'explanation');
 
     // Find last node to update its next
     let last = nodes.find(n => n.id === headId);
