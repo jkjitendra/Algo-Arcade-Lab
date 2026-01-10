@@ -308,8 +308,63 @@ export interface LinkedListData {
   message?: string;
 }
 
+
+// ============ Recursion Visualization Data ============
+
+export interface RecursionNode {
+  id: string;
+  label: string;
+  args: string;
+  value?: string | number;
+  children?: string[]; // IDs of children
+  status: 'active' | 'completed' | 'pending' | 'pruned';
+  depth: number;
+  parentId?: string;
+  result?: string;
+}
+
+export interface RecursionData {
+  nodes: RecursionNode[];
+  rootId?: string;
+  currentId?: string;
+  message?: string;
+}
+
+// ============ Backtracking Visualization Data ============
+
+export interface BacktrackingCell {
+  row: number;
+  col: number;
+  value: string | number;
+  status: 'empty' | 'placed' | 'conflict' | 'tentative' | 'solution' | 'visited' | 'blocked' | 'start' | 'end';
+}
+
+export interface BacktrackingData {
+  grid: BacktrackingCell[][];
+  rows: number;
+  cols: number;
+  message?: string;
+  // For specific problems like N-Queens
+  conflicts?: { row: number; col: number }[];
+  currentCell?: { row: number; col: number };
+}
+
+// ============ Tower of Hanoi Visualization Data ============
+
+export interface HanoiDisk {
+  size: number;
+  color: string;
+}
+
+export interface HanoiData {
+  pegs: HanoiDisk[][]; // 3 pegs, each has a stack of disks
+  moveCount: number;
+  message?: string;
+  animatingDisk?: { disk: HanoiDisk; fromPeg: number; toPeg: number; progress: number };
+}
+
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist' | 'recursion' | 'backtracking' | 'hanoi';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -339,6 +394,12 @@ export interface AuxiliaryState {
   queueData?: QueueData;
   // Linked list visualization state
   linkedListData?: LinkedListData;
+  // Recursion visualization state
+  recursionData?: RecursionData;
+  // Backtracking visualization state
+  backtrackingData?: BacktrackingData;
+  // Hanoi visualization state
+  hanoiData?: HanoiData;
 }
 
 export interface BaseEvent {
