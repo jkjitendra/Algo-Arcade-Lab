@@ -19,6 +19,9 @@ import { SearchVisualizationView } from "./SearchVisualizationView";
 import { StackView } from "./StackView";
 import { QueueView } from "./QueueView";
 import { LinkedListView } from "./LinkedListView";
+import { RecursionTreeView } from "./RecursionTreeView";
+import { BacktrackingGridView } from "./BacktrackingGridView";
+import { HanoiView } from "./HanoiView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -166,6 +169,21 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
     case "matrix":
       // Matrix visualization - placeholder for now
       return null;
+
+    case "recursion":
+      return auxiliaryState.recursionData ? (
+        <RecursionTreeView recursionData={auxiliaryState.recursionData} />
+      ) : null;
+
+    case "backtracking":
+      return auxiliaryState.backtrackingData ? (
+        <BacktrackingGridView backtrackingData={auxiliaryState.backtrackingData} />
+      ) : null;
+
+    case "hanoi":
+      return auxiliaryState.hanoiData ? (
+        <HanoiView hanoiData={auxiliaryState.hanoiData} />
+      ) : null;
 
     case "insertion":
       return null;
