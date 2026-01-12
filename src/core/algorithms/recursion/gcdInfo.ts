@@ -81,5 +81,6 @@ export const gcdInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(a, b);
     yield createEvent.message(`GCD calculation complete. Result: ${finalResult}`, 'info');
+    yield createEvent.result('string', `GCD = ${finalResult}`, `GCD(${a}, ${b}) = ${finalResult}`);
   }
 };
