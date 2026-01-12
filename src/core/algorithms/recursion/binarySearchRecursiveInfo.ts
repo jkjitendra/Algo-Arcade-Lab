@@ -156,5 +156,6 @@ export const binarySearchRecursiveInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(0, n - 1);
     yield createEvent.message(`Search complete. Found at index: ${finalResult}`, 'info');
+    yield createEvent.result('search', finalResult, finalResult >= 0 ? `Found ${target} at index ${finalResult}` : `${target} not found`);
   }
 };
