@@ -83,5 +83,6 @@ export const sumDigitsInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(n);
     yield createEvent.message(`Sum of digits complete. Result: ${finalResult}`, 'info');
+    yield createEvent.result('string', `Sum = ${finalResult}`, `Sum of digits of ${n} = ${finalResult}`);
   }
 };
