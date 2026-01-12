@@ -113,6 +113,19 @@ import { palindromeLinkedListInfo } from "@/core/algorithms/linkedlists/palindro
 import { intersectionPointInfo } from "@/core/algorithms/linkedlists/intersectionPointInfo";
 import { rotateListInfo } from "@/core/algorithms/linkedlists/rotateListInfo";
 import { flattenMultilevelListInfo } from "@/core/algorithms/linkedlists/flattenMultilevelListInfo";
+// Recursion algorithm info
+import { factorialInfo } from "@/core/algorithms/recursion/factorialInfo";
+import { fibonacciInfo } from "@/core/algorithms/recursion/fibonacciInfo";
+import { sumDigitsInfo } from "@/core/algorithms/recursion/sumDigitsInfo";
+import { powerInfo } from "@/core/algorithms/recursion/powerInfo";
+import { gcdInfo } from "@/core/algorithms/recursion/gcdInfo";
+import { hanoiInfo } from "@/core/algorithms/recursion/hanoiInfo";
+import { binarySearchRecursiveInfo } from "@/core/algorithms/recursion/binarySearchRecursiveInfo";
+// Backtracking algorithm info
+import { nQueensInfo } from "@/core/algorithms/backtracking/nQueensInfo";
+import { sudokuInfo } from "@/core/algorithms/backtracking/sudokuInfo";
+import { ratMazeInfo } from "@/core/algorithms/backtracking/ratMazeInfo";
+import { permutationsInfo } from "@/core/algorithms/backtracking/permutationsInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -213,6 +226,19 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "intersection-point": [1, 2, 3, 4, 5, 6, 7, 8],
   "rotate-list": [1, 2, 3, 4, 5],
   "flatten-multilevel-list": [1, 2, 3, 4, 5, 6, 7],
+  // Recursion
+  "factorial-recursion": [], // Uses params
+  "fibonacci-recursion": [], // Uses params
+  "sum-digits-recursion": [], // Uses params
+  "power-recursion": [], // Uses params
+  "gcd-recursion": [], // Uses params
+  "hanoi-recursion": [], // Uses params
+  "binary-search-recursion": [1, 3, 5, 7, 9, 11, 13, 15, 17, 19],
+  // Backtracking
+  "n-queens": [], // Uses params
+  "sudoku-solver": [], // Uses default grid or params
+  "rat-in-maze": [], // Uses default grid
+  "generate-permutations": [65, 66, 67], // "ABC"
 };
 
 // Map algorithm IDs to their info
@@ -315,6 +341,19 @@ const algorithmInfoMap: Record<string, any> = {
   "intersection-point": intersectionPointInfo,
   "rotate-list": rotateListInfo,
   "flatten-multilevel-list": flattenMultilevelListInfo,
+  // Recursion
+  "factorial-recursion": factorialInfo,
+  "fibonacci-recursion": fibonacciInfo,
+  "sum-digits-recursion": sumDigitsInfo,
+  "power-recursion": powerInfo,
+  "gcd-recursion": gcdInfo,
+  "hanoi-recursion": hanoiInfo,
+  "binary-search-recursion": binarySearchRecursiveInfo,
+  // Backtracking
+  "n-queens": nQueensInfo,
+  "sudoku-solver": sudokuInfo,
+  "rat-in-maze": ratMazeInfo,
+  "generate-permutations": permutationsInfo,
 };
 
 // Map algorithm IDs to their category
@@ -414,6 +453,19 @@ const algorithmCategoryMap: Record<string, string> = {
   "intersection-point": "linkedlists",
   "rotate-list": "linkedlists",
   "flatten-multilevel-list": "linkedlists",
+  // Recursion
+  "factorial-recursion": "recursion",
+  "fibonacci-recursion": "recursion",
+  "sum-digits-recursion": "recursion",
+  "power-recursion": "recursion",
+  "gcd-recursion": "recursion",
+  "hanoi-recursion": "recursion",
+  "binary-search-recursion": "recursion",
+  // Backtracking
+  "n-queens": "backtracking",
+  "sudoku-solver": "backtracking",
+  "rat-in-maze": "backtracking",
+  "generate-permutations": "backtracking",
 };
 
 interface VisualizerClientProps {
@@ -447,6 +499,9 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     if (cat === "stacks") return "stack-operations";
     if (cat === "queues") return "queue-operations";
     if (cat === "linkedlists") return "singly-linked-list";
+    if (cat === "linkedlists") return "singly-linked-list";
+    if (cat === "recursion") return "factorial-recursion";
+    if (cat === "backtracking") return "n-queens";
     return "bubble-sort";
   };
 
@@ -462,8 +517,14 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
   const allAlgorithms = getAllAlgorithms();
 
   // Filter algorithms by category if provided
+  // Recursion category also includes backtracking algorithms (shown together in topics)
   const algorithms = category
-    ? allAlgorithms.filter(algo => algorithmCategoryMap[algo.id] === category)
+    ? allAlgorithms.filter(algo => {
+      if (category === 'recursion') {
+        return algo.category === 'recursion' || algo.category === 'backtracking';
+      }
+      return algo.category === category;
+    })
     : allAlgorithms;
 
   const algorithmInfo = algorithmInfoMap[selectedAlgorithm];
@@ -484,11 +545,13 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
   const handleRun = () => {
     const state = usePlayerStore.getState();
     const algoId = state.algorithmId || "bubble-sort";
-    const isStackOrQueue = algorithmCategoryMap[algoId] === 'stacks' || algorithmCategoryMap[algoId] === 'queues';
-    const input = (state.inputArray.length > 0 || isStackOrQueue) ? state.inputArray : getDefaultArray(algoId);
+    const algoCategory = algorithmCategoryMap[algoId];
+    const isStackOrQueue = algoCategory === 'stacks' || algoCategory === 'queues';
+    const isRecursionOrBacktracking = algoCategory === 'recursion' || algoCategory === 'backtracking';
+    const input = (state.inputArray.length > 0 || isStackOrQueue || isRecursionOrBacktracking) ? state.inputArray : getDefaultArray(algoId);
 
-    // Stack/Queue algorithms can have 0 elements, others need at least 2
-    const minRequired = isStackOrQueue ? 0 : 2;
+    // Stack/Queue and Recursion/Backtracking algorithms can have 0 elements, others need at least 2
+    const minRequired = (isStackOrQueue || isRecursionOrBacktracking) ? 0 : 2;
     if (input.length >= minRequired) {
       loadAlgorithm(algoId, input, algorithmParams);
     }
