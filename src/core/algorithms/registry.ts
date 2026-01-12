@@ -97,6 +97,21 @@ import { intersectionPoint } from './linkedlists/intersectionPoint';
 import { rotateList } from './linkedlists/rotateList';
 import { flattenMultilevelList } from './linkedlists/flattenMultilevelList';
 
+// Recursion algorithms
+import { factorialInfo } from './recursion/factorialInfo';
+import { fibonacciInfo } from './recursion/fibonacciInfo';
+import { sumDigitsInfo } from './recursion/sumDigitsInfo';
+import { powerInfo } from './recursion/powerInfo';
+import { gcdInfo } from './recursion/gcdInfo';
+import { hanoiInfo } from './recursion/hanoiInfo';
+import { binarySearchRecursiveInfo } from './recursion/binarySearchRecursiveInfo';
+
+// Backtracking algorithms
+import { nQueensInfo } from './backtracking/nQueensInfo';
+import { sudokuInfo } from './backtracking/sudokuInfo';
+import { ratMazeInfo } from './backtracking/ratMazeInfo';
+import { permutationsInfo } from './backtracking/permutationsInfo';
+
 
 /**
  * Registry of all available algorithms
@@ -272,4 +287,19 @@ registerAlgorithm(palindromeLinkedList);
 registerAlgorithm(intersectionPoint);
 registerAlgorithm(rotateList);
 registerAlgorithm(flattenMultilevelList);
+
+// ============ RECURSION ============
+registerAlgorithm(factorialInfo);
+registerAlgorithm(fibonacciInfo);
+registerAlgorithm(sumDigitsInfo);
+registerAlgorithm(powerInfo);
+registerAlgorithm(gcdInfo);
+registerAlgorithm(hanoiInfo);
+registerAlgorithm(binarySearchRecursiveInfo);
+
+// ============ BACKTRACKING ============
+registerAlgorithm(nQueensInfo);
+registerAlgorithm(sudokuInfo);
+registerAlgorithm(ratMazeInfo);
+registerAlgorithm(permutationsInfo);
 
