@@ -89,5 +89,6 @@ export const fibonacciInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(n);
     yield createEvent.message(`Fibonacci calculation complete. Result: ${finalResult}`, 'info');
+    yield createEvent.result('string', `fib(${n}) = ${finalResult}`, `Fibonacci of ${n} = ${finalResult}`);
   }
 };
