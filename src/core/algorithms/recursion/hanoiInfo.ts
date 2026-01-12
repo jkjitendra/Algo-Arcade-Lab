@@ -82,5 +82,6 @@ export const hanoiInfo: IAlgorithm<ArrayInput> = {
 
     yield* solve(n, 0, 2, 1);
     yield createEvent.message(`Tower of Hanoi complete in ${moveCount} moves`, 'info');
+    yield createEvent.result('string', `${moveCount} moves`, `Solved ${n} disks in ${moveCount} moves`);
   }
 };
