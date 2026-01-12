@@ -102,5 +102,6 @@ export const powerInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(x, n);
     yield createEvent.message(`Calculation complete. Result: ${finalResult}`, 'info');
+    yield createEvent.result('string', `${x}^${n} = ${finalResult}`, `${x} to the power ${n} = ${finalResult}`);
   }
 };
