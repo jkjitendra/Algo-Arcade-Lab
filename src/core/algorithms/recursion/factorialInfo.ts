@@ -80,5 +80,6 @@ export const factorialInfo: IAlgorithm<ArrayInput> = {
 
     const finalResult = yield* solve(n);
     yield createEvent.message(`Factorial calculation complete. Result: ${finalResult}`, 'info');
+    yield createEvent.result('string', `${n}! = ${finalResult}`, `Factorial of ${n} = ${finalResult}`);
   }
 };
