@@ -171,7 +171,7 @@ const linkedListsTiers = [
   {
     name: "Tier 2: Basic Algorithms",
     description: "Essential pointer manipulation techniques",
-    algorithms: ["reverse-linked-list", "find-middle-element", "merge-sorted-lists"],
+    algorithms: ["reverse-linked-list", "find-middle", "merge-sorted-lists"],
   },
   {
     name: "Tier 3: Cycle Detection",
@@ -182,6 +182,24 @@ const linkedListsTiers = [
     name: "Tier 4: Advanced Problems",
     description: "Complex linked list manipulations",
     algorithms: ["remove-nth-from-end", "palindrome-linked-list", "intersection-point", "rotate-list", "flatten-multilevel-list"],
+  },
+];
+
+const recursionTiers = [
+  {
+    name: "Tier 1: Basic Recursion",
+    description: "Fundamental recursive concepts",
+    algorithms: ["factorial-recursion", "fibonacci-recursion", "sum-digits-recursion", "power-recursion", "gcd-recursion"],
+  },
+  {
+    name: "Tier 2: Classic Problems",
+    description: "Standard recursion problems",
+    algorithms: ["hanoi-recursion", "binary-search-recursion"],
+  },
+  {
+    name: "Tier 3: Backtracking",
+    description: "Solving problems by building candidates and backtracking",
+    algorithms: ["n-queens", "sudoku-solver", "rat-in-maze", "generate-permutations"],
   },
 ];
 
@@ -274,7 +292,7 @@ const algorithmNames: Record<string, string> = {
   "circular-linked-list": "Circular Linked List",
   "circular-doubly-linked-list": "Circular Doubly Linked List",
   "reverse-linked-list": "Reverse Linked List",
-  "find-middle-element": "Find Middle Element",
+  "find-middle": "Find Middle Element",
   "merge-sorted-lists": "Merge Sorted Lists",
   "detect-cycle": "Detect Cycle",
   "find-cycle-start": "Find Cycle Start",
@@ -283,6 +301,18 @@ const algorithmNames: Record<string, string> = {
   "intersection-point": "Intersection Point",
   "rotate-list": "Rotate List",
   "flatten-multilevel-list": "Flatten Multilevel List",
+  // Recursion & Backtracking
+  "factorial-recursion": "Factorial",
+  "fibonacci-recursion": "Fibonacci Sequence",
+  "sum-digits-recursion": "Sum of Digits",
+  "power-recursion": "Power Function",
+  "gcd-recursion": "GCD (Euclidean)",
+  "hanoi-recursion": "Tower of Hanoi",
+  "binary-search-recursion": "Binary Search (Rec)",
+  "n-queens": "N-Queens",
+  "sudoku-solver": "Sudoku Solver",
+  "rat-in-maze": "Rat in a Maze",
+  "generate-permutations": "Generate Permutations",
 };
 
 const algorithmDescriptions: Record<string, string> = {
@@ -357,7 +387,7 @@ const algorithmDescriptions: Record<string, string> = {
   "circular-linked-list": "Last node points back to head",
   "circular-doubly-linked-list": "Full circular bidirectional list",
   "reverse-linked-list": "Iterative/recursive pointer reversal",
-  "find-middle-element": "Two-pointer slow & fast technique",
+  "find-middle": "Two-pointer slow & fast technique",
   "merge-sorted-lists": "Combine two sorted lists",
   "detect-cycle": "Floyd's cycle detection",
   "find-cycle-start": "Find where cycle begins",
@@ -366,6 +396,18 @@ const algorithmDescriptions: Record<string, string> = {
   "intersection-point": "Find where two lists meet",
   "rotate-list": "Rotate list by k positions",
   "flatten-multilevel-list": "Flatten nested doubly linked list",
+  // Recursion & Backtracking
+  "factorial-recursion": "Calculate n!",
+  "fibonacci-recursion": "Generate nth Fibonacci number",
+  "sum-digits-recursion": "Sum of all digits in number",
+  "power-recursion": "Calculate x^n efficiently",
+  "gcd-recursion": "Find Greatest Common Divisor",
+  "hanoi-recursion": "Solve Tower of Hanoi puzzle",
+  "binary-search-recursion": "Recursive implementation",
+  "n-queens": "Place N queens without conflicts",
+  "sudoku-solver": "Solve 9x9 Sudoku grid",
+  "rat-in-maze": "Find path from start to end",
+  "generate-permutations": "Generate all perms of string",
 };
 
 function TopicContent({ locale, topic }: { locale: string; topic: string }) {
@@ -715,6 +757,59 @@ function TopicContent({ locale, topic }: { locale: string; topic: string }) {
                   <Link
                     key={algo}
                     href={`/${locale}/visualize?algorithm=${algo}&category=linkedlists`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "recursion") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">🔁</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.recursion")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master recursion and backtracking - from basic calls to complex state-space search
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {recursionTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=recursion`}
                     className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
                   >
                     <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
