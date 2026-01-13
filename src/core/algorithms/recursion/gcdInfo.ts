@@ -84,3 +84,18 @@ export const gcdInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('string', `GCD = ${finalResult}`, `GCD(${a}, ${b}) = ${finalResult}`);
   }
 };
+
+export const gcdAbout = {
+  id: 'gcd-recursion',
+  name: 'GCD (Euclidean)',
+  category: 'recursion',
+  difficulty: 'beginner',
+  description: 'Finds the Greatest Common Divisor of two numbers using the Euclidean Algorithm.',
+  howItWorks: 'Based on the principle that gcd(a, b) = gcd(b, a % b). The algorithm recursively replaces the larger number with the remainder until remainder is 0.',
+  keyInsight: 'The number of steps is logarithmic, roughly 5 times the number of digits in the smaller number (Lamé\'s Theorem).',
+  bestFor: ['Simplifying fractions', 'Cryptographic key generation', 'Number theory problems'],
+  avoidWhen: [], // Virtually always the best method
+  funFact: 'Euclidean algorithm is one of the oldest numerical algorithms still in common use, appearing in Euclid\'s Elements c. 300 BC.',
+  optimizationTips: ['Binary GCD (Stein\'s algorithm) avoids division operations using bit shifts', 'Use iterative version for zero stack overhead'],
+  tags: ['Recursion', 'Math', 'Number Theory', 'Beginner'],
+};
