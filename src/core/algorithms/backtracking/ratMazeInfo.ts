@@ -129,3 +129,18 @@ export const ratMazeInfo: IAlgorithm<ArrayInput> = {
     }
   }
 };
+
+export const ratMazeAbout = {
+  id: 'rat-in-maze',
+  name: 'Rat in a Maze',
+  category: 'backtracking',
+  difficulty: 'intermediate',
+  description: 'Finds a path from a starting point to a destination in a grid with obstacles (walls).',
+  howItWorks: 'From current cell (x, y), tries moving in 4 directions. If a move is valid (in bounds, not wall, not visited), mark as part of path and recurse. Backtrack if dead end.',
+  keyInsight: 'This is equivalent to Depth-First Search (DFS) on the grid graph. It finds *a* path, but not necessarily the shortest path (BFS finds shortest).',
+  bestFor: ['Simple pathfinding', 'Maze generation (random DFS)', 'Robot navigation logic'],
+  avoidWhen: ['Shortest path is required (use BFS or A*)', 'Maze is very open (many paths = slow backtracking)'],
+  funFact: 'This simple algorithm is the basis for more complex routing algorithms used in circuit design and network packets.',
+  optimizationTips: ['Mark visited cells to avoid cycles', 'Check destination direction first (heuristic) to find path faster'],
+  tags: ['Backtracking', 'Pathfinding', 'Grid', 'Intermediate'],
+};
