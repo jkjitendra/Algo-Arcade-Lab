@@ -159,3 +159,18 @@ export const binarySearchRecursiveInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('search', finalResult, finalResult >= 0 ? `Found ${target} at index ${finalResult}` : `${target} not found`);
   }
 };
+
+export const binarySearchRecursiveAbout = {
+  id: 'binary-search-recursion',
+  name: 'Binary Search (Recursive)',
+  category: 'recursion',
+  difficulty: 'beginner',
+  description: 'Finds the position of a target value within a sorted array using divide and conquer.',
+  howItWorks: 'Compares target with the middle element. If equal, found. If target < mid, search left half. If target > mid, search right half.',
+  keyInsight: 'By eliminating half the search space in every step, it achieves logarithmic time complexity, vastly faster than linear search for large datasets.',
+  bestFor: ['Searching in large sorted arrays', 'Finding boundaries/conditions (e.g., first bad version)', 'In-memory sorted data lookups'],
+  avoidWhen: ['Array is unsorted', 'Data is a linked list (no random access)', 'Dataset is tiny (linear search may be faster due to cache)'],
+  funFact: 'Although the concept is simple, correct implementation is tricky. The first correct binary search was published in 1946, but the first bug-free code appeared in 1962!',
+  optimizationTips: ['Iterative version saves O(log n) stack space', 'Use mid = low + (high-low)/2 to avoid integer overflow', 'Use interpolation search for uniformly distributed data'],
+  tags: ['Recursion', 'Searching', 'Divide and Conquer', 'Beginner'],
+};
