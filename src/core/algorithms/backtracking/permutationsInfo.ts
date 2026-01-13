@@ -109,3 +109,18 @@ export const permutationsInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.message(`Permutations complete`, 'info');
   }
 };
+
+export const permutationsAbout = {
+  id: 'generate-permutations',
+  name: 'Generate Permutations',
+  category: 'backtracking',
+  difficulty: 'intermediate',
+  description: 'Generates all possible arrangements (permutations) of a set of items (characters in a string).',
+  howItWorks: 'Fixes a character at position i, then recursively permutes the remaining characters. Swaps items to put each one in first position, recurses, then swaps back (backtracking).',
+  keyInsight: 'The number of permutations is N! (factorial). This grows extremely fast: 10! = 3.6 million. Generating all permutations is only feasible for small N. If there are duplicates, the formula is N! / (p! * q! * ...), where p, q are counts of identical items.',
+  bestFor: ['Brute-force solving (TSP, assignment problems)', 'Generating anagrams', 'Testing all orderings'],
+  avoidWhen: ['N > 12', 'Only a subset or random permutation is needed'],
+  funFact: 'The number of ways to shuffle a 52-card deck (52!) is roughly 8×10^67. Every time you shuffle a deck well, it\'s likely that exact order has never existed before in history.',
+  optimizationTips: ['Heap\'s algorithm is more efficient (fewer swaps)', 'If items are not unique, check for duplicates before swapping'],
+  tags: ['Backtracking', 'Combinatorics', 'Recursion', 'Intermediate'],
+};
