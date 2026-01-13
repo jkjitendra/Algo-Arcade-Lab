@@ -85,3 +85,18 @@ export const hanoiInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('string', `${moveCount} moves`, `Solved ${n} disks in ${moveCount} moves`);
   }
 };
+
+export const hanoiAbout = {
+  id: 'hanoi-recursion',
+  name: 'Tower of Hanoi',
+  category: 'recursion',
+  difficulty: 'intermediate',
+  description: 'Solves the Tower of Hanoi puzzle: move n disks from source peg to target peg using an auxiliary peg, moving only one disk at a time and never placing a larger disk on a smaller one.',
+  howItWorks: 'Recursive strategy: Move n-1 disks to auxiliary peg, move largest disk to target, then move n-1 disks from auxiliary to target.',
+  keyInsight: 'The problem of moving n disks is solved by assuming we can solve moving n-1 disks. This reduction leads to the elegant 2^n - 1 moves solution.',
+  bestFor: ['Understanding recursive problem decomposition', 'Visualization of exponential complexity', 'Testing recursive capabilities'],
+  avoidWhen: ['n > 30 (billions of moves needed)', 'Real-time applications requiring instant results'],
+  funFact: 'The legend says that if monks in Hanoi complete the transfer of 64 golden disks, the world will end. It would take them roughly 585 billion years!',
+  optimizationTips: ['The iterative solution involves moving disks slightly differently based on even/odd n', 'Use Frame-Stewart algorithm for >3 pegs'],
+  tags: ['Recursion', 'Puzzle', 'Exponential', 'Intermediate'],
+};
