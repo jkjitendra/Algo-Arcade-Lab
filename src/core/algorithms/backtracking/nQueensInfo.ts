@@ -129,3 +129,18 @@ export const nQueensInfo: IAlgorithm<ArrayInput> = {
     }
   }
 };
+
+export const nQueensAbout = {
+  id: 'n-queens',
+  name: 'N-Queens',
+  category: 'backtracking',
+  difficulty: 'advanced',
+  description: 'Places N queens on an N×N chessboard so that no two queens attack each other (same row, column, or diagonal).',
+  howItWorks: 'Tries placing a queen in row R, column C. If valid, recursively tries to place queens in row R+1. If stuck, backtracks (removes queen) and tries next column.',
+  keyInsight: 'The number of solutions grows exponentially. Pruning the search tree by checking validity early drastically reduces the search space compared to brute force.',
+  bestFor: ['Constraint satisfaction problems', 'Testing backtracking performance', 'Puzzle solving'],
+  avoidWhen: ['N is large (N=27 has been solved but takes massive cluster resources)', 'Only one solution is needed (heuristic repair methods are faster)'],
+  funFact: 'The 8-Queens problem was originally proposed in 1848 chess player Max Bezzel. Gauss worked on it but didn\'t fully solve it.',
+  optimizationTips: ['Use bitmasks to track occupied columns and diagonals for O(1) validity check', 'Exploit symmetry to reduce search space by half'],
+  tags: ['Backtracking', 'Puzzle', 'Chess', 'Advanced'],
+};
