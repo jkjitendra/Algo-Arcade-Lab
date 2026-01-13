@@ -148,3 +148,18 @@ export const sudokuInfo: IAlgorithm<ArrayInput> = {
     }
   }
 };
+
+export const sudokuAbout = {
+  id: 'sudoku-solver',
+  name: 'Sudoku Solver',
+  category: 'backtracking',
+  difficulty: 'advanced',
+  description: 'Fills a 9×9 grid so that each row, column, and 3×3 subgrid contains all digits from 1 to 9.',
+  howItWorks: 'Finds an empty cell, tries digits 1-9. If a digit is valid, place it and recurse. If recursion returns success, done. If not, backtrack (reset cell to empty) and try next digit.',
+  keyInsight: 'Sudoku is a classic exact cover problem. While backtracking is standard, Algorithm X with Dancing Links (DLX) is the most efficient solver.',
+  bestFor: ['Solving logic puzzles', 'Constraint satisfaction demonstrations', 'Generating valid puzzles'],
+  avoidWhen: ['Puzzle has multiple solutions (and you need unique)', 'Puzzle is invalid (detecting this early is hard without specialized logic)'],
+  funFact: 'The minimum number of clues needed for a unique solution 9x9 Sudoku is 17. No valid 16-clue puzzle exists.',
+  optimizationTips: ['Use "Most Constrained Variable" heuristic: pick empty cell with fewest valid options first', 'Propagate constraints (forward checking)'],
+  tags: ['Backtracking', 'Puzzle', 'Grid', 'Advanced'],
+};
