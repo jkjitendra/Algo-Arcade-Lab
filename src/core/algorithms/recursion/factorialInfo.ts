@@ -83,3 +83,18 @@ export const factorialInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('string', `${n}! = ${finalResult}`, `Factorial of ${n} = ${finalResult}`);
   }
 };
+
+export const factorialAbout = {
+  id: 'factorial-recursion',
+  name: 'Factorial (Recursion)',
+  category: 'recursion',
+  difficulty: 'beginner',
+  description: 'Factorial calculates n! = n × (n-1) × (n-2) × ... × 1 using recursion. Each call reduces the problem size by 1 until reaching the base case.',
+  howItWorks: 'The function calls itself with n-1, multiplying the result by n. Base case: when n ≤ 1, return 1. The call stack unwinds, multiplying results back up.',
+  keyInsight: 'Factorial is the classic example of how recursion breaks a problem into smaller identical subproblems, demonstrating the power of self-referential functions.',
+  bestFor: ['Learning recursion basics', 'Understanding call stack', 'Mathematical computations'],
+  avoidWhen: ['n is large (stack overflow risk)', 'Iterative solution is simpler'],
+  funFact: '13! = 6,227,020,800 exceeds 32-bit integer limits. 21! exceeds 64-bit limits. For large factorials, use arbitrary precision libraries.',
+  optimizationTips: ['Use tail recursion with accumulator', 'Memoize for repeated calls', 'Iterative version avoids stack overhead'],
+  tags: ['Recursion', 'Math', 'Beginner'],
+};
