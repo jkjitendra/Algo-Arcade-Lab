@@ -105,3 +105,18 @@ export const powerInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('string', `${x}^${n} = ${finalResult}`, `${x} to the power ${n} = ${finalResult}`);
   }
 };
+
+export const powerAbout = {
+  id: 'power-recursion',
+  name: 'Power Function (Fast)',
+  category: 'recursion',
+  difficulty: 'intermediate',
+  description: 'Calculates x raised to the power n efficiently using Exponentiation by Squaring.',
+  howItWorks: 'Instead of multiplying x by itself n times, it recursively squares the base: x^n = (x^(n/2))^2 for even n. This reduces steps logarithmicly.',
+  keyInsight: 'Binary exponentiation reduces O(n) complexity to O(log n), making it feasible to compute huge powers (e.g., for cryptography).',
+  bestFor: ['Cryptographic calculations (RSA)', 'Matrix exponentiation for Fibonacci', 'Large number arithmetic'],
+  avoidWhen: ['n is small (simple loop is faster due to overhead)', 'Precision loss with floating point numbers is a concern'],
+  funFact: 'This algorithm date back to 200 BC in Pingala\'s Chandah-sutra, used for calculating prosody combinations.',
+  optimizationTips: ['Use bitwise operators check even/odd (n & 1)', 'Use iterative approach to avoid stack space'],
+  tags: ['Recursion', 'Math', 'Optimization', 'Intermediate'],
+};
