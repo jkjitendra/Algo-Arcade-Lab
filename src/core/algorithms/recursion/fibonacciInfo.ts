@@ -92,3 +92,18 @@ export const fibonacciInfo: IAlgorithm<ArrayInput> = {
     yield createEvent.result('string', `fib(${n}) = ${finalResult}`, `Fibonacci of ${n} = ${finalResult}`);
   }
 };
+
+export const fibonacciAbout = {
+  id: 'fibonacci-recursion',
+  name: 'Fibonacci (Recursion)',
+  category: 'recursion',
+  difficulty: 'intermediate',
+  description: 'Calculates the nth Fibonacci number, where each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5...).',
+  howItWorks: 'Recursively calls fib(n-1) and fib(n-2) until reaching base cases n=0 or n=1. Results are summed up the call tree.',
+  keyInsight: 'Naive recursion computes the same values many times (overlapping subproblems), leading to O(2^n) complexity. Memoization or iteration reduces this to O(n).',
+  bestFor: ['Demonstrating exponential growth of recursion', 'Teaching memoization/dynamic programming', 'Modeling natural phenomena'],
+  avoidWhen: ['Performance is critical (use iterative or matrix exponentiation)', 'n is large'],
+  funFact: 'Fibonacci numbers appear often in nature, such as in the arrangement of leaves, pinecone scales, and sunflower seeds (Golden Ratio).',
+  optimizationTips: ['Use memoization (top-down DP)', 'Use iterative approach (bottom-up)', 'Use matrix multiplication for O(log n)'],
+  tags: ['Recursion', 'Math', 'Sequence', 'Intermediate'],
+};
