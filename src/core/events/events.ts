@@ -363,8 +363,81 @@ export interface HanoiData {
   animatingDisk?: { disk: HanoiDisk; fromPeg: number; toPeg: number; progress: number };
 }
 
+// ============ Binary Tree Visualization Data ============
+
+export interface BinaryTreeNodeData {
+  id: string;
+  value: number;
+  left?: string;
+  right?: string;
+  highlight?: 'current' | 'visited' | 'found' | 'ancestor' | 'descendant' | 'path' | 'comparing' | 'inserted' | 'deleted';
+  balanceFactor?: number;  // For AVL trees
+  color?: 'red' | 'black';  // For Red-Black trees
+  height?: number;  // For height calculations
+}
+
+export interface TreeData {
+  nodes: BinaryTreeNodeData[];
+  rootId?: string;
+  visitedPath?: string[];  // Ordered list of visited node IDs
+  highlightedEdges?: { from: string; to: string; color?: string }[];
+  traversalOrder?: number[];  // Result of traversal
+  message?: string;
+  phase?: string;
+}
+
+// ============ Trie Visualization Data ============
+
+export interface TrieNodeData {
+  id: string;
+  char: string;
+  isEndOfWord: boolean;
+  children: string[];
+  highlight?: 'current' | 'path' | 'found' | 'inserted';
+  depth: number;
+}
+
+export interface TrieData {
+  nodes: TrieNodeData[];
+  rootId: string;
+  currentWord?: string;
+  foundWords?: string[];
+  message?: string;
+}
+
+// ============ Segment Tree Visualization Data ============
+
+export interface SegmentTreeNodeData {
+  id: string;
+  value: number;
+  rangeStart: number;
+  rangeEnd: number;
+  left?: string;
+  right?: string;
+  highlight?: 'current' | 'queried' | 'updated' | 'path';
+}
+
+export interface SegmentTreeData {
+  nodes: SegmentTreeNodeData[];
+  rootId?: string;
+  queryRange?: { start: number; end: number };
+  originalArray?: number[];
+  message?: string;
+}
+
+// ============ Fenwick Tree Visualization Data ============
+
+export interface FenwickTreeData {
+  tree: number[];
+  originalArray: number[];
+  highlightIndices?: number[];
+  queryIndex?: number;
+  updateIndex?: number;
+  message?: string;
+}
+
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist' | 'recursion' | 'backtracking' | 'hanoi';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist' | 'recursion' | 'backtracking' | 'hanoi' | 'tree' | 'trie' | 'segment-tree' | 'fenwick-tree';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -400,7 +473,13 @@ export interface AuxiliaryState {
   backtrackingData?: BacktrackingData;
   // Hanoi visualization state
   hanoiData?: HanoiData;
+  // Tree visualization states
+  treeData?: TreeData;
+  trieData?: TrieData;
+  segmentTreeData?: SegmentTreeData;
+  fenwickTreeData?: FenwickTreeData;
 }
+
 
 export interface BaseEvent {
   type: AlgoEventType;
