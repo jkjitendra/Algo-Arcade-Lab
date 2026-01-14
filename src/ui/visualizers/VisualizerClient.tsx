@@ -32,6 +32,15 @@ import { bucketSortInfo } from "@/core/algorithms/sorting/bucketSortInfo";
 import { pigeonholeSortInfo } from "@/core/algorithms/sorting/pigeonholeSortInfo";
 import { timSortInfo } from "@/core/algorithms/sorting/timSortInfo";
 import { introSortInfo } from "@/core/algorithms/sorting/introSortInfo";
+// Heap algorithm info
+import { maxHeapInfo } from "@/core/algorithms/heaps/maxHeapInfo";
+import { minHeapInfo } from "@/core/algorithms/heaps/minHeapInfo";
+import { buildHeapInfo } from "@/core/algorithms/heaps/buildHeapInfo";
+import { kthLargestInfo } from "@/core/algorithms/heaps/kthLargestInfo";
+import { kthSmallestInfo } from "@/core/algorithms/heaps/kthSmallestInfo";
+import { mergeKSortedListsInfo } from "@/core/algorithms/heaps/mergeKSortedListsInfo";
+import { topKFrequentInfo } from "@/core/algorithms/heaps/topKFrequentInfo";
+import { medianOfStreamInfo } from "@/core/algorithms/heaps/medianOfStreamInfo";
 // Arrays algorithm info
 import { arrayOperationsInfo } from "@/core/algorithms/arrays/arrayOperationsInfo";
 import { twoPointersInfo } from "@/core/algorithms/arrays/twoPointersInfo";
@@ -114,18 +123,28 @@ import { intersectionPointInfo } from "@/core/algorithms/linkedlists/intersectio
 import { rotateListInfo } from "@/core/algorithms/linkedlists/rotateListInfo";
 import { flattenMultilevelListInfo } from "@/core/algorithms/linkedlists/flattenMultilevelListInfo";
 // Recursion algorithm info
-import { factorialInfo } from "@/core/algorithms/recursion/factorialInfo";
-import { fibonacciInfo } from "@/core/algorithms/recursion/fibonacciInfo";
-import { sumDigitsInfo } from "@/core/algorithms/recursion/sumDigitsInfo";
-import { powerInfo } from "@/core/algorithms/recursion/powerInfo";
-import { gcdInfo } from "@/core/algorithms/recursion/gcdInfo";
-import { hanoiInfo } from "@/core/algorithms/recursion/hanoiInfo";
-import { binarySearchRecursiveInfo } from "@/core/algorithms/recursion/binarySearchRecursiveInfo";
+import { factorialAbout as factorialInfo } from "@/core/algorithms/recursion/factorialInfo";
+import { fibonacciAbout as fibonacciInfo } from "@/core/algorithms/recursion/fibonacciInfo";
+import { sumDigitsAbout as sumDigitsInfo } from "@/core/algorithms/recursion/sumDigitsInfo";
+import { powerAbout as powerInfo } from "@/core/algorithms/recursion/powerInfo";
+import { gcdAbout as gcdInfo } from "@/core/algorithms/recursion/gcdInfo";
+import { hanoiAbout as hanoiInfo } from "@/core/algorithms/recursion/hanoiInfo";
+import { binarySearchRecursiveAbout as binarySearchRecursiveInfo } from "@/core/algorithms/recursion/binarySearchRecursiveInfo";
 // Backtracking algorithm info
-import { nQueensInfo } from "@/core/algorithms/backtracking/nQueensInfo";
-import { sudokuInfo } from "@/core/algorithms/backtracking/sudokuInfo";
-import { ratMazeInfo } from "@/core/algorithms/backtracking/ratMazeInfo";
-import { permutationsInfo } from "@/core/algorithms/backtracking/permutationsInfo";
+import { nQueensAbout as nQueensInfo } from "@/core/algorithms/backtracking/nQueensInfo";
+import { sudokuAbout as sudokuInfo } from "@/core/algorithms/backtracking/sudokuInfo";
+import { ratMazeAbout as ratMazeInfo } from "@/core/algorithms/backtracking/ratMazeInfo";
+import { permutationsAbout as permutationsInfo } from "@/core/algorithms/backtracking/permutationsInfo";
+// Tree algorithm info
+import { inorderTraversalInfo } from "@/core/algorithms/trees/inorderTraversalInfo";
+import { preorderTraversalInfo } from "@/core/algorithms/trees/preorderTraversalInfo";
+import { postorderTraversalInfo } from "@/core/algorithms/trees/postorderTraversalInfo";
+import { levelOrderTraversalInfo } from "@/core/algorithms/trees/levelOrderTraversalInfo";
+import { treeHeightInfo } from "@/core/algorithms/trees/treeHeightInfo";
+import { isBalancedInfo } from "@/core/algorithms/trees/isBalancedInfo";
+import { isBSTInfo } from "@/core/algorithms/trees/isBSTInfo";
+import { bstOperationsInfo } from "@/core/algorithms/trees/bstOperationsInfo";
+import { lowestCommonAncestorInfo } from "@/core/algorithms/trees/lowestCommonAncestorInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -157,6 +176,15 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "bucket-sort": [42, 7, 99, 15, 76, 38, 58, 12],
   "pigeonhole-sort": [8, 3, 6, 2, 7, 4, 5, 1],
   "heap-sort": [13, 44, 1, 22, 22, 4, 42, 8, 11],
+  // Heaps topic
+  "max-heap": [10, 20, 15, 30, 40],
+  "min-heap": [40, 30, 15, 10, 20],
+  "build-heap": [4, 1, 3, 2, 16, 9, 10, 14, 8, 7],
+  "kth-largest": [3, 2, 1, 5, 6, 4],
+  "kth-smallest": [7, 10, 4, 3, 20, 15],
+  "merge-k-sorted-lists": [1, 4, 5, 1, 3, 4, 2, 6], // Will be split by algo
+  "top-k-frequent": [1, 1, 1, 2, 2, 3],
+  "median-of-stream": [5, 15, 1, 3],
   // Strings topic (character codes for "ABCABABCABC")
   "string-operations": [72, 69, 76, 76, 79, 87, 79, 82, 76, 68],  // "HELLOWORLD"
   "character-frequency": [65, 66, 82, 65, 67, 65, 68, 65, 66, 82, 65],  // "ABRACADABRA"
@@ -239,6 +267,16 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "sudoku-solver": [], // Uses default grid or params
   "rat-in-maze": [], // Uses default grid
   "generate-permutations": [65, 66, 67], // "ABC"
+  // Trees (level-order array representation, -1 = null)
+  "inorder-traversal": [1, 2, 3, 4, 5, 6, 7],  // Balanced BST
+  "preorder-traversal": [1, 2, 3, 4, 5, 6, 7],
+  "postorder-traversal": [1, 2, 3, 4, 5, 6, 7],
+  "level-order-traversal": [1, 2, 3, 4, 5, 6, 7],
+  "tree-height": [1, 2, 3, 4, 5, -1, 7, 8],  // Unbalanced
+  "is-balanced": [1, 2, 3, 4, 5, 6, 7],  // Balanced
+  "is-bst": [8, 3, 10, 1, 6, -1, 14, -1, -1, 4, 7],  // Valid BST
+  "bst-operations": [50, 30, 70, 20, 40, 60, 80],  // BST
+  "lowest-common-ancestor": [6, 2, 8, 0, 4, 7, 9, -1, -1, 3, 5],  // BST for LCA
 };
 
 // Map algorithm IDs to their info
@@ -272,6 +310,15 @@ const algorithmInfoMap: Record<string, any> = {
   "pigeonhole-sort": pigeonholeSortInfo,
   "tim-sort": timSortInfo,
   "intro-sort": introSortInfo,
+  // Heaps
+  "max-heap": maxHeapInfo,
+  "min-heap": minHeapInfo,
+  "build-heap": buildHeapInfo,
+  "kth-largest": kthLargestInfo,
+  "kth-smallest": kthSmallestInfo,
+  "merge-k-sorted-lists": mergeKSortedListsInfo,
+  "top-k-frequent": topKFrequentInfo,
+  "median-of-stream": medianOfStreamInfo,
   // Strings
   "string-operations": stringOperationsInfo,
   "character-frequency": characterFrequencyInfo,
@@ -354,6 +401,16 @@ const algorithmInfoMap: Record<string, any> = {
   "sudoku-solver": sudokuInfo,
   "rat-in-maze": ratMazeInfo,
   "generate-permutations": permutationsInfo,
+  // Trees
+  "inorder-traversal": inorderTraversalInfo,
+  "preorder-traversal": preorderTraversalInfo,
+  "postorder-traversal": postorderTraversalInfo,
+  "level-order-traversal": levelOrderTraversalInfo,
+  "tree-height": treeHeightInfo,
+  "is-balanced": isBalancedInfo,
+  "is-bst": isBSTInfo,
+  "bst-operations": bstOperationsInfo,
+  "lowest-common-ancestor": lowestCommonAncestorInfo,
 };
 
 // Map algorithm IDs to their category
@@ -384,6 +441,15 @@ const algorithmCategoryMap: Record<string, string> = {
   "pigeonhole-sort": "sorting",
   "tim-sort": "sorting",
   "intro-sort": "sorting",
+  // Heaps
+  "max-heap": "heaps",
+  "min-heap": "heaps",
+  "build-heap": "heaps",
+  "kth-largest": "heaps",
+  "kth-smallest": "heaps",
+  "merge-k-sorted-lists": "heaps",
+  "top-k-frequent": "heaps",
+  "median-of-stream": "heaps",
   // Strings
   "string-operations": "strings",
   "character-frequency": "strings",
@@ -466,6 +532,16 @@ const algorithmCategoryMap: Record<string, string> = {
   "sudoku-solver": "backtracking",
   "rat-in-maze": "backtracking",
   "generate-permutations": "backtracking",
+  // Trees
+  "inorder-traversal": "trees",
+  "preorder-traversal": "trees",
+  "postorder-traversal": "trees",
+  "level-order-traversal": "trees",
+  "tree-height": "trees",
+  "is-balanced": "trees",
+  "is-bst": "trees",
+  "bst-operations": "trees",
+  "lowest-common-ancestor": "trees",
 };
 
 interface VisualizerClientProps {
@@ -499,9 +575,10 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     if (cat === "stacks") return "stack-operations";
     if (cat === "queues") return "queue-operations";
     if (cat === "linkedlists") return "singly-linked-list";
-    if (cat === "linkedlists") return "singly-linked-list";
     if (cat === "recursion") return "factorial-recursion";
     if (cat === "backtracking") return "n-queens";
+    if (cat === "trees") return "inorder-traversal";
+    if (cat === "heaps") return "max-heap";
     return "bubble-sort";
   };
 
@@ -1048,9 +1125,11 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
                 )}
                 {currentSnapshot.result.type === 'search' && (
                   <span className={typeof currentSnapshot.result.value === 'number' && currentSnapshot.result.value >= 0 ? 'text-green-500' : 'text-red-500'}>
-                    {currentSnapshot.result.label || (typeof currentSnapshot.result.value === 'number' && currentSnapshot.result.value >= 0
-                      ? `Element Found at Index ${currentSnapshot.result.value}`
-                      : 'Element Not Present')}
+                    {currentSnapshot.result.label
+                      ? `${currentSnapshot.result.label}: ${currentSnapshot.result.value}`
+                      : (typeof currentSnapshot.result.value === 'number' && currentSnapshot.result.value >= 0
+                        ? `Element Found at Index ${currentSnapshot.result.value}`
+                        : 'Element Not Present')}
                   </span>
                 )}
               </div>

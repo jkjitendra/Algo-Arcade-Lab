@@ -112,6 +112,27 @@ import { sudokuInfo } from './backtracking/sudokuInfo';
 import { ratMazeInfo } from './backtracking/ratMazeInfo';
 import { permutationsInfo } from './backtracking/permutationsInfo';
 
+// Tree algorithms
+import { inorderTraversal } from './trees/inorderTraversal';
+import { preorderTraversal } from './trees/preorderTraversal';
+import { postorderTraversal } from './trees/postorderTraversal';
+import { levelOrderTraversal } from './trees/levelOrderTraversal';
+import { treeHeight } from './trees/treeHeight';
+import { isBalanced } from './trees/isBalanced';
+import { isBST } from './trees/isBST';
+import { bstOperations } from './trees/bstOperations';
+import { lowestCommonAncestor } from './trees/lowestCommonAncestor';
+
+// Heap algorithms
+import { maxHeap } from './heaps/maxHeap';
+import { minHeap } from './heaps/minHeap';
+import { buildHeap } from './heaps/buildHeap';
+import { kthLargest } from './heaps/kthLargest';
+import { kthSmallest } from './heaps/kthSmallest';
+import { mergeKSortedLists } from './heaps/mergeKSortedLists';
+import { topKFrequent } from './heaps/topKFrequent';
+import { medianOfStream } from './heaps/medianOfStream';
+
 
 /**
  * Registry of all available algorithms
@@ -302,4 +323,32 @@ registerAlgorithm(nQueensInfo);
 registerAlgorithm(sudokuInfo);
 registerAlgorithm(ratMazeInfo);
 registerAlgorithm(permutationsInfo);
+
+// ============ TREES ============
+// Tier 1: Traversals
+registerAlgorithm(inorderTraversal);
+registerAlgorithm(preorderTraversal);
+registerAlgorithm(postorderTraversal);
+registerAlgorithm(levelOrderTraversal);
+// Tier 2: Properties
+registerAlgorithm(treeHeight);
+// Tier 3: Checks
+registerAlgorithm(isBalanced);
+registerAlgorithm(isBST);
+// Tier 4: BST Operations
+registerAlgorithm(bstOperations);
+registerAlgorithm(lowestCommonAncestor);
+
+// ============ HEAPS ============
+// Tier 1: Core Operations
+registerAlgorithm(maxHeap);
+registerAlgorithm(minHeap);
+registerAlgorithm(buildHeap);
+// Tier 2: K-th Element Problems
+registerAlgorithm(kthLargest);
+registerAlgorithm(kthSmallest);
+// Tier 3: Advanced Applications
+registerAlgorithm(mergeKSortedLists);
+registerAlgorithm(topKFrequent);
+registerAlgorithm(medianOfStream);
 

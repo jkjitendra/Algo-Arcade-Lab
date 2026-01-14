@@ -203,6 +203,47 @@ const recursionTiers = [
   },
 ];
 
+const treesTiers = [
+  {
+    name: "Tier 1: Tree Traversals",
+    description: "Fundamental ways to visit all nodes in a tree",
+    algorithms: ["inorder-traversal", "preorder-traversal", "postorder-traversal", "level-order-traversal"],
+  },
+  {
+    name: "Tier 2: Tree Properties",
+    description: "Calculate essential tree metrics",
+    algorithms: ["tree-height"],
+  },
+  {
+    name: "Tier 3: Tree Validation",
+    description: "Verify tree properties and structure",
+    algorithms: ["is-balanced", "is-bst"],
+  },
+  {
+    name: "Tier 4: BST Operations",
+    description: "Binary Search Tree algorithms",
+    algorithms: ["bst-operations", "lowest-common-ancestor"],
+  },
+];
+
+const heapsTiers = [
+  {
+    name: "Tier 1: Core Operations",
+    description: "Fundamental heap data structure operations",
+    algorithms: ["max-heap", "min-heap", "build-heap"],
+  },
+  {
+    name: "Tier 2: K-th Element Problems",
+    description: "Finding k-th largest/smallest using heaps",
+    algorithms: ["kth-largest", "kth-smallest"],
+  },
+  {
+    name: "Tier 3: Advanced Applications",
+    description: "Complex heap-based algorithms",
+    algorithms: ["merge-k-sorted-lists", "top-k-frequent", "median-of-stream"],
+  },
+];
+
 const algorithmNames: Record<string, string> = {
   // Arrays
   "array-operations": "Array Operations",
@@ -313,6 +354,25 @@ const algorithmNames: Record<string, string> = {
   "sudoku-solver": "Sudoku Solver",
   "rat-in-maze": "Rat in a Maze",
   "generate-permutations": "Generate Permutations",
+  // Trees
+  "inorder-traversal": "Inorder Traversal",
+  "preorder-traversal": "Preorder Traversal",
+  "postorder-traversal": "Postorder Traversal",
+  "level-order-traversal": "Level Order (BFS)",
+  "tree-height": "Tree Height",
+  "is-balanced": "Is Balanced?",
+  "is-bst": "Is Valid BST?",
+  "bst-operations": "BST Operations",
+  "lowest-common-ancestor": "Lowest Common Ancestor",
+  // Heaps
+  "max-heap": "Max Heap",
+  "min-heap": "Min Heap",
+  "build-heap": "Build Heap",
+  "kth-largest": "K-th Largest Element",
+  "kth-smallest": "K-th Smallest Element",
+  "merge-k-sorted-lists": "Merge K Sorted Lists",
+  "top-k-frequent": "Top K Frequent Elements",
+  "median-of-stream": "Median of Stream",
 };
 
 const algorithmDescriptions: Record<string, string> = {
@@ -408,6 +468,25 @@ const algorithmDescriptions: Record<string, string> = {
   "sudoku-solver": "Solve 9x9 Sudoku grid",
   "rat-in-maze": "Find path from start to end",
   "generate-permutations": "Generate all perms of string",
+  // Trees
+  "inorder-traversal": "Left → Root → Right (sorted for BST)",
+  "preorder-traversal": "Root → Left → Right (copy tree)",
+  "postorder-traversal": "Left → Right → Root (delete tree)",
+  "level-order-traversal": "BFS level by level traversal",
+  "tree-height": "Maximum depth from root to leaf",
+  "is-balanced": "Height diff ≤ 1 at every node",
+  "is-bst": "Validate BST property with ranges",
+  "bst-operations": "Insert, Search, Find Min/Max",
+  "lowest-common-ancestor": "Find LCA of two nodes",
+  // Heaps
+  "max-heap": "Insert, Extract Max, Build Heap operations",
+  "min-heap": "Insert, Extract Min, Build Heap operations",
+  "build-heap": "Convert array to heap (O(n) bottom-up)",
+  "kth-largest": "Find k-th largest using min-heap of size k",
+  "kth-smallest": "Find k-th smallest using max-heap of size k",
+  "merge-k-sorted-lists": "Merge k sorted lists efficiently",
+  "top-k-frequent": "Find k most frequent elements",
+  "median-of-stream": "Running median with two heaps",
 };
 
 function TopicContent({ locale, topic }: { locale: string; topic: string }) {
@@ -810,6 +889,112 @@ function TopicContent({ locale, topic }: { locale: string; topic: string }) {
                   <Link
                     key={algo}
                     href={`/${locale}/visualize?algorithm=${algo}&category=recursion`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "trees") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">🌳</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.trees")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master hierarchical data structures - traversals, properties, BST operations, and more
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {treesTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=trees`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "heaps") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">⛰️</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.heaps")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master heap data structures - from basic operations to advanced applications like finding median in a stream
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {heapsTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=heaps`}
                     className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
                   >
                     <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
