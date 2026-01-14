@@ -22,6 +22,7 @@ import { LinkedListView } from "./LinkedListView";
 import { RecursionTreeView } from "./RecursionTreeView";
 import { BacktrackingGridView } from "./BacktrackingGridView";
 import { HanoiView } from "./HanoiView";
+import { BinaryTreeView } from "./BinaryTreeView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -183,6 +184,11 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
     case "hanoi":
       return auxiliaryState.hanoiData ? (
         <HanoiView hanoiData={auxiliaryState.hanoiData} />
+      ) : null;
+
+    case "tree":
+      return auxiliaryState.treeData ? (
+        <BinaryTreeView treeData={auxiliaryState.treeData} />
       ) : null;
 
     case "insertion":
