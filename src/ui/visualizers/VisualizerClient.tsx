@@ -10,6 +10,7 @@ import { PlayerControls } from "@/ui/components/PlayerControls";
 import { CodePanel } from "@/ui/components/CodePanel";
 import { ArrayInputEditor } from "@/ui/components/ArrayInputEditor";
 import { StringInputEditor } from "@/ui/components/StringInputEditor";
+import { GraphInputEditor } from "@/ui/components/GraphInputEditor";
 import { ParenthesesInputEditor } from "@/ui/components/ParenthesesInputEditor";
 import { ExpressionInputEditor } from "@/ui/components/ExpressionInputEditor";
 import { VariablesPanel } from "@/ui/components/VariablesPanel";
@@ -26,6 +27,9 @@ import { cycleSortInfo } from "@/core/algorithms/sorting/cycleSortInfo";
 import { mergeSortInfo } from "@/core/algorithms/sorting/mergeSortInfo";
 import { quickSortInfo } from "@/core/algorithms/sorting/quickSortInfo";
 import { heapSortInfo } from "@/core/algorithms/sorting/heapSortInfo";
+// ... (existing imports, assuming line 28 is safe to insert after)
+import { GraphView } from "@/ui/visualizers/views/GraphView";
+import { GraphInput } from "@/core/models";
 import { countingSortInfo } from "@/core/algorithms/sorting/countingSortInfo";
 import { radixSortInfo } from "@/core/algorithms/sorting/radixSortInfo";
 import { bucketSortInfo } from "@/core/algorithms/sorting/bucketSortInfo";
@@ -145,6 +149,34 @@ import { isBalancedInfo } from "@/core/algorithms/trees/isBalancedInfo";
 import { isBSTInfo } from "@/core/algorithms/trees/isBSTInfo";
 import { bstOperationsInfo } from "@/core/algorithms/trees/bstOperationsInfo";
 import { lowestCommonAncestorInfo } from "@/core/algorithms/trees/lowestCommonAncestorInfo";
+// Graph algorithm info
+import { bfsInfo } from "@/core/algorithms/graphs/traversals/bfsInfo";
+import { dfsInfo } from "@/core/algorithms/graphs/traversals/dfsInfo";
+import { dijkstraInfo } from "@/core/algorithms/graphs/shortestPaths/dijkstraInfo";
+import { bellmanFordInfo } from "@/core/algorithms/graphs/shortestPaths/bellmanFordInfo";
+import { floydWarshallInfo } from "@/core/algorithms/graphs/shortestPaths/floydWarshallInfo";
+import { astarInfo } from "@/core/algorithms/graphs/shortestPaths/astarInfo";
+import { kruskalInfo } from "@/core/algorithms/graphs/mst/kruskalInfo";
+import { primInfo } from "@/core/algorithms/graphs/mst/primInfo";
+import { kahnsInfo } from "@/core/algorithms/graphs/topologicalSort/kahnsInfo";
+import { dfsTopoSortInfo } from "@/core/algorithms/graphs/topologicalSort/dfsTopoSortInfo";
+import { connectedComponentsInfo } from "@/core/algorithms/graphs/connectivity/connectedComponentsInfo";
+import { kosarajuInfo } from "@/core/algorithms/graphs/connectivity/kosarajuInfo";
+import { tarjanInfo } from "@/core/algorithms/graphs/connectivity/tarjanInfo";
+import { cycleUndirectedInfo } from "@/core/algorithms/graphs/connectivity/cycleUndirectedInfo";
+import { cycleDirectedInfo } from "@/core/algorithms/graphs/connectivity/cycleDirectedInfo";
+import { adjacencyMatrixInfo } from "@/core/algorithms/graphs/representations/adjacencyMatrixInfo";
+import { adjacencyListInfo } from "@/core/algorithms/graphs/representations/adjacencyListInfo";
+// Hashing algorithm info
+import { hashFunctionsInfo } from "@/core/algorithms/hashing/hashFunctionsInfo";
+import { chainingHashTableInfo } from "@/core/algorithms/hashing/chainingHashTableInfo";
+import { openAddressingHashTableInfo } from "@/core/algorithms/hashing/openAddressingHashTableInfo";
+import { rehashingInfo } from "@/core/algorithms/hashing/rehashingInfo";
+import { twoSumInfo as twoSumHashingInfo } from "@/core/algorithms/hashing/twoSumInfo";
+import { groupAnagramsInfo } from "@/core/algorithms/hashing/groupAnagramsInfo";
+import { longestConsecutiveSequenceInfo } from "@/core/algorithms/hashing/longestConsecutiveSequenceInfo";
+import { subarrayZeroSumInfo } from "@/core/algorithms/hashing/subarrayZeroSumInfo";
+import { countDistinctWindowInfo } from "@/core/algorithms/hashing/countDistinctWindowInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -411,6 +443,34 @@ const algorithmInfoMap: Record<string, any> = {
   "is-bst": isBSTInfo,
   "bst-operations": bstOperationsInfo,
   "lowest-common-ancestor": lowestCommonAncestorInfo,
+  // Graphs
+  "bfs": bfsInfo,
+  "dfs": dfsInfo,
+  "dijkstra": dijkstraInfo,
+  "bellman-ford": bellmanFordInfo,
+  "floyd-warshall": floydWarshallInfo,
+  "astar": astarInfo,
+  "kruskal": kruskalInfo,
+  "prim": primInfo,
+  "kahns": kahnsInfo,
+  "dfs-topo-sort": dfsTopoSortInfo,
+  "connected-components": connectedComponentsInfo,
+  "kosaraju": kosarajuInfo,
+  "tarjan": tarjanInfo,
+  "cycle-undirected": cycleUndirectedInfo,
+  "cycle-directed": cycleDirectedInfo,
+  "adjacency-matrix": adjacencyMatrixInfo,
+  "adjacency-list": adjacencyListInfo,
+  // Hashing
+  "hash-functions": hashFunctionsInfo,
+  "chaining-hash-table": chainingHashTableInfo,
+  "open-addressing-hash-table": openAddressingHashTableInfo,
+  "rehashing": rehashingInfo,
+  "two-sum-hashmap": twoSumHashingInfo,
+  "group-anagrams": groupAnagramsInfo,
+  "longest-consecutive-sequence": longestConsecutiveSequenceInfo,
+  "subarray-zero-sum": subarrayZeroSumInfo,
+  "count-distinct-window": countDistinctWindowInfo,
 };
 
 // Map algorithm IDs to their category
@@ -542,6 +602,34 @@ const algorithmCategoryMap: Record<string, string> = {
   "is-bst": "trees",
   "bst-operations": "trees",
   "lowest-common-ancestor": "trees",
+  // Graphs
+  "bfs": "graphs",
+  "dfs": "graphs",
+  "dijkstra": "graphs",
+  "bellman-ford": "graphs",
+  "floyd-warshall": "graphs",
+  "astar": "graphs",
+  "kruskal": "graphs",
+  "prim": "graphs",
+  "kahns": "graphs",
+  "dfs-topo-sort": "graphs",
+  "connected-components": "graphs",
+  "kosaraju": "graphs",
+  "tarjan": "graphs",
+  "cycle-undirected": "graphs",
+  "cycle-directed": "graphs",
+  "adjacency-matrix": "graphs",
+  "adjacency-list": "graphs",
+  // Hashing
+  "hash-functions": "hashing",
+  "chaining-hash-table": "hashing",
+  "open-addressing-hash-table": "hashing",
+  "rehashing": "hashing",
+  "two-sum-hashing": "hashing",
+  "group-anagrams": "hashing",
+  "longest-consecutive-sequence": "hashing",
+  "subarray-zero-sum": "hashing",
+  "count-distinct-window": "hashing",
 };
 
 interface VisualizerClientProps {
@@ -552,7 +640,7 @@ interface VisualizerClientProps {
 export function VisualizerClient({ initialAlgorithm, category }: VisualizerClientProps) {
   const t = useTranslations();
 
-  const { currentSnapshot, loadAlgorithm, inputArray, algorithmId, status, validationError } =
+  const { currentSnapshot, loadAlgorithm, input, algorithmId, status, validationError } =
     usePlayerStore();
 
   // Algorithm parameters state
@@ -568,6 +656,7 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
 
   // Determine the default algorithm based on category
   const getDefaultAlgorithmForCategory = (cat?: string) => {
+    if (cat === "graphs") return "bfs"; // Default for graphs
     if (cat === "arrays") return "array-operations";
     if (cat === "sorting") return "bubble-sort";
     if (cat === "strings") return "string-operations";
@@ -582,16 +671,29 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     return "bubble-sort";
   };
 
-  const selectedAlgorithm = algorithmId || initialAlgorithm || getDefaultAlgorithmForCategory(category);
+  // Determine effective selected algorithm
+  // If the store's algorithmId doesn't match the current category (e.g. valid graph page but store has 'bubble-sort'),
+  // we ignore the store state and use the initialAlgorithm or default.
+  const storeAlgoCategory = algorithmId ? algorithmCategoryMap[algorithmId] : null;
+  const isCategoryMismatch = category && storeAlgoCategory && storeAlgoCategory !== category;
+
+  const selectedAlgorithm = (!isCategoryMismatch && algorithmId) ? algorithmId : (initialAlgorithm || getDefaultAlgorithmForCategory(category));
 
   // Check if this is a stack or queue algorithm (allows empty arrays)
   const isStackOrQueueAlgorithm = algorithmCategoryMap[selectedAlgorithm] === 'stacks' || algorithmCategoryMap[selectedAlgorithm] === 'queues';
 
+  // Safe cast for array input usage
+  const inputArray = Array.isArray(input) ? input : [];
+
   // For stack/queue algorithms, allow empty arrays; for others, fall back to default
+  // Only apply default if input is empty array AND we are not allow empty
   const currentInputArray = (inputArray.length > 0 || isStackOrQueueAlgorithm) ? inputArray : getDefaultArray(selectedAlgorithm);
+  // Note: For Graphs, currentInputArray might be irrelevant or we need currentGraphInput
 
   const algorithm = getAlgorithm(selectedAlgorithm);
   const allAlgorithms = getAllAlgorithms();
+
+  // ...
 
   // Filter algorithms by category if provided
   // Recursion category also includes backtracking algorithms (shown together in topics)
@@ -609,6 +711,8 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
   // Load initial algorithm from URL param on mount
   useEffect(() => {
     if (initialAlgorithm) {
+      // For graphs, we might need a default graph. For now, getDefaultArray returns array.
+      // We will handle graph default in GraphInputEditor or below
       loadAlgorithm(initialAlgorithm, getDefaultArray(initialAlgorithm));
     }
     // eslint-disable-next-line react-hooks-exhaustive-deps
@@ -623,26 +727,62 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     const state = usePlayerStore.getState();
     const algoId = state.algorithmId || "bubble-sort";
     const algoCategory = algorithmCategoryMap[algoId];
+
+    // Check input type
+    const currentInput = state.input; // Can be array or object
+
+    if (algoCategory === 'graphs') {
+      // Graph algos run with object input
+      // If input is array (from default init), we might need to convert or fail
+      // Ideally GraphInputEditor handles this
+      if (currentInput && !Array.isArray(currentInput)) {
+        loadAlgorithm(algoId, currentInput, algorithmParams);
+      }
+      return;
+    }
+
     const isStackOrQueue = algoCategory === 'stacks' || algoCategory === 'queues';
     const isRecursionOrBacktracking = algoCategory === 'recursion' || algoCategory === 'backtracking';
-    const input = (state.inputArray.length > 0 || isStackOrQueue || isRecursionOrBacktracking) ? state.inputArray : getDefaultArray(algoId);
+
+    // For Array/String algos, use inputArray logic
+    const inputArr = Array.isArray(currentInput) ? currentInput : getDefaultArray(algoId);
+
+    const inputToUse = (inputArr.length > 0 || isStackOrQueue || isRecursionOrBacktracking) ? inputArr : getDefaultArray(algoId);
 
     // Stack/Queue and Recursion/Backtracking algorithms can have 0 elements, others need at least 2
     const minRequired = (isStackOrQueue || isRecursionOrBacktracking) ? 0 : 2;
-    if (input.length >= minRequired) {
-      loadAlgorithm(algoId, input, algorithmParams);
+    if (inputToUse.length >= minRequired) {
+      loadAlgorithm(algoId, inputToUse, algorithmParams);
     }
   };
 
   const handleAlgorithmChange = (algoId: string) => {
-    // Always use the algorithm-specific default when switching
-    const algoDefault = getDefaultArray(algoId);
-    usePlayerStore.setState({ inputArray: algoDefault });
-    loadAlgorithm(algoId, algoDefault);
+    const algoCategory = algorithmCategoryMap[algoId];
+
+    if (algoCategory === 'graphs') {
+      // For graphs, we provide a valid default input to prevent validation crashes
+      // We need a minimal valid graph that passes validation (must have nodes)
+      const directedAlgos = ['kahns', 'dfs-topo-sort', 'cycle-directed', 'kosaraju'];
+      const isDirected = directedAlgos.includes(algoId);
+
+      const graphDefault: GraphInput = {
+        isDirected: isDirected,
+        isWeighted: false,
+        nodes: [{ id: 'A', label: 'A', x: 100, y: 100 }],
+        edges: []
+      };
+      usePlayerStore.setState({ input: graphDefault });
+      loadAlgorithm(algoId, graphDefault);
+    } else {
+      // Always use the algorithm-specific default when switching
+      const algoDefault = getDefaultArray(algoId);
+      usePlayerStore.setState({ input: algoDefault });
+      loadAlgorithm(algoId, algoDefault);
+    }
   };
 
   const handleInputChange = (values: number[]) => {
-    usePlayerStore.setState({ inputArray: values });
+    usePlayerStore.setState({ input: values });
   };
 
   useEffect(() => {
@@ -945,6 +1085,15 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
             {category === 'strings' || algorithmCategoryMap[selectedAlgorithm] === 'strings' ||
               ['balanced-parentheses', 'infix-to-postfix', 'infix-to-prefix', 'postfix-evaluation', 'prefix-evaluation'].includes(selectedAlgorithm) ? (
               <StringBars values={arrayState} markedIndices={markedIndices} pointers={pointers} />
+            ) : category === 'graphs' || algorithmCategoryMap[selectedAlgorithm] === 'graphs' ? (
+              <GraphView
+                graphState={{
+                  nodes: ((input as any)?.nodes)?.map((n: any) => ({ ...n, state: 'default' })) || [],
+                  edges: ((input as any)?.edges)?.map((e: any) => ({ ...e, state: 'default' })) || [],
+                  isDirected: (input as any)?.isDirected || false,
+                  isWeighted: (input as any)?.isWeighted || false,
+                }}
+              />
             ) : (
               <ArrayBars
                 values={arrayState}
@@ -1071,6 +1220,16 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
                 Generate
               </Button>
             </div>
+          ) : (category === 'graphs' || algorithmCategoryMap[selectedAlgorithm] === 'graphs') ? (
+            <GraphInputEditor
+              value={input}
+              onChange={(val) => { usePlayerStore.setState({ input: val }); }}
+              onApply={() => handleRun()}
+              algorithmId={selectedAlgorithm}
+              parameters={algorithm?.parameters}
+              paramValues={algorithmParams}
+              onParamsChange={setAlgorithmParams}
+            />
           ) : (
             <ArrayInputEditor
               value={currentInputArray}

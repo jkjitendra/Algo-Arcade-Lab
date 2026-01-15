@@ -23,6 +23,8 @@ import { RecursionTreeView } from "./RecursionTreeView";
 import { BacktrackingGridView } from "./BacktrackingGridView";
 import { HanoiView } from "./HanoiView";
 import { BinaryTreeView } from "./BinaryTreeView";
+import { HashTableView } from "./HashTableView";
+import { GraphView } from "./GraphView";
 
 interface AlgorithmViewProps {
   auxiliaryState?: AuxiliaryState;
@@ -131,6 +133,22 @@ export function AlgorithmView({ auxiliaryState }: AlgorithmViewProps) {
     case "hash":
       return auxiliaryState.hashState ? (
         <HashView hashState={auxiliaryState.hashState} />
+      ) : null;
+
+    case "hashtable":
+      return auxiliaryState.hashTableState ? (
+        <HashTableView
+          hashTableState={auxiliaryState.hashTableState}
+          phase={auxiliaryState.phase}
+        />
+      ) : null;
+
+    case "graph":
+      return auxiliaryState.graphState ? (
+        <GraphView
+          graphState={auxiliaryState.graphState}
+          phase={auxiliaryState.phase}
+        />
       ) : null;
 
     case "dp-table":
