@@ -77,7 +77,7 @@ export interface PlayerState {
   snapshots: AlgorithmSnapshot[];
 
   // Input
-  inputArray: number[];
+  input: any;
 
   // Current visual state (derived from snapshot)
   currentSnapshot: AlgorithmSnapshot | null;
@@ -103,7 +103,7 @@ export interface PlayerActions {
   setSpeedMs: (ms: number) => void;
 
   // Algorithm setup
-  loadAlgorithm: (algorithmId: string, input: number[], params?: Record<string, number | string>) => void;
+  loadAlgorithm: (algorithmId: string, input: any, params?: Record<string, number | string>) => void;
   clearError: () => void;
 
   // Derived state helpers

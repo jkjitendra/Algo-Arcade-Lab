@@ -146,6 +146,97 @@ export interface HashState {
   isMatch?: boolean;
 }
 
+// Hash Table visualization data
+export interface HashTableItem {
+  key: string | number;
+  value: number;
+  hash: number;
+  highlight?: 'active' | 'found' | 'collision' | 'deleted';
+}
+
+export interface HashTableBucket {
+  index: number;
+  items: HashTableItem[];
+  highlight?: 'active' | 'probing' | 'found' | 'collision' | 'empty';
+}
+
+export interface HashTableState {
+  buckets: HashTableBucket[];
+  capacity: number;
+  size: number;
+  loadFactor: number;
+  hashMethod: 'division' | 'multiplication' | 'universal';
+  collisionMethod?: 'chaining' | 'linear' | 'quadratic' | 'double';
+  currentKey?: string | number;
+  currentHash?: number;
+  probeSequence?: number[];
+  currentProbeIndex?: number;
+  message?: string;
+  // For rehashing visualization
+  isRehashing?: boolean;
+  oldBuckets?: HashTableBucket[];
+  newBuckets?: HashTableBucket[];
+  migratingItem?: HashTableItem;
+  // For hash calculation visualization
+  hashCalculation?: {
+    key: string | number;
+    step: string;
+    formula: string;
+    result: number;
+  };
+  // For applications (Two Sum, etc.)
+  hashMap?: { key: string | number; value: number | string; highlight?: boolean }[];
+  foundPair?: [number, number];
+  groups?: { key: string; items: string[]; highlight?: boolean }[];
+  prefixSums?: { index: number; sum: number; highlight?: boolean }[];
+  windowData?: {
+    start: number;
+    end: number;
+    distinctCount: number;
+    frequencies: { key: number; count: number }[];
+  };
+  sequence?: { value: number; inSequence: boolean; isStart?: boolean }[];
+  longestLength?: number;
+}
+
+// Graph visualization data
+export interface GraphNodeState {
+  id: string;
+  state?: 'default' | 'current' | 'visited' | 'processing' | 'finished' | 'path' | 'source' | 'target';
+  distance?: number | string;
+  parent?: string;
+  componentId?: number;
+  label?: string;
+  x?: number;
+  y?: number;
+}
+
+export interface GraphEdgeState {
+  source: string;
+  target: string;
+  weight?: number;
+  state?: 'default' | 'current' | 'visited' | 'path' | 'mst' | 'back-edge';
+  isDirected?: boolean;
+}
+
+export interface GraphState {
+  nodes: GraphNodeState[];
+  edges: GraphEdgeState[];
+  isDirected?: boolean;
+  isWeighted?: boolean;
+  queue?: string[];
+  stack?: string[];
+  message?: string;
+  distances?: Record<string, number | string>;
+  // For MST/Union-Find
+  unionFind?: {
+    parents: Record<string, string>;
+    ranks: Record<string, number>;
+  };
+  // For specialized matrices (Floyd-Warshall)
+  adipMatrix?: (number | string)[][];
+}
+
 export interface DPCell {
   row: number;
   col: number;
@@ -170,7 +261,7 @@ export interface MatrixCell {
 }
 
 export interface MatrixSearchState {
-  matrix: number[][];
+  matrix: (number | string)[][];
   rows: number;
   cols: number;
   currentRow?: number;
@@ -437,7 +528,7 @@ export interface FenwickTreeData {
 }
 
 export interface AuxiliaryState {
-  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist' | 'recursion' | 'backtracking' | 'hanoi' | 'tree' | 'trie' | 'segment-tree' | 'fenwick-tree';
+  type: 'buckets' | 'heap' | 'count' | 'merge' | 'insertion' | 'gap' | 'partition' | 'runs' | 'mode' | 'voting' | 'string-chars' | 'frequency' | 'lps' | 'hash' | 'hashtable' | 'graph' | 'dp-table' | 'matrix' | 'search-range' | 'stack' | 'queue' | 'linkedlist' | 'recursion' | 'backtracking' | 'hanoi' | 'tree' | 'trie' | 'segment-tree' | 'fenwick-tree';
   phase?: string;
   buckets?: BucketData[];
   heap?: { nodes: HeapNode[]; heapSize: number };
@@ -478,6 +569,10 @@ export interface AuxiliaryState {
   trieData?: TrieData;
   segmentTreeData?: SegmentTreeData;
   fenwickTreeData?: FenwickTreeData;
+  // Hash table visualization state
+  hashTableState?: HashTableState;
+  // Graph visualization state
+  graphState?: GraphState;
 }
 
 
