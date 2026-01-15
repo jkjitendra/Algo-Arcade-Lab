@@ -244,6 +244,52 @@ const heapsTiers = [
   },
 ];
 
+const hashingTiers = [
+  {
+    name: "Tier 1: Hash Table Fundamentals",
+    description: "Core hash table operations and collision handling",
+    algorithms: ["hash-functions", "chaining-hash-table", "open-addressing-hash-table", "rehashing"],
+  },
+  {
+    name: "Tier 2: Hash Applications",
+    description: "Using hashing to solve algorithmic problems",
+    algorithms: ["two-sum-hashmap", "group-anagrams", "longest-consecutive-sequence", "subarray-zero-sum", "count-distinct-window"],
+  },
+];
+
+const graphsTiers = [
+  {
+    name: "Tier 1: Graph Representation",
+    description: "Visualize graph data using different memory representations",
+    algorithms: ["adjacency-matrix", "adjacency-list"],
+  },
+  {
+    name: "Tier 2: Graph Traversals",
+    description: "Fundamental search algorithms for exploring graphs",
+    algorithms: ["bfs", "dfs"],
+  },
+  {
+    name: "Tier 3: Shortest Path Algorithms",
+    description: "Finding optimal paths in weighted and unweighted graphs",
+    algorithms: ["dijkstra", "bellman-ford", "floyd-warshall", "astar"],
+  },
+  {
+    name: "Tier 4: Minimum Spanning Tree",
+    description: "Connecting all nodes with minimum total edge weight",
+    algorithms: ["kruskal", "prim"],
+  },
+  {
+    name: "Tier 5: Topological Sorting",
+    description: "Linear ordering of vertices in Directed Acyclic Graphs",
+    algorithms: ["kahns", "dfs-topo-sort"],
+  },
+  {
+    name: "Tier 6: Connectivity & Cycle Detection",
+    description: "Detecting cycles, finding connected components, bridges, and SCCs",
+    algorithms: ["connected-components", "cycle-undirected", "cycle-directed", "kosaraju", "tarjan"],
+  },
+];
+
 const algorithmNames: Record<string, string> = {
   // Arrays
   "array-operations": "Array Operations",
@@ -373,6 +419,34 @@ const algorithmNames: Record<string, string> = {
   "merge-k-sorted-lists": "Merge K Sorted Lists",
   "top-k-frequent": "Top K Frequent Elements",
   "median-of-stream": "Median of Stream",
+  // Hashing
+  "hash-functions": "Hash Functions",
+  "chaining-hash-table": "Chaining Hash Table",
+  "open-addressing-hash-table": "Open Addressing",
+  "rehashing": "Rehashing",
+  "two-sum-hashmap": "Two Sum (HashMap)",
+  "group-anagrams": "Group Anagrams",
+  "longest-consecutive-sequence": "Longest Consecutive",
+  "subarray-zero-sum": "Subarray Zero Sum",
+  "count-distinct-window": "Count Distinct Window",
+  // Graphs
+  "adjacency-matrix": "Adjacency Matrix",
+  "adjacency-list": "Adjacency List",
+  "bfs": "Breadth-First Search",
+  "dfs": "Depth-First Search",
+  "dijkstra": "Dijkstra's Algorithm",
+  "bellman-ford": "Bellman-Ford Algorithm",
+  "floyd-warshall": "Floyd-Warshall Algorithm",
+  "astar": "A* Search Algorithm",
+  "kruskal": "Kruskal's Algorithm",
+  "prim": "Prim's Algorithm",
+  "kahns": "Kahn's Topological Sort",
+  "dfs-topo-sort": "DFS Topological Sort",
+  "connected-components": "Connected Components",
+  "cycle-undirected": "Cycle Detection (Undirected)",
+  "cycle-directed": "Cycle Detection (Directed)",
+  "kosaraju": "Kosaraju's Algorithm",
+  "tarjan": "Tarjan's Algorithm",
 };
 
 const algorithmDescriptions: Record<string, string> = {
@@ -487,6 +561,34 @@ const algorithmDescriptions: Record<string, string> = {
   "merge-k-sorted-lists": "Merge k sorted lists efficiently",
   "top-k-frequent": "Find k most frequent elements",
   "median-of-stream": "Running median with two heaps",
+  // Hashing
+  "hash-functions": "Division and multiplication hash methods",
+  "chaining-hash-table": "Collision handling with linked lists",
+  "open-addressing-hash-table": "Linear, quadratic, double hashing",
+  "rehashing": "Resize table when load factor exceeds threshold",
+  "two-sum-hashmap": "Find pair with given sum using HashMap",
+  "group-anagrams": "Group strings by sorted key pattern",
+  "longest-consecutive-sequence": "Find longest consecutive elements",
+  "subarray-zero-sum": "Find subarray with prefix sum matching",
+  "count-distinct-window": "Distinct elements in sliding window",
+  // Graphs
+  "adjacency-matrix": "Represent graph as a 2D matrix",
+  "adjacency-list": "Represent graph using linked lists/arrays",
+  "bfs": "Explore graph layer by layer",
+  "dfs": "Explore graph by going deep first",
+  "dijkstra": "Shortest path with non-negative weights",
+  "bellman-ford": "Shortest path with negative weights support",
+  "floyd-warshall": "All-pairs shortest paths",
+  "astar": "Heuristic-based shortest path finder",
+  "kruskal": "Minimum Spanning Tree using edges",
+  "prim": "Minimum Spanning Tree using nodes",
+  "kahns": "Topological sort using in-degrees",
+  "dfs-topo-sort": "Topological sort using finish times",
+  "connected-components": "Find isolated subgraphs",
+  "cycle-undirected": "Detect cycles using DFS with parent tracking",
+  "cycle-directed": "Detect cycles using three-color DFS",
+  "kosaraju": "Strongly Connected Components",
+  "tarjan": "Find Bridges in O(V+E)",
 };
 
 function TopicContent({ locale, topic }: { locale: string; topic: string }) {
@@ -995,6 +1097,113 @@ function TopicContent({ locale, topic }: { locale: string; topic: string }) {
                   <Link
                     key={algo}
                     href={`/${locale}/visualize?algorithm=${algo}&category=heaps`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "hashing") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">🔑</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.hashing")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master hash tables and hashing techniques - from collision handling to solving classic interview problems
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {hashingTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=hashing`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Graphs
+  if (topic === "graphs") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">🕸️</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.graphs")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master Graph algorithms - from traversals to shortest paths and connectivity
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {graphsTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=graphs`}
                     className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
                   >
                     <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">

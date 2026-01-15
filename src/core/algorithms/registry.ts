@@ -133,11 +133,41 @@ import { mergeKSortedLists } from './heaps/mergeKSortedLists';
 import { topKFrequent } from './heaps/topKFrequent';
 import { medianOfStream } from './heaps/medianOfStream';
 
+// Hashing algorithms
+import { hashFunctions } from './hashing/hashFunctions';
+import { chainingHashTable } from './hashing/chainingHashTable';
+import { openAddressingHashTable } from './hashing/openAddressingHashTable';
+import { rehashing } from './hashing/rehashing';
+import { twoSumHashmap } from './hashing/twoSum';
+import { groupAnagrams } from './hashing/groupAnagrams';
+import { longestConsecutiveSequence } from './hashing/longestConsecutiveSequence';
+import { subarrayZeroSum } from './hashing/subarrayZeroSum';
+import { countDistinctWindow } from './hashing/countDistinctWindow';
+
+// Graph Algorithms
+import { adjacencyMatrix } from './graphs/representations/adjacencyMatrix';
+import { adjacencyList } from './graphs/representations/adjacencyList';
+import { bfs } from './graphs/traversals/bfs';
+import { dfs } from './graphs/traversals/dfs';
+import { dijkstra } from './graphs/shortestPaths/dijkstra';
+import { bellmanFord } from './graphs/shortestPaths/bellmanFord';
+import { floydWarshall } from './graphs/shortestPaths/floydWarshall';
+import { astar } from './graphs/shortestPaths/astar';
+import { kruskal } from './graphs/mst/kruskal';
+import { prim } from './graphs/mst/prim';
+import { kahns } from './graphs/topologicalSort/kahns';
+import { dfsTopoSort } from './graphs/topologicalSort/dfsTopoSort';
+import { connectedComponents } from './graphs/connectivity/connectedComponents';
+import { kosaraju } from './graphs/connectivity/kosaraju';
+import { tarjan } from './graphs/connectivity/tarjan';
+import { cycleUndirected } from './graphs/connectivity/cycleUndirected';
+import { cycleDirected } from './graphs/connectivity/cycleDirected';
+
 
 /**
  * Registry of all available algorithms
  */
-const algorithmRegistry: Map<string, IAlgorithm<ArrayInput>> = new Map();
+const algorithmRegistry: Map<string, IAlgorithm<any>> = new Map();
 
 /**
  * Algorithm metadata for UI
@@ -147,7 +177,7 @@ const algorithmMeta: Map<string, AlgorithmMeta> = new Map();
 /**
  * Register an algorithm
  */
-export function registerAlgorithm(algorithm: IAlgorithm<ArrayInput>): void {
+export function registerAlgorithm(algorithm: IAlgorithm<any>): void {
   algorithmRegistry.set(algorithm.id, algorithm);
   algorithmMeta.set(algorithm.id, {
     id: algorithm.id,
@@ -351,4 +381,43 @@ registerAlgorithm(kthSmallest);
 registerAlgorithm(mergeKSortedLists);
 registerAlgorithm(topKFrequent);
 registerAlgorithm(medianOfStream);
+
+// ============ HASHING ============
+// Tier 1: Hash Table Fundamentals
+registerAlgorithm(hashFunctions);
+registerAlgorithm(chainingHashTable);
+registerAlgorithm(openAddressingHashTable);
+registerAlgorithm(rehashing);
+// Tier 2: Hash Applications
+registerAlgorithm(twoSumHashmap);
+registerAlgorithm(groupAnagrams);
+registerAlgorithm(longestConsecutiveSequence);
+registerAlgorithm(subarrayZeroSum);
+registerAlgorithm(countDistinctWindow);
+
+// ============ GRAPHS ============
+// Representations
+registerAlgorithm(adjacencyMatrix);
+registerAlgorithm(adjacencyList);
+// Traversals
+registerAlgorithm(bfs);
+registerAlgorithm(dfs);
+// Shortest Path
+registerAlgorithm(dijkstra);
+registerAlgorithm(bellmanFord);
+registerAlgorithm(floydWarshall);
+registerAlgorithm(astar);
+// MST
+registerAlgorithm(kruskal);
+registerAlgorithm(prim);
+// Topological Sort
+registerAlgorithm(kahns);
+registerAlgorithm(dfsTopoSort);
+// Connectivity
+registerAlgorithm(connectedComponents);
+registerAlgorithm(kosaraju);
+registerAlgorithm(tarjan);
+// Cycle Detection
+registerAlgorithm(cycleUndirected);
+registerAlgorithm(cycleDirected);
 
