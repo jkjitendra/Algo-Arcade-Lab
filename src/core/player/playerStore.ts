@@ -12,9 +12,12 @@ import { getAlgorithm } from '../algorithms/registry';
 /**
  * Create initial snapshot from input array
  */
-const createInitialSnapshot = (inputArray: number[]): AlgorithmSnapshot => ({
+/**
+ * Create initial snapshot from input
+ */
+const createInitialSnapshot = (input: any): AlgorithmSnapshot => ({
   step: 0,
-  arrayState: [...inputArray],
+  arrayState: Array.isArray(input) ? [...input] : (input?.values ? [...input.values] : []),
   markedIndices: new Map(),
   message: 'Ready to start',
   highlightedLines: [],
@@ -132,10 +135,10 @@ const applyEvent = (
  * Generate all snapshots from events
  */
 const generateSnapshots = (
-  inputArray: number[],
+  input: any,
   events: AlgoEvent[]
 ): AlgorithmSnapshot[] => {
-  const snapshots: AlgorithmSnapshot[] = [createInitialSnapshot(inputArray)];
+  const snapshots: AlgorithmSnapshot[] = [createInitialSnapshot(input)];
 
   let currentSnapshot = snapshots[0];
   events.forEach((event, index) => {
@@ -187,7 +190,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => {
     algorithmId: null,
     events: [],
     snapshots: [],
-    inputArray: [],
+    input: [],
     currentSnapshot: null,
     validationError: null,
 
@@ -307,7 +310,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => {
       }
     },
 
-    loadAlgorithm: (algorithmId: string, input: number[], params?: Record<string, number | string>) => {
+    loadAlgorithm: (algorithmId: string, input: any, params?: Record<string, number | string>) => {
       clearPlayInterval();
 
       const algorithm = getAlgorithm(algorithmId);
@@ -317,8 +320,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => {
         return;
       }
 
+      // Handle input format: wrap array inputs if raw array, pass objects as-is
+      // Graph algorithms expect { nodes: ..., edges: ... }, Array algos expect { values: ... }
+      // If input is array, assume it's for Array algo and wrap it
+      const inputObj = Array.isArray(input) ? { values: input } : input;
+
       // Validate input
-      const validation = algorithm.validate({ values: input });
+      const validation = algorithm.validate(inputObj);
       if (!validation.ok) {
         set({ validationError: validation.error || 'Invalid input' });
         return;
@@ -329,8 +337,16 @@ export const usePlayerStore = create<PlayerStore>((set, get) => {
 
       // Collect all events (pass params to run)
       const events: AlgoEvent[] = [];
-      for (const event of algorithm.run({ values: input }, params)) {
-        events.push(event);
+      const runResult = algorithm.run(inputObj, params);
+
+      try {
+        for (const event of runResult) {
+          events.push(event);
+        }
+      } catch (err) {
+        console.error('Error running algorithm:', err);
+        set({ validationError: 'Error executing algorithm: ' + (err instanceof Error ? err.message : String(err)) });
+        return;
       }
 
       // Generate snapshots
@@ -342,7 +358,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => {
         algorithmId,
         events,
         snapshots,
-        inputArray: input,
+        input: input,
         currentSnapshot: snapshots[0],
       });
     },
