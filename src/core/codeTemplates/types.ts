@@ -59,7 +59,22 @@ export const LANGUAGES: Record<SupportedLanguage, LanguageInfo> = {
 };
 
 // Algorithm categories
-export type AlgorithmCategory = 'sorting' | 'searching' | 'graphs' | 'trees' | 'stacks-queues' | 'linked-lists';
+export type AlgorithmCategory =
+  | 'sorting'
+  | 'searching'
+  | 'arrays'
+  | 'strings'
+  | 'stacks'
+  | 'queues'
+  | 'linked-lists'
+  | 'recursion'
+  | 'backtracking'
+  | 'trees'
+  | 'heaps'
+  | 'hashing'
+  | 'graphs'
+  | 'dp'
+  | 'greedy';
 
 // Category metadata
 export interface CategoryInfo {
@@ -83,11 +98,47 @@ export const CATEGORIES: Record<AlgorithmCategory, CategoryInfo> = {
     icon: '🔍',
     description: 'Algorithms that find elements in data structures',
   },
-  graphs: {
-    id: 'graphs',
-    name: 'Graphs',
-    icon: '🕸️',
-    description: 'Graph traversal and pathfinding algorithms',
+  arrays: {
+    id: 'arrays',
+    name: 'Arrays',
+    icon: '📋',
+    description: 'Array manipulation and pattern algorithms',
+  },
+  strings: {
+    id: 'strings',
+    name: 'Strings',
+    icon: '📝',
+    description: 'String processing and pattern matching',
+  },
+  stacks: {
+    id: 'stacks',
+    name: 'Stacks',
+    icon: '📚',
+    description: 'Stack operations and applications',
+  },
+  queues: {
+    id: 'queues',
+    name: 'Queues',
+    icon: '📬',
+    description: 'Queue operations and applications',
+  },
+  'linked-lists': {
+    id: 'linked-lists',
+    name: 'Linked Lists',
+    icon: '🔗',
+    description: 'Linked list operations and algorithms',
+  },
+  recursion: {
+    id: 'recursion',
+    name: 'Recursion',
+    icon: '🔄',
+    description: 'Recursive problem solving techniques',
+  },
+  backtracking: {
+    id: 'backtracking',
+    name: 'Backtracking',
+    icon: '🧩',
+    description: 'Constraint satisfaction and puzzle solving',
   },
   trees: {
     id: 'trees',
@@ -95,17 +146,35 @@ export const CATEGORIES: Record<AlgorithmCategory, CategoryInfo> = {
     icon: '🌳',
     description: 'Tree traversal and manipulation algorithms',
   },
-  'stacks-queues': {
-    id: 'stacks-queues',
-    name: 'Stacks & Queues',
-    icon: '📚',
-    description: 'Stack and queue operations',
+  heaps: {
+    id: 'heaps',
+    name: 'Heaps',
+    icon: '⛰️',
+    description: 'Heap data structure and priority queues',
   },
-  'linked-lists': {
-    id: 'linked-lists',
-    name: 'Linked Lists',
-    icon: '🔗',
-    description: 'Linked list operations and algorithms',
+  hashing: {
+    id: 'hashing',
+    name: 'Hashing',
+    icon: '#️⃣',
+    description: 'Hash tables and hash-based algorithms',
+  },
+  graphs: {
+    id: 'graphs',
+    name: 'Graphs',
+    icon: '🕸️',
+    description: 'Graph traversal and pathfinding algorithms',
+  },
+  dp: {
+    id: 'dp',
+    name: 'Dynamic Programming',
+    icon: '📈',
+    description: 'Optimization through subproblem decomposition',
+  },
+  greedy: {
+    id: 'greedy',
+    name: 'Greedy',
+    icon: '🎯',
+    description: 'Locally optimal choice algorithms',
   },
 };
 
