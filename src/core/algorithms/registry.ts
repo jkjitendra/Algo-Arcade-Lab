@@ -163,6 +163,33 @@ import { tarjan } from './graphs/connectivity/tarjan';
 import { cycleUndirected } from './graphs/connectivity/cycleUndirected';
 import { cycleDirected } from './graphs/connectivity/cycleDirected';
 
+// Dynamic Programming algorithms
+import { fibonacci } from './dp/fibonacci';
+import { climbingStairs } from './dp/climbingStairs';
+import { houseRobber } from './dp/houseRobber';
+import { lis } from './dp/lis';
+import { coinChange } from './dp/coinChange';
+import { knapsack } from './dp/knapsack';
+import { lcs } from './dp/lcs';
+import { editDistance } from './dp/editDistance';
+import { matrixChainMultiplication } from './dp/matrixChainMultiplication';
+import { uniquePaths } from './dp/uniquePaths';
+import { minPathSum } from './dp/minPathSum';
+import { subsetSum } from './dp/subsetSum';
+import { partitionEqualSubsetSum } from './dp/partitionEqualSubsetSum';
+import { rodCutting } from './dp/rodCutting';
+import { wordBreak } from './dp/wordBreak';
+
+// Greedy Algorithms
+import { activitySelection } from './greedy/activitySelection';
+import { jobSequencing } from './greedy/jobSequencing';
+import { meetingRooms } from './greedy/meetingRooms';
+import { fractionalKnapsack } from './greedy/fractionalKnapsack';
+import { huffmanCoding } from './greedy/huffmanCoding';
+import { minimumPlatforms } from './greedy/minimumPlatforms';
+import { mergeIntervals } from './greedy/mergeIntervals';
+import { insertInterval } from './greedy/insertInterval';
+import { nonOverlappingIntervals } from './greedy/nonOverlappingIntervals';
 
 /**
  * Registry of all available algorithms
@@ -421,3 +448,36 @@ registerAlgorithm(tarjan);
 registerAlgorithm(cycleUndirected);
 registerAlgorithm(cycleDirected);
 
+// ============ DYNAMIC PROGRAMMING ============
+// Tier 1: 1D DP Problems
+registerAlgorithm(fibonacci);
+registerAlgorithm(climbingStairs);
+registerAlgorithm(houseRobber);
+registerAlgorithm(lis);
+registerAlgorithm(coinChange);
+// Tier 2: 2D DP Problems
+registerAlgorithm(knapsack);
+registerAlgorithm(lcs);
+registerAlgorithm(editDistance);
+registerAlgorithm(matrixChainMultiplication);
+registerAlgorithm(uniquePaths);
+registerAlgorithm(minPathSum);
+// Tier 3: Advanced DP
+registerAlgorithm(subsetSum);
+registerAlgorithm(partitionEqualSubsetSum);
+registerAlgorithm(rodCutting);
+registerAlgorithm(wordBreak);
+
+// ============ GREEDY ALGORITHMS ============
+// Tier 1: Activity Selection & Scheduling
+registerAlgorithm(activitySelection);
+registerAlgorithm(jobSequencing);
+registerAlgorithm(meetingRooms);
+// Tier 2: Optimization Problems
+registerAlgorithm(fractionalKnapsack);
+registerAlgorithm(huffmanCoding);
+registerAlgorithm(minimumPlatforms);
+// Tier 3: Interval Problems
+registerAlgorithm(mergeIntervals);
+registerAlgorithm(insertInterval);
+registerAlgorithm(nonOverlappingIntervals);
