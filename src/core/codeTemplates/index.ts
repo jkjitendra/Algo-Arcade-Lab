@@ -19,12 +19,30 @@ import { cycleSortCode } from './cycleSort';
 import { timSortCode } from './timSort';
 import { introSortCode } from './introSort';
 import { pigeonholeSortCode } from './pigeonholeSort';
+// Searching algorithms
+import { linearSearchCode } from './linearSearch';
+import { binarySearchCode } from './binarySearch';
+import { jumpSearchCode } from './jumpSearch';
+import { interpolationSearchCode } from './interpolationSearch';
+import { exponentialSearchCode } from './exponentialSearch';
+import { ternarySearchCode } from './ternarySearch';
+import { fibonacciSearchCode } from './fibonacciSearch';
+import { sentinelLinearSearchCode } from './sentinelLinearSearch';
+import { bidirectionalSearchCode } from './bidirectionalSearch';
+import { lowerBoundCode } from './lowerBound';
+import { upperBoundCode } from './upperBound';
+import { searchInsertPositionCode } from './searchInsertPosition';
+import { peakElementCode } from './peakElement';
+import { rotatedArraySearchCode } from './rotatedArraySearch';
+import { rotatedArrayMinCode } from './rotatedArrayMin';
+import { matrixBinarySearchCode } from './matrixBinarySearch';
 
 // Registry of all code templates
 const codeTemplatesRegistry: Map<string, AlgorithmCodeTemplates> = new Map();
 
 // Register all templates
 [
+  // Sorting
   bubbleSortCode,
   selectionSortCode,
   insertionSortCode,
@@ -40,6 +58,23 @@ const codeTemplatesRegistry: Map<string, AlgorithmCodeTemplates> = new Map();
   timSortCode,
   introSortCode,
   pigeonholeSortCode,
+  // Searching
+  linearSearchCode,
+  binarySearchCode,
+  jumpSearchCode,
+  interpolationSearchCode,
+  exponentialSearchCode,
+  ternarySearchCode,
+  fibonacciSearchCode,
+  sentinelLinearSearchCode,
+  bidirectionalSearchCode,
+  lowerBoundCode,
+  upperBoundCode,
+  searchInsertPositionCode,
+  peakElementCode,
+  rotatedArraySearchCode,
+  rotatedArrayMinCode,
+  matrixBinarySearchCode,
 ].forEach((template) => {
   codeTemplatesRegistry.set(template.algorithmId, template);
 });
