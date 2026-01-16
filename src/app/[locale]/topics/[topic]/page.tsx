@@ -290,6 +290,42 @@ const graphsTiers = [
   },
 ];
 
+const dpTiers = [
+  {
+    name: "Tier 1: 1D DP Problems",
+    description: "Simple linear DP with single-dimensional state",
+    algorithms: ["fibonacci-dp", "climbing-stairs", "house-robber", "lis", "coin-change"],
+  },
+  {
+    name: "Tier 2: 2D DP Problems",
+    description: "Classic problems with two-dimensional state tables",
+    algorithms: ["knapsack-01", "lcs", "edit-distance", "matrix-chain-multiplication", "unique-paths", "min-path-sum"],
+  },
+  {
+    name: "Tier 3: Advanced DP",
+    description: "Complex DP patterns including subset and partition problems",
+    algorithms: ["subset-sum", "partition-equal-subset-sum", "rod-cutting", "word-break"],
+  },
+];
+
+const greedyTiers = [
+  {
+    name: "Tier 1: Activity Selection & Scheduling",
+    description: "Classic greedy problems with timeline-based solutions",
+    algorithms: ["activity-selection", "job-sequencing", "meeting-rooms"],
+  },
+  {
+    name: "Tier 2: Optimization Problems",
+    description: "Greedy optimization with value maximization",
+    algorithms: ["fractional-knapsack", "huffman-coding", "minimum-platforms"],
+  },
+  {
+    name: "Tier 3: Interval Problems",
+    description: "Interval merging and overlap resolution",
+    algorithms: ["merge-intervals", "insert-interval", "non-overlapping-intervals"],
+  },
+];
+
 const algorithmNames: Record<string, string> = {
   // Arrays
   "array-operations": "Array Operations",
@@ -447,6 +483,32 @@ const algorithmNames: Record<string, string> = {
   "cycle-directed": "Cycle Detection (Directed)",
   "kosaraju": "Kosaraju's Algorithm",
   "tarjan": "Tarjan's Algorithm",
+  // Dynamic Programming
+  "fibonacci-dp": "Fibonacci (DP)",
+  "climbing-stairs": "Climbing Stairs",
+  "house-robber": "House Robber",
+  "lis": "Longest Increasing Subsequence",
+  "coin-change": "Coin Change",
+  "knapsack-01": "0/1 Knapsack",
+  "lcs": "Longest Common Subsequence",
+  "edit-distance": "Edit Distance",
+  "matrix-chain-multiplication": "Matrix Chain Mult.",
+  "unique-paths": "Unique Paths",
+  "min-path-sum": "Minimum Path Sum",
+  "subset-sum": "Subset Sum",
+  "partition-equal-subset-sum": "Partition Equal Subset",
+  "rod-cutting": "Rod Cutting",
+  "word-break": "Word Break",
+  // Greedy Algorithms
+  "activity-selection": "Activity Selection",
+  "job-sequencing": "Job Sequencing",
+  "meeting-rooms": "Meeting Rooms",
+  "fractional-knapsack": "Fractional Knapsack",
+  "huffman-coding": "Huffman Coding",
+  "minimum-platforms": "Minimum Platforms",
+  "merge-intervals": "Merge Intervals",
+  "insert-interval": "Insert Interval",
+  "non-overlapping-intervals": "Non-overlapping Intervals",
 };
 
 const algorithmDescriptions: Record<string, string> = {
@@ -589,6 +651,32 @@ const algorithmDescriptions: Record<string, string> = {
   "cycle-directed": "Detect cycles using three-color DFS",
   "kosaraju": "Strongly Connected Components",
   "tarjan": "Find Bridges in O(V+E)",
+  // Dynamic Programming
+  "fibonacci-dp": "Tabulation approach O(n)",
+  "climbing-stairs": "Ways to climb n stairs (1-2 steps)",
+  "house-robber": "Max sum of non-adjacent elements",
+  "lis": "Find longest increasing subsequence",
+  "coin-change": "Minimum coins to make amount",
+  "knapsack-01": "Maximize value within weight limit",
+  "lcs": "Longest common subsequence of two strings",
+  "edit-distance": "Min operations to transform string",
+  "matrix-chain-multiplication": "Optimal matrix multiplication order",
+  "unique-paths": "Count paths in grid (right/down only)",
+  "min-path-sum": "Minimum cost path in grid",
+  "subset-sum": "Check if subset sums to target",
+  "partition-equal-subset-sum": "Split into two equal-sum subsets",
+  "rod-cutting": "Maximize profit from rod pieces",
+  "word-break": "Segment string using dictionary",
+  // Greedy Algorithms
+  "activity-selection": "Select maximum non-overlapping activities",
+  "job-sequencing": "Schedule jobs for maximum profit",
+  "meeting-rooms": "Minimum rooms for all meetings",
+  "fractional-knapsack": "Maximum value with item fractions",
+  "huffman-coding": "Build optimal prefix-free codes",
+  "minimum-platforms": "Minimum platforms for trains",
+  "merge-intervals": "Merge overlapping intervals",
+  "insert-interval": "Insert and merge new interval",
+  "non-overlapping-intervals": "Minimum removals for non-overlapping",
 };
 
 function TopicContent({ locale, topic }: { locale: string; topic: string }) {
@@ -1204,6 +1292,111 @@ function TopicContent({ locale, topic }: { locale: string; topic: string }) {
                   <Link
                     key={algo}
                     href={`/${locale}/visualize?algorithm=${algo}&category=graphs`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "dynamic-programming") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">📋</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.dynamic-programming")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Optimized recursive solutions with memoization and tabulation
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {dpTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=dp`}
+                    className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
+                  >
+                    <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">
+                      {algorithmNames[algo]}
+                    </h3>
+                    {algorithmDescriptions[algo] && (
+                      <p className="text-xs text-[var(--text-tertiary)] mt-1">
+                        {algorithmDescriptions[algo]}
+                      </p>
+                    )}
+                    <p className="text-xs text-[var(--text-secondary)] mt-2">Visualize →</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (topic === "greedy-algorithms") {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <Link href={`/${locale}/topics`} className="text-[var(--color-primary-500)] hover:underline text-sm">
+            ← Back to Topics
+          </Link>
+        </div>
+
+        <div className="text-center mb-12">
+          <span className="text-6xl mb-4 block">⚡</span>
+          <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">
+            {t("topics.greedy-algorithms")}
+          </h1>
+          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Master greedy algorithms - locally optimal choices for globally optimal solutions
+          </p>
+        </div>
+
+        <div className="space-y-10">
+          {greedyTiers.map((tier) => (
+            <div key={tier.name}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-[var(--text-primary)]">{tier.name}</h2>
+                <p className="text-sm text-[var(--text-secondary)]">{tier.description}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {tier.algorithms.map((algo) => (
+                  <Link
+                    key={algo}
+                    href={`/${locale}/visualize?algorithm=${algo}&category=greedy`}
                     className="group p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] transition-all duration-300 hover:shadow-lg"
                   >
                     <h3 className="text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-primary-500)]">

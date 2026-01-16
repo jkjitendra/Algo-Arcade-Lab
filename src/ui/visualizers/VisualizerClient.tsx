@@ -177,6 +177,22 @@ import { groupAnagramsInfo } from "@/core/algorithms/hashing/groupAnagramsInfo";
 import { longestConsecutiveSequenceInfo } from "@/core/algorithms/hashing/longestConsecutiveSequenceInfo";
 import { subarrayZeroSumInfo } from "@/core/algorithms/hashing/subarrayZeroSumInfo";
 import { countDistinctWindowInfo } from "@/core/algorithms/hashing/countDistinctWindowInfo";
+// Dynamic Programming algorithm info
+import { fibonacciDPInfo } from "@/core/algorithms/dp/fibonacciInfo";
+import { climbingStairsInfo } from "@/core/algorithms/dp/climbingStairsInfo";
+import { houseRobberInfo } from "@/core/algorithms/dp/houseRobberInfo";
+import { lisInfo } from "@/core/algorithms/dp/lisInfo";
+import { coinChangeInfo } from "@/core/algorithms/dp/coinChangeInfo";
+import { knapsackInfo } from "@/core/algorithms/dp/knapsackInfo";
+import { lcsInfo } from "@/core/algorithms/dp/lcsInfo";
+import { editDistanceInfo } from "@/core/algorithms/dp/editDistanceInfo";
+import { matrixChainMultiplicationInfo } from "@/core/algorithms/dp/matrixChainMultiplicationInfo";
+import { uniquePathsInfo } from "@/core/algorithms/dp/uniquePathsInfo";
+import { minPathSumInfo } from "@/core/algorithms/dp/minPathSumInfo";
+import { subsetSumInfo } from "@/core/algorithms/dp/subsetSumInfo";
+import { partitionEqualSubsetSumInfo } from "@/core/algorithms/dp/partitionEqualSubsetSumInfo";
+import { rodCuttingInfo } from "@/core/algorithms/dp/rodCuttingInfo";
+import { wordBreakInfo } from "@/core/algorithms/dp/wordBreakInfo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -185,6 +201,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, ArrowDownUp, BarChart3, Play } from "lucide-react";
+import { activitySelectionInfo } from "@/core/algorithms/greedy/activitySelectionInfo";
+import { fractionalKnapsackInfo } from "@/core/algorithms/greedy/fractionalKnapsackInfo";
+import { huffmanCodingInfo } from "@/core/algorithms/greedy/huffmanCodingInfo";
+import { insertIntervalInfo } from "@/core/algorithms/greedy/insertIntervalInfo";
+import { jobSequencingInfo } from "@/core/algorithms/greedy/jobSequencingInfo";
+import { meetingRoomsInfo } from "@/core/algorithms/greedy/meetingRoomsInfo";
+import { mergeIntervalsInfo } from "@/core/algorithms/greedy/mergeIntervalsInfo";
+import { minimumPlatformsInfo } from "@/core/algorithms/greedy/minimumPlatformsInfo";
+import { nonOverlappingIntervalsInfo } from "@/core/algorithms/greedy/nonOverlappingIntervalsInfo";
 
 const defaultArray = [64, 34, 25, 12, 22, 11, 90];
 
@@ -309,6 +334,22 @@ const algorithmDefaultArrays: Record<string, number[]> = {
   "is-bst": [8, 3, 10, 1, 6, -1, 14, -1, -1, 4, 7],  // Valid BST
   "bst-operations": [50, 30, 70, 20, 40, 60, 80],  // BST
   "lowest-common-ancestor": [6, 2, 8, 0, 4, 7, 9, -1, -1, 3, 5],  // BST for LCA
+  // Dynamic Programming
+  "fibonacci-dp": [],  // Uses params
+  "climbing-stairs": [],  // Uses params
+  "house-robber": [2, 7, 9, 3, 1],  // House values
+  "lis": [10, 22, 9, 33, 21, 50, 41, 60, 80],
+  "coin-change": [1, 2, 5],  // Coin denominations
+  "knapsack-01": [2, 3, 4, 5, 10, 40, 30, 50],  // weight1, value1, weight2, value2, ...
+  "lcs": [],  // Uses params
+  "edit-distance": [],  // Uses params
+  "matrix-chain-multiplication": [10, 30, 5, 60],  // Matrix dimensions
+  "unique-paths": [],  // Uses params
+  "min-path-sum": [1, 3, 1, 1, 5, 1, 4, 2, 1],  // 3x3 grid
+  "subset-sum": [3, 34, 4, 12, 5, 2],
+  "partition-equal-subset-sum": [1, 5, 11, 5],
+  "rod-cutting": [1, 5, 8, 9, 10, 17, 17, 20],  // Prices for lengths 1-8
+  "word-break": [],  // Uses params
 };
 
 // Map algorithm IDs to their info
@@ -471,6 +512,32 @@ const algorithmInfoMap: Record<string, any> = {
   "longest-consecutive-sequence": longestConsecutiveSequenceInfo,
   "subarray-zero-sum": subarrayZeroSumInfo,
   "count-distinct-window": countDistinctWindowInfo,
+  // Dynamic Programming
+  "fibonacci-dp": fibonacciDPInfo,
+  "climbing-stairs": climbingStairsInfo,
+  "house-robber": houseRobberInfo,
+  "lis": lisInfo,
+  "coin-change": coinChangeInfo,
+  "knapsack-01": knapsackInfo,
+  "lcs": lcsInfo,
+  "edit-distance": editDistanceInfo,
+  "matrix-chain-multiplication": matrixChainMultiplicationInfo,
+  "unique-paths": uniquePathsInfo,
+  "min-path-sum": minPathSumInfo,
+  "subset-sum": subsetSumInfo,
+  "partition-equal-subset-sum": partitionEqualSubsetSumInfo,
+  "rod-cutting": rodCuttingInfo,
+  "word-break": wordBreakInfo,
+  //Greedy Algorithms
+  "activity-selection": activitySelectionInfo,
+  "job-sequencing": jobSequencingInfo,
+  "meeting-rooms": meetingRoomsInfo,
+  "fractional-knapsack": fractionalKnapsackInfo,
+  "huffman-coding": huffmanCodingInfo,
+  "minimum-platforms": minimumPlatformsInfo,
+  "merge-intervals": mergeIntervalsInfo,
+  "insert-interval": insertIntervalInfo,
+  "non-overlapping-intervals": nonOverlappingIntervalsInfo,
 };
 
 // Map algorithm IDs to their category
@@ -630,6 +697,22 @@ const algorithmCategoryMap: Record<string, string> = {
   "longest-consecutive-sequence": "hashing",
   "subarray-zero-sum": "hashing",
   "count-distinct-window": "hashing",
+  // Dynamic Programming
+  "fibonacci-dp": "dp",
+  "climbing-stairs": "dp",
+  "house-robber": "dp",
+  "lis": "dp",
+  "coin-change": "dp",
+  "knapsack-01": "dp",
+  "lcs": "dp",
+  "edit-distance": "dp",
+  "matrix-chain-multiplication": "dp",
+  "unique-paths": "dp",
+  "min-path-sum": "dp",
+  "subset-sum": "dp",
+  "partition-equal-subset-sum": "dp",
+  "rod-cutting": "dp",
+  "word-break": "dp",
 };
 
 interface VisualizerClientProps {
@@ -668,6 +751,7 @@ export function VisualizerClient({ initialAlgorithm, category }: VisualizerClien
     if (cat === "backtracking") return "n-queens";
     if (cat === "trees") return "inorder-traversal";
     if (cat === "heaps") return "max-heap";
+    if (cat === "dp") return "fibonacci-dp";
     return "bubble-sort";
   };
 
