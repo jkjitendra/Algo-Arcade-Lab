@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const interpolationSearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'interpolation-search',
-  algorithmName: 'Interpolation Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Interpolation Search - JavaScript
+    algorithmId: 'interpolation-search',
+    algorithmName: 'Interpolation Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Interpolation Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Best for uniformly distributed sorted arrays
 
@@ -58,7 +59,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 interpolationSearch(sortedArray, target);
 `,
 
-    java: `// Interpolation Search - Java
+        java: `// Interpolation Search - Java
 public class InterpolationSearch {
     public static int interpolationSearch(int[] arr, int target) {
         int low = 0;
@@ -88,7 +89,7 @@ public class InterpolationSearch {
 }
 `,
 
-    python: `# Interpolation Search - Python
+        python: `# Interpolation Search - Python
 
 def interpolation_search(arr, target):
     low, high = 0, len(arr) - 1
@@ -117,7 +118,7 @@ result = interpolation_search(arr, target)
 print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Interpolation Search - C++
+        cpp: `// Interpolation Search - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -150,7 +151,7 @@ int main() {
 }
 `,
 
-    go: `// Interpolation Search - Go
+        go: `// Interpolation Search - Go
 package main
 
 import "fmt"
@@ -187,5 +188,5 @@ func main() {
     fmt.Printf("Element found at index: %d\\n", result)
 }
 `,
-  },
+    },
 };

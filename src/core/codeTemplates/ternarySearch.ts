@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const ternarySearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'ternary-search',
-  algorithmName: 'Ternary Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Ternary Search - JavaScript
+    algorithmId: 'ternary-search',
+    algorithmName: 'Ternary Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Ternary Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Divides array into three parts instead of two
 
@@ -60,7 +61,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 ternarySearch(sortedArray, target);
 `,
 
-    java: `// Ternary Search - Java
+        java: `// Ternary Search - Java
 public class TernarySearch {
     public static int ternarySearch(int[] arr, int target) {
         int left = 0, right = arr.length - 1;
@@ -93,7 +94,7 @@ public class TernarySearch {
 }
 `,
 
-    python: `# Ternary Search - Python
+        python: `# Ternary Search - Python
 
 def ternary_search(arr, target):
     left, right = 0, len(arr) - 1
@@ -124,7 +125,7 @@ result = ternary_search(arr, target)
 print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Ternary Search - C++
+        cpp: `// Ternary Search - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -160,7 +161,7 @@ int main() {
 }
 `,
 
-    go: `// Ternary Search - Go
+        go: `// Ternary Search - Go
 package main
 
 import "fmt"
@@ -198,5 +199,5 @@ func main() {
     fmt.Printf("Element found at index: %d\\n", result)
 }
 `,
-  },
+    },
 };

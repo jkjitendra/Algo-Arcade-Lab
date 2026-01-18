@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const rotatedArraySearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'rotated-array-search',
-  algorithmName: 'Rotated Array Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Search in Rotated Sorted Array - JavaScript
+    algorithmId: 'rotated-array-search',
+    algorithmName: 'Rotated Array Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Search in Rotated Sorted Array - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Binary search in a rotated sorted array
 
@@ -58,7 +59,7 @@ const target = rotated[Math.floor(Math.random() * rotated.length)];
 searchRotated(rotated, target);
 `,
 
-    java: `// Search in Rotated Sorted Array - Java
+        java: `// Search in Rotated Sorted Array - Java
 public class RotatedArraySearch {
     public static int search(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
@@ -93,7 +94,7 @@ public class RotatedArraySearch {
 }
 `,
 
-    python: `# Search in Rotated Sorted Array - Python
+        python: `# Search in Rotated Sorted Array - Python
 
 def search_rotated(nums, target):
     left, right = 0, len(nums) - 1
@@ -123,7 +124,7 @@ print(f"Index of 0: {search_rotated(nums, 0)}")
 print(f"Index of 3: {search_rotated(nums, 3)}")
 `,
 
-    cpp: `// Search in Rotated Sorted Array - C++
+        cpp: `// Search in Rotated Sorted Array - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -161,7 +162,7 @@ int main() {
 }
 `,
 
-    go: `// Search in Rotated Sorted Array - Go
+        go: `// Search in Rotated Sorted Array - Go
 package main
 
 import "fmt"
@@ -199,5 +200,5 @@ func main() {
     fmt.Printf("Index of 3: %d\\n", search(nums, 3))
 }
 `,
-  },
+    },
 };

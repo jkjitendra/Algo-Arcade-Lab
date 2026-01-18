@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const fibonacciSearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'fibonacci-search',
-  algorithmName: 'Fibonacci Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Fibonacci Search - JavaScript
+    algorithmId: 'fibonacci-search',
+    algorithmName: 'Fibonacci Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Fibonacci Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Uses Fibonacci numbers to divide the array
 
@@ -68,7 +69,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 fibonacciSearch(sortedArray, target);
 `,
 
-    java: `// Fibonacci Search - Java
+        java: `// Fibonacci Search - Java
 public class FibonacciSearch {
     public static int fibonacciSearch(int[] arr, int target) {
         int n = arr.length;
@@ -116,7 +117,7 @@ public class FibonacciSearch {
 }
 `,
 
-    python: `# Fibonacci Search - Python
+        python: `# Fibonacci Search - Python
 
 def fibonacci_search(arr, target):
     n = len(arr)
@@ -158,7 +159,7 @@ result = fibonacci_search(arr, target)
 print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Fibonacci Search - C++
+        cpp: `// Fibonacci Search - C++
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -210,7 +211,7 @@ int main() {
 }
 `,
 
-    go: `// Fibonacci Search - Go
+        go: `// Fibonacci Search - Go
 package main
 
 import "fmt"
@@ -259,5 +260,5 @@ func main() {
     fmt.Printf("Element found at index: %d\\n", result)
 }
 `,
-  },
+    },
 };

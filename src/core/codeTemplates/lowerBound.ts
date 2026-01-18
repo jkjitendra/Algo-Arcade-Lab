@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const lowerBoundCode: AlgorithmCodeTemplates = {
-  algorithmId: 'lower-bound',
-  algorithmName: 'Lower Bound',
-  category: 'searching',
-  templates: {
-    javascript: `// Lower Bound - JavaScript
+    algorithmId: 'lower-bound',
+    algorithmName: 'Lower Bound',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Lower Bound - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Finds first position where element >= target
 
@@ -45,7 +46,7 @@ const target = sortedArray[Math.floor(sortedArray.length / 2)];
 lowerBound(sortedArray, target);
 `,
 
-    java: `// Lower Bound - Java
+        java: `// Lower Bound - Java
 public class LowerBound {
     public static int lowerBound(int[] arr, int target) {
         int left = 0, right = arr.length;
@@ -70,7 +71,7 @@ public class LowerBound {
 }
 `,
 
-    python: `# Lower Bound - Python
+        python: `# Lower Bound - Python
 import bisect
 
 def lower_bound(arr, target):
@@ -97,7 +98,7 @@ result2 = bisect.bisect_left(arr, target)
 print(f"Using bisect_left: {result2}")
 `,
 
-    cpp: `// Lower Bound - C++
+        cpp: `// Lower Bound - C++
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -133,7 +134,7 @@ int main() {
 }
 `,
 
-    go: `// Lower Bound - Go
+        go: `// Lower Bound - Go
 package main
 
 import (
@@ -167,5 +168,5 @@ func main() {
     fmt.Printf("Using sort.SearchInts: %d\\n", result2)
 }
 `,
-  },
+    },
 };

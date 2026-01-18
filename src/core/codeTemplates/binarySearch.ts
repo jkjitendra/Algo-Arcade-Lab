@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const binarySearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'binary-search',
-  algorithmName: 'Binary Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Binary Search - JavaScript
+    algorithmId: 'binary-search',
+    algorithmName: 'Binary Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Binary Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Note: Array must be sorted for binary search to work!
 
@@ -47,7 +48,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 binarySearch(sortedArray, target);
 `,
 
-    java: `// Binary Search - Java
+        java: `// Binary Search - Java
 public class BinarySearch {
     public static int binarySearch(int[] arr, int target) {
         int left = 0;
@@ -81,7 +82,7 @@ public class BinarySearch {
 }
 `,
 
-    python: `# Binary Search - Python
+        python: `# Binary Search - Python
 
 def binary_search(arr, target):
     left, right = 0, len(arr) - 1
@@ -110,7 +111,7 @@ else:
     print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Binary Search - C++
+        cpp: `// Binary Search - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -148,7 +149,7 @@ int main() {
 }
 `,
 
-    go: `// Binary Search - Go
+        go: `// Binary Search - Go
 package main
 
 import "fmt"
@@ -182,5 +183,5 @@ func main() {
     }
 }
 `,
-  },
+    },
 };

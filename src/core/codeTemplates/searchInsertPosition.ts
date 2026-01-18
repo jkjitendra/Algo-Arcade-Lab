@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const searchInsertPositionCode: AlgorithmCodeTemplates = {
-  algorithmId: 'search-insert-position',
-  algorithmName: 'Search Insert Position',
-  category: 'searching',
-  templates: {
-    javascript: `// Search Insert Position - JavaScript
+    algorithmId: 'search-insert-position',
+    algorithmName: 'Search Insert Position',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Search Insert Position - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Find index where target should be inserted to maintain sorted order
 
@@ -39,7 +40,7 @@ const target = Math.floor(Math.random() * 100);
 searchInsertPosition(sortedArray, target);
 `,
 
-    java: `// Search Insert Position - Java
+        java: `// Search Insert Position - Java
 public class SearchInsertPosition {
     public static int searchInsert(int[] nums, int target) {
         int left = 0, right = nums.length;
@@ -66,7 +67,7 @@ public class SearchInsertPosition {
 }
 `,
 
-    python: `# Search Insert Position - Python
+        python: `# Search Insert Position - Python
 
 def search_insert(nums, target):
     left, right = 0, len(nums)
@@ -87,7 +88,7 @@ print(f"Insert position for 2: {search_insert(nums, 2)}")
 print(f"Insert position for 7: {search_insert(nums, 7)}")
 `,
 
-    cpp: `// Search Insert Position - C++
+        cpp: `// Search Insert Position - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -114,7 +115,7 @@ int main() {
 }
 `,
 
-    go: `// Search Insert Position - Go
+        go: `// Search Insert Position - Go
 package main
 
 import "fmt"
@@ -139,5 +140,5 @@ func main() {
     fmt.Printf("Insert position for 2: %d\\n", searchInsert(nums, 2))
 }
 `,
-  },
+    },
 };

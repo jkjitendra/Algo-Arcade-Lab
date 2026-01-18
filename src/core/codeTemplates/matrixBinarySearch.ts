@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const matrixBinarySearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'matrix-binary-search',
-  algorithmName: 'Matrix Binary Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Search in 2D Matrix - JavaScript
+    algorithmId: 'matrix-binary-search',
+    algorithmName: 'Matrix Binary Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Search in 2D Matrix - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Matrix where each row is sorted and first element > last of prev row
 
@@ -71,7 +72,7 @@ while (left <= right) {
 }
 `,
 
-    java: `// Search in 2D Matrix - Java
+        java: `// Search in 2D Matrix - Java
 public class MatrixBinarySearch {
     public static boolean searchMatrix(int[][] matrix, int target) {
         if (matrix.length == 0 || matrix[0].length == 0) return false;
@@ -109,7 +110,7 @@ public class MatrixBinarySearch {
 }
 `,
 
-    python: `# Search in 2D Matrix - Python
+        python: `# Search in 2D Matrix - Python
 
 def search_matrix(matrix, target):
     if not matrix or not matrix[0]:
@@ -142,7 +143,7 @@ print(f"Search 3: {search_matrix(matrix, 3)}")
 print(f"Search 13: {search_matrix(matrix, 13)}")
 `,
 
-    cpp: `// Search in 2D Matrix - C++
+        cpp: `// Search in 2D Matrix - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -183,7 +184,7 @@ int main() {
 }
 `,
 
-    go: `// Search in 2D Matrix - Go
+        go: `// Search in 2D Matrix - Go
 package main
 
 import "fmt"
@@ -222,5 +223,5 @@ func main() {
     fmt.Printf("Search 13: %v\\n", searchMatrix(matrix, 13))
 }
 `,
-  },
+    },
 };

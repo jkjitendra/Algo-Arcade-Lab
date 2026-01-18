@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const rotatedArrayMinCode: AlgorithmCodeTemplates = {
-  algorithmId: 'rotated-array-min',
-  algorithmName: 'Rotated Array Minimum',
-  category: 'searching',
-  templates: {
-    javascript: `// Find Minimum in Rotated Sorted Array - JavaScript
+    algorithmId: 'rotated-array-min',
+    algorithmName: 'Rotated Array Minimum',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Find Minimum in Rotated Sorted Array - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Find the minimum element (rotation point)
 
@@ -51,7 +52,7 @@ const rotated = [...sorted.slice(pivot), ...sorted.slice(0, pivot)];
 findMin(rotated);
 `,
 
-    java: `// Find Minimum in Rotated Sorted Array - Java
+        java: `// Find Minimum in Rotated Sorted Array - Java
 public class RotatedArrayMin {
     public static int findMin(int[] nums) {
         int left = 0, right = nums.length - 1;
@@ -78,7 +79,7 @@ public class RotatedArrayMin {
 }
 `,
 
-    python: `# Find Minimum in Rotated Sorted Array - Python
+        python: `# Find Minimum in Rotated Sorted Array - Python
 
 def find_min(nums):
     left, right = 0, len(nums) - 1
@@ -101,7 +102,7 @@ nums2 = [4, 5, 6, 7, 0, 1, 2]
 print(f"Minimum: {find_min(nums2)}")
 `,
 
-    cpp: `// Find Minimum in Rotated Sorted Array - C++
+        cpp: `// Find Minimum in Rotated Sorted Array - C++
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -131,7 +132,7 @@ int main() {
 }
 `,
 
-    go: `// Find Minimum in Rotated Sorted Array - Go
+        go: `// Find Minimum in Rotated Sorted Array - Go
 package main
 
 import "fmt"
@@ -159,5 +160,5 @@ func main() {
     fmt.Printf("Minimum: %d\\n", findMin(nums2))
 }
 `,
-  },
+    },
 };

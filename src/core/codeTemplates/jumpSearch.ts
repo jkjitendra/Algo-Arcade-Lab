@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const jumpSearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'jump-search',
-  algorithmName: 'Jump Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Jump Search - JavaScript
+    algorithmId: 'jump-search',
+    algorithmName: 'Jump Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Jump Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Note: Array must be sorted!
 
@@ -50,7 +51,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 jumpSearch(sortedArray, target);
 `,
 
-    java: `// Jump Search - Java
+        java: `// Jump Search - Java
 public class JumpSearch {
     public static int jumpSearch(int[] arr, int target) {
         int n = arr.length;
@@ -81,7 +82,7 @@ public class JumpSearch {
 }
 `,
 
-    python: `# Jump Search - Python
+        python: `# Jump Search - Python
 import math
 
 def jump_search(arr, target):
@@ -111,7 +112,7 @@ result = jump_search(arr, target)
 print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Jump Search - C++
+        cpp: `// Jump Search - C++
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -146,7 +147,7 @@ int main() {
 }
 `,
 
-    go: `// Jump Search - Go
+        go: `// Jump Search - Go
 package main
 
 import (
@@ -187,5 +188,5 @@ func main() {
     fmt.Printf("Element found at index: %d\\n", result)
 }
 `,
-  },
+    },
 };

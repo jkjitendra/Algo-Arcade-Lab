@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const upperBoundCode: AlgorithmCodeTemplates = {
-  algorithmId: 'upper-bound',
-  algorithmName: 'Upper Bound',
-  category: 'searching',
-  templates: {
-    javascript: `// Upper Bound - JavaScript
+    algorithmId: 'upper-bound',
+    algorithmName: 'Upper Bound',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Upper Bound - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Finds first position where element > target
 
@@ -45,7 +46,7 @@ const target = sortedArray[Math.floor(sortedArray.length / 2)];
 upperBound(sortedArray, target);
 `,
 
-    java: `// Upper Bound - Java
+        java: `// Upper Bound - Java
 public class UpperBound {
     public static int upperBound(int[] arr, int target) {
         int left = 0, right = arr.length;
@@ -70,7 +71,7 @@ public class UpperBound {
 }
 `,
 
-    python: `# Upper Bound - Python
+        python: `# Upper Bound - Python
 import bisect
 
 def upper_bound(arr, target):
@@ -96,7 +97,7 @@ result2 = bisect.bisect_right(arr, target)
 print(f"Using bisect_right: {result2}")
 `,
 
-    cpp: `// Upper Bound - C++
+        cpp: `// Upper Bound - C++
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -131,7 +132,7 @@ int main() {
 }
 `,
 
-    go: `// Upper Bound - Go
+        go: `// Upper Bound - Go
 package main
 
 import "fmt"
@@ -158,5 +159,5 @@ func main() {
     fmt.Printf("Upper bound at index: %d\\n", result)
 }
 `,
-  },
+    },
 };

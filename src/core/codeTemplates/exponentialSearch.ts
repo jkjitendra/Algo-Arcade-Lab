@@ -1,11 +1,12 @@
 import { AlgorithmCodeTemplates } from './types';
 
 export const exponentialSearchCode: AlgorithmCodeTemplates = {
-  algorithmId: 'exponential-search',
-  algorithmName: 'Exponential Search',
-  category: 'searching',
-  templates: {
-    javascript: `// Exponential Search - JavaScript
+    algorithmId: 'exponential-search',
+    algorithmName: 'Exponential Search',
+    category: 'searching',
+    requiresSortedArray: true,
+    templates: {
+        javascript: `// Exponential Search - JavaScript
 // Visualization hooks: compare(i, j), mark(i, type), visit(i), log(msg)
 // Combines exponential bound finding with binary search
 
@@ -61,7 +62,7 @@ const target = sortedArray[Math.floor(Math.random() * sortedArray.length)];
 exponentialSearch(sortedArray, target);
 `,
 
-    java: `// Exponential Search - Java
+        java: `// Exponential Search - Java
 public class ExponentialSearch {
     public static int binarySearch(int[] arr, int left, int right, int target) {
         while (left <= right) {
@@ -94,7 +95,7 @@ public class ExponentialSearch {
 }
 `,
 
-    python: `# Exponential Search - Python
+        python: `# Exponential Search - Python
 
 def binary_search(arr, left, right, target):
     while left <= right:
@@ -125,7 +126,7 @@ result = exponential_search(arr, target)
 print(f"Element found at index: {result}")
 `,
 
-    cpp: `// Exponential Search - C++
+        cpp: `// Exponential Search - C++
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -162,7 +163,7 @@ int main() {
 }
 `,
 
-    go: `// Exponential Search - Go
+        go: `// Exponential Search - Go
 package main
 
 import "fmt"
@@ -203,5 +204,5 @@ func main() {
     fmt.Printf("Element found at index: %d\\n", result)
 }
 `,
-  },
+    },
 };
