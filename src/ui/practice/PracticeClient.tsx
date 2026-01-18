@@ -70,6 +70,13 @@ export function PracticeClient({ initialAlgorithm }: PracticeClientProps) {
   useEffect(() => {
     if (template) {
       setCode(template.templates[selectedLanguage] || "// Code not available for this language");
+
+      // Auto-sort input array if algorithm requires sorted array
+      if (template.requiresSortedArray) {
+        const sortedArray = [...inputArray].sort((a, b) => a - b);
+        setInputArray(sortedArray);
+        setInputText(sortedArray.join(", "));
+      }
     }
     // Reset visualization state
     setEvents([]);
@@ -114,7 +121,7 @@ export function PracticeClient({ initialAlgorithm }: PracticeClientProps) {
   // Apply input array from text
   const handleApplyInput = useCallback(() => {
     try {
-      const parsed = inputText
+      let parsed = inputText
         .split(/[,\s]+/)
         .filter(s => s.trim() !== "")
         .map(s => {
@@ -132,12 +139,18 @@ export function PracticeClient({ initialAlgorithm }: PracticeClientProps) {
         return;
       }
 
+      // Auto-sort if algorithm requires sorted array
+      if (template?.requiresSortedArray) {
+        parsed = [...parsed].sort((a, b) => a - b);
+        setInputText(parsed.join(", "));
+      }
+
       setInputArray(parsed);
       setError(undefined);
     } catch (err) {
       setError({ message: err instanceof Error ? err.message : "Invalid input format" });
     }
-  }, [inputText]);
+  }, [inputText, template]);
 
   // Reset code to template
   const handleReset = useCallback(() => {
@@ -154,14 +167,20 @@ export function PracticeClient({ initialAlgorithm }: PracticeClientProps) {
 
   // Generate random array
   const handleRandomize = useCallback(() => {
-    const newArray = Array.from({ length: 8 }, () => Math.floor(Math.random() * 90) + 10);
+    let newArray = Array.from({ length: 8 }, () => Math.floor(Math.random() * 90) + 10);
+
+    // Sort if algorithm requires sorted array
+    if (template?.requiresSortedArray) {
+      newArray = newArray.sort((a, b) => a - b);
+    }
+
     setInputArray(newArray);
     setInputText(newArray.join(", "));
     setDisplayArray(newArray);
     setMarkedIndices(new Map());
     setEvents([]);
     setCurrentEventIndex(0);
-  }, []);
+  }, [template]);
 
   // Run code
   const handleRun = useCallback(async () => {
@@ -421,6 +440,13 @@ export function PracticeClient({ initialAlgorithm }: PracticeClientProps) {
             <p className="text-xs text-[var(--text-tertiary)] mt-2">
               Enter numbers separated by commas or spaces (2-20 elements)
             </p>
+            {template?.requiresSortedArray && (
+              <div className="mt-2 p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                <p className="text-xs text-yellow-400 flex items-center gap-1">
+                  ⚠️ This algorithm requires a sorted array. Input will be automatically sorted.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Array Visualization */}
