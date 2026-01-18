@@ -36,6 +36,18 @@ import { peakElementCode } from './peakElement';
 import { rotatedArraySearchCode } from './rotatedArraySearch';
 import { rotatedArrayMinCode } from './rotatedArrayMin';
 import { matrixBinarySearchCode } from './matrixBinarySearch';
+// Arrays algorithms
+import { arrayOperationsCode } from './arrayOperations';
+import { twoPointersCode } from './twoPointers';
+import { slidingWindowCode } from './slidingWindow';
+import { prefixSumCode } from './prefixSum';
+import { kadanesCode } from './kadanes';
+import { dutchNationalFlagCode } from './dutchNationalFlag';
+import { mooresVotingCode } from './mooresVoting';
+import { mergeSortedArraysCode } from './mergeSortedArrays';
+import { rotateArrayCode } from './rotateArray';
+import { arrayRearrangementCode } from './arrayRearrangement';
+import { nextPermutationCode } from './nextPermutation';
 
 // Registry of all code templates
 const codeTemplatesRegistry: Map<string, AlgorithmCodeTemplates> = new Map();
@@ -75,6 +87,18 @@ const codeTemplatesRegistry: Map<string, AlgorithmCodeTemplates> = new Map();
   rotatedArraySearchCode,
   rotatedArrayMinCode,
   matrixBinarySearchCode,
+  // Arrays
+  arrayOperationsCode,
+  twoPointersCode,
+  slidingWindowCode,
+  prefixSumCode,
+  kadanesCode,
+  dutchNationalFlagCode,
+  mooresVotingCode,
+  mergeSortedArraysCode,
+  rotateArrayCode,
+  arrayRearrangementCode,
+  nextPermutationCode,
 ].forEach((template) => {
   codeTemplatesRegistry.set(template.algorithmId, template);
 });
