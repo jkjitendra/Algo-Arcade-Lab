@@ -184,6 +184,8 @@ export interface AlgorithmCodeTemplates {
   algorithmName: string;
   category: AlgorithmCategory;
   templates: Record<SupportedLanguage, string>;
+  /** If true, this algorithm requires a sorted input array */
+  requiresSortedArray?: boolean;
 }
 
 // Visualization event types (emitted by user code)
