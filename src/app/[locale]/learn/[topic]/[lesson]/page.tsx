@@ -72,6 +72,21 @@ const lessonContent: Record<string, {
     duration: "15 min",
     description: "Fundamental operations: insert, delete, update, search, and traverse.",
   },
+  "sliding-window": {
+    title: "Sliding Window",
+    duration: "20 min",
+    description: "A technique for finding subarrays that satisfy certain conditions efficiently.",
+  },
+  "prefix-sum": {
+    title: "Prefix Sum",
+    duration: "15 min",
+    description: "Precompute cumulative sums for O(1) range sum queries.",
+  },
+  "kadanes": {
+    title: "Kadane's Algorithm",
+    duration: "18 min",
+    description: "Find the maximum sum subarray in O(n) time using dynamic programming.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -169,6 +184,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "quick-sort" && <QuickSortLesson locale={locale} />}
       {lesson === "binary-search" && <BinarySearchLesson locale={locale} />}
       {lesson === "two-pointers" && <TwoPointersLesson locale={locale} />}
+      {lesson === "array-operations" && <ArrayOperationsLesson locale={locale} />}
+      {lesson === "sliding-window" && <SlidingWindowLesson locale={locale} />}
+      {lesson === "prefix-sum" && <PrefixSumLesson locale={locale} />}
+      {lesson === "kadanes" && <KadanesLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -1186,6 +1205,434 @@ def partition(arr, low, high):
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="quick-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Array Operations lesson
+function ArrayOperationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What are Array Operations?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Arrays are the most fundamental data structure. They store elements in contiguous memory
+          locations, enabling <strong className="text-[var(--text-primary)]">O(1) access</strong> to
+          any element using its index.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Mastering basic operations (traversal, insertion, deletion, search) is crucial before
+          learning advanced array techniques like two pointers and sliding window.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📦" title="A Row of Boxes">
+        Imagine a row of numbered boxes. Each box can hold one item, and you can instantly find
+        any box by its number. That&apos;s an array! The downside? If you want to insert a box in
+        the middle, you have to shift all the boxes after it.
+      </Analogy>
+
+      <LearnCard title="Core Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Access - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Access any element directly using its index: <code>arr[i]</code>
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Traversal - O(n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Visit each element once, typically with a for loop.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">3. Search - O(n) or O(log n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Linear search for unsorted, binary search for sorted arrays.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">4. Insert/Delete - O(n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Requires shifting elements (except at the end, which is O(1)).
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Access", time: "O(1)", description: "Direct index lookup" },
+          { case: "Search", time: "O(n)", description: "Linear scan (unsorted)" },
+          { case: "Insert/Delete", time: "O(n)", description: "Shift elements" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n elements stored"
+      />
+
+      <LearnCard title="Code Examples" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Access
+const value = arr[2];
+
+// Traversal
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+
+// Insert at index
+arr.splice(index, 0, element);
+
+// Delete at index
+arr.splice(index, 1);
+
+// Search
+const idx = arr.indexOf(target);`}
+          python={`# Access
+value = arr[2]
+
+# Traversal
+for element in arr:
+    print(element)
+
+# Insert at index
+arr.insert(index, element)
+
+# Delete at index
+arr.pop(index)
+
+# Search
+idx = arr.index(target) if target in arr else -1`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="array-operations" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Sliding Window lesson
+function SlidingWindowLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is the Sliding Window Technique?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Sliding Window</strong> is a technique for
+          processing contiguous sequences (subarrays or substrings) efficiently by maintaining a
+          &quot;window&quot; that slides across the data.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Instead of recomputing from scratch for each position, you update the window by adding
+          the new element and removing the old one — turning O(n×k) into O(n).
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🪟" title="A Window on a Train">
+        Imagine looking through a train window at passing scenery. As the train moves, new scenery
+        enters your view on one side while old scenery exits on the other. You don&apos;t need to
+        look at the entire journey again — just update what changed!
+      </Analogy>
+
+      <LearnCard title="Two Types of Windows" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Fixed-Size Window</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Window size k is constant. Add right element, remove left element, slide forward.
+              Example: Maximum sum of k consecutive elements.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Variable-Size Window</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Window expands/shrinks based on conditions. Expand right, shrink left until valid.
+              Example: Smallest subarray with sum ≥ target.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Example: Maximum Sum Subarray of Size K" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Fixed Window" input="[2, 1, 5, 1, 3, 2], k = 3" output="9 (subarray [5, 1, 3])">
+          <div className="space-y-3">
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">Window [0-2]: sum = 2+1+5 = 8</p>
+              <ArrayDiagram values={[2, 1, 5, 1, 3, 2]} highlights={[0, 1, 2]} />
+            </div>
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">Slide: -2, +1 → sum = 8 - 2 + 1 = 7</p>
+              <ArrayDiagram values={[2, 1, 5, 1, 3, 2]} highlights={[1, 2, 3]} />
+            </div>
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">Slide: -1, +3 → sum = 7 - 1 + 3 = 9 ✓ Maximum!</p>
+              <ArrayDiagram values={[2, 1, 5, 1, 3, 2]} highlights={[2, 3, 4]} />
+            </div>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Fixed Window", time: "O(n)", description: "Single pass" },
+          { case: "Variable Window", time: "O(n)", description: "Each element visited max twice" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just maintain window bounds and sum"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function maxSumSubarray(arr, k) {
+  let windowSum = 0;
+  let maxSum = -Infinity;
+  
+  for (let i = 0; i < arr.length; i++) {
+    windowSum += arr[i];  // Add right
+    
+    if (i >= k - 1) {
+      maxSum = Math.max(maxSum, windowSum);
+      windowSum -= arr[i - k + 1];  // Remove left
+    }
+  }
+  
+  return maxSum;
+}`}
+          python={`def max_sum_subarray(arr, k):
+    window_sum = 0
+    max_sum = float('-inf')
+    
+    for i in range(len(arr)):
+        window_sum += arr[i]  # Add right
+        
+        if i >= k - 1:
+            max_sum = max(max_sum, window_sum)
+            window_sum -= arr[i - k + 1]  # Remove left
+    
+    return max_sum`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="sliding-window" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Prefix Sum lesson
+function PrefixSumLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Prefix Sum?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Prefix Sum</strong> (or Cumulative Sum)
+          is a preprocessing technique where you compute the running total up to each index.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Once computed, you can answer any range sum query in <strong>O(1)</strong> time instead
+          of O(n). It&apos;s a classic space-time tradeoff!
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="💰" title="Bank Balance History">
+        Imagine your bank shows your cumulative balance after each transaction. To find how much
+        you spent in a specific period, you just subtract the balance before that period from the
+        balance after — no need to add up each transaction!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Build prefix array", description: "prefix[i] = sum of arr[0] to arr[i]" },
+            { title: "prefix[0] = arr[0]", description: "First element is itself." },
+            { title: "prefix[i] = prefix[i-1] + arr[i]", description: "Add current to previous sum." },
+            { title: "Range sum query", description: "sum(l, r) = prefix[r] - prefix[l-1]" },
+            { title: "Edge case", description: "If l = 0, sum = prefix[r]" },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Build Prefix Sum" input="[3, 1, 4, 1, 5]" output="prefix = [3, 4, 8, 9, 14]">
+          <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+            <p>prefix[0] = 3</p>
+            <p>prefix[1] = 3 + 1 = 4</p>
+            <p>prefix[2] = 4 + 4 = 8</p>
+            <p>prefix[3] = 8 + 1 = 9</p>
+            <p>prefix[4] = 9 + 5 = 14</p>
+          </div>
+        </ExampleBox>
+        <ExampleBox number={2} title="Range Sum Query" input="Sum from index 1 to 3" output="6" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            sum(1, 3) = prefix[3] - prefix[0] = 9 - 3 = 6<br />
+            Verify: arr[1] + arr[2] + arr[3] = 1 + 4 + 1 = 6 ✓
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Build Prefix", time: "O(n)", description: "One pass" },
+          { case: "Range Query", time: "O(1)", description: "Just subtraction!" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="Store prefix array"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function buildPrefixSum(arr) {
+  const prefix = [arr[0]];
+  for (let i = 1; i < arr.length; i++) {
+    prefix[i] = prefix[i - 1] + arr[i];
+  }
+  return prefix;
+}
+
+function rangeSum(prefix, l, r) {
+  if (l === 0) return prefix[r];
+  return prefix[r] - prefix[l - 1];
+}`}
+          python={`def build_prefix_sum(arr):
+    prefix = [arr[0]]
+    for i in range(1, len(arr)):
+        prefix.append(prefix[-1] + arr[i])
+    return prefix
+
+def range_sum(prefix, l, r):
+    if l == 0:
+        return prefix[r]
+    return prefix[r] - prefix[l - 1]`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="prefix-sum" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Kadane's Algorithm lesson
+function KadanesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Kadane's Algorithm?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Kadane&apos;s Algorithm</strong> finds the
+          maximum sum contiguous subarray in O(n) time. It&apos;s a beautiful example of dynamic
+          programming applied to arrays.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The key insight: at each position, decide whether to extend the previous subarray or
+          start fresh from the current element.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏃" title="Running with a Score">
+        Imagine running a race where each step adds or subtracts from your score. At each step,
+        you ask: &quot;Should I keep my running total, or would starting fresh give me a better
+        score?&quot; You track the best score you&apos;ve ever achieved.
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Initialize", description: "maxCurrent = maxGlobal = arr[0]" },
+            { title: "For each element", description: "maxCurrent = max(arr[i], maxCurrent + arr[i])" },
+            { title: "Update global max", description: "maxGlobal = max(maxGlobal, maxCurrent)" },
+            { title: "The decision", description: "Either extend current subarray or start new one" },
+            { title: "Return", description: "maxGlobal is the answer" },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Mixed Array" input="[-2, 1, -3, 4, -1, 2, 1, -5, 4]" output="6 (subarray [4, -1, 2, 1])">
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>At index 3 (value 4): max(4, -2+4) = 4, start fresh!</p>
+            <p>At index 4: max(-1, 4+(-1)) = 3, extend</p>
+            <p>At index 5: max(2, 3+2) = 5, extend</p>
+            <p>At index 6: max(1, 5+1) = 6 ✓ Maximum reached!</p>
+          </div>
+        </ExampleBox>
+        <ExampleBox number={2} title="All Negative" input="[-3, -1, -4]" output="-1" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            When all elements are negative, the maximum subarray is the least negative element.
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n)", description: "Single pass" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just two variables"
+      />
+
+      <Callout type="insight" title="The DP Recurrence">
+        <p className="mt-2">
+          <code>maxEndingHere[i] = max(arr[i], maxEndingHere[i-1] + arr[i])</code>
+        </p>
+        <p className="mt-2 text-sm">
+          This says: the max sum ending at position i is either just arr[i] (start fresh) or
+          the previous max sum plus arr[i] (extend).
+        </p>
+      </Callout>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function kadane(arr) {
+  let maxCurrent = arr[0];
+  let maxGlobal = arr[0];
+  
+  for (let i = 1; i < arr.length; i++) {
+    // Extend or start fresh?
+    maxCurrent = Math.max(arr[i], maxCurrent + arr[i]);
+    maxGlobal = Math.max(maxGlobal, maxCurrent);
+  }
+  
+  return maxGlobal;
+}`}
+          python={`def kadane(arr):
+    max_current = arr[0]
+    max_global = arr[0]
+    
+    for i in range(1, len(arr)):
+        # Extend or start fresh?
+        max_current = max(arr[i], max_current + arr[i])
+        max_global = max(max_global, max_current)
+    
+    return max_global`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Variations">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li><strong>Track indices:</strong> Store start/end when maxGlobal updates</li>
+          <li><strong>Minimum subarray sum:</strong> Flip the comparison</li>
+          <li><strong>Circular array:</strong> Total sum minus min subarray sum</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="kadanes-algorithm" category="arrays" locale={locale} />
         </div>
       </div>
     </div>
