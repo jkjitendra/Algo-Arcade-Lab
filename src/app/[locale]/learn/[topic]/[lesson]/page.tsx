@@ -150,6 +150,27 @@ const lessonContent: Record<string, {
     duration: "18 min",
     description: "Find the next larger element using a monotonic stack.",
   },
+  // Queues
+  "queue-operations": {
+    title: "Queue Operations",
+    duration: "12 min",
+    description: "Enqueue, dequeue, front — master the FIFO (First-In-First-Out) data structure.",
+  },
+  "circular-queue": {
+    title: "Circular Queue",
+    duration: "15 min",
+    description: "Efficient queue using a circular array with fixed capacity.",
+  },
+  "priority-queue": {
+    title: "Priority Queue",
+    duration: "18 min",
+    description: "Elements dequeued by priority, not arrival order. Uses a heap internally.",
+  },
+  "lru-cache": {
+    title: "LRU Cache",
+    duration: "22 min",
+    description: "Least Recently Used cache using a hash map and doubly linked list.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -160,6 +181,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     strings: ["string-operations", "character-frequency", "brute-force-search", "kmp-algorithm", "anagram-detection"],
     searching: ["linear-search", "binary-search", "lower-bound", "upper-bound", "peak-element"],
     stacks: ["stack-operations", "balanced-parentheses", "infix-to-postfix", "next-greater-element"],
+    queues: ["queue-operations", "circular-queue", "priority-queue", "lru-cache"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -265,6 +287,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "balanced-parentheses" && <BalancedParenthesesLesson locale={locale} />}
       {lesson === "infix-to-postfix" && <InfixToPostfixLesson locale={locale} />}
       {lesson === "next-greater-element" && <NextGreaterElementLesson locale={locale} />}
+      {lesson === "queue-operations" && <QueueOperationsLesson locale={locale} />}
+      {lesson === "circular-queue" && <CircularQueueLesson locale={locale} />}
+      {lesson === "priority-queue" && <PriorityQueueLesson locale={locale} />}
+      {lesson === "lru-cache" && <LRUCacheLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -2963,6 +2989,402 @@ function NextGreaterElementLesson({ locale }: { locale: string }) {
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="next-greater-element" category="stacks" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Queue Operations lesson
+function QueueOperationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Queue?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Queue</strong> is a FIFO (First-In-First-Out)
+          data structure. The first element added is the first one removed — like a line at a store.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Queues are used in BFS traversal, scheduling, buffering, and handling async operations.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎢" title="Line for a Ride">
+        Imagine waiting in line for a roller coaster. The first person who joined the line is
+        the first to get on the ride. New people join at the back, and people leave from the front.
+      </Analogy>
+
+      <LearnCard title="Core Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">enqueue(x) - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Add element x to the back of the queue.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">dequeue() - O(1)*</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Remove and return the front element. (*O(n) for naive array impl)</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">front() / peek() - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Return the front element without removing.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">isEmpty() - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Check if the queue is empty.</p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class Queue {
+  constructor() {
+    this.items = {};
+    this.head = 0;
+    this.tail = 0;
+  }
+  
+  enqueue(x) { this.items[this.tail++] = x; }
+  dequeue() { 
+    if (this.isEmpty()) return undefined;
+    const item = this.items[this.head];
+    delete this.items[this.head++];
+    return item;
+  }
+  front() { return this.items[this.head]; }
+  isEmpty() { return this.tail === this.head; }
+}`}
+          python={`from collections import deque
+
+# Python deque is optimal for queues
+queue = deque()
+
+queue.append(1)    # enqueue
+queue.append(2)
+queue.popleft()    # dequeue -> 1
+front = queue[0]   # peek -> 2`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="queue-operations" category="queues" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Circular Queue lesson
+function CircularQueueLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Circular Queue?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Circular Queue</strong> uses a fixed-size
+          array where the end wraps around to the beginning, forming a circle.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This avoids the &quot;wasted space&quot; problem of linear arrays and achieves O(1)
+          enqueue/dequeue without shifting elements.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔄" title="Circular Track">
+        Imagine runners on a circular track. After completing a lap, they&apos;re back at the start.
+        The queue works the same way — after reaching the end of the array, it wraps to index 0.
+      </Analogy>
+
+      <LearnCard title="Key Concepts" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+          <p><strong>Front pointer:</strong> Points to the first element</p>
+          <p><strong>Rear pointer:</strong> Points to the last element (or next empty)</p>
+          <p><strong>Wrap around:</strong> <code>index = (index + 1) % capacity</code></p>
+          <p><strong>Full check:</strong> <code>(rear + 1) % capacity === front</code></p>
+          <p><strong>Empty check:</strong> <code>front === -1</code> or <code>count === 0</code></p>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Enqueue/Dequeue", time: "O(1)", description: "No shifting needed" },
+        ]}
+        spaceComplexity="O(k)"
+        spaceDescription="k = fixed capacity"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class CircularQueue {
+  constructor(k) {
+    this.queue = new Array(k);
+    this.capacity = k;
+    this.front = 0;
+    this.rear = -1;
+    this.size = 0;
+  }
+  
+  enqueue(x) {
+    if (this.isFull()) return false;
+    this.rear = (this.rear + 1) % this.capacity;
+    this.queue[this.rear] = x;
+    this.size++;
+    return true;
+  }
+  
+  dequeue() {
+    if (this.isEmpty()) return false;
+    this.front = (this.front + 1) % this.capacity;
+    this.size--;
+    return true;
+  }
+  
+  isFull() { return this.size === this.capacity; }
+  isEmpty() { return this.size === 0; }
+}`}
+          python={`class CircularQueue:
+    def __init__(self, k):
+        self.queue = [None] * k
+        self.capacity = k
+        self.front = 0
+        self.rear = -1
+        self.size = 0
+    
+    def enqueue(self, x):
+        if self.is_full():
+            return False
+        self.rear = (self.rear + 1) % self.capacity
+        self.queue[self.rear] = x
+        self.size += 1
+        return True
+    
+    def dequeue(self):
+        if self.is_empty():
+            return False
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        return True
+    
+    def is_full(self): return self.size == self.capacity
+    def is_empty(self): return self.size == 0`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="circular-queue" category="queues" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Priority Queue lesson
+function PriorityQueueLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Priority Queue?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Priority Queue</strong> is an abstract
+          data type where elements are dequeued based on priority, not arrival order.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Typically implemented using a <strong>Binary Heap</strong>, which gives O(log n)
+          insert and O(log n) extract-min/max.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏥" title="Hospital ER">
+        In an emergency room, patients aren&apos;t treated in order of arrival. Critical cases
+        (highest priority) are seen first, even if they arrived later. That&apos;s a priority queue!
+      </Analogy>
+
+      <LearnCard title="Types" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Min-Heap Priority Queue</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Smallest element has highest priority. Used in Dijkstra&apos;s algorithm.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Max-Heap Priority Queue</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Largest element has highest priority. Used in finding top K elements.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Insert", time: "O(log n)", description: "Bubble up" },
+          { case: "Extract Min/Max", time: "O(log n)", description: "Bubble down" },
+          { case: "Peek", time: "O(1)", description: "Root element" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n elements"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// JavaScript doesn't have built-in PQ
+// Use a library or implement MinHeap
+
+class MinPriorityQueue {
+  constructor() { this.heap = []; }
+  
+  insert(val) {
+    this.heap.push(val);
+    this._bubbleUp();
+  }
+  
+  extractMin() {
+    if (!this.heap.length) return null;
+    const min = this.heap[0];
+    const last = this.heap.pop();
+    if (this.heap.length) {
+      this.heap[0] = last;
+      this._bubbleDown();
+    }
+    return min;
+  }
+  
+  // ... bubbleUp and bubbleDown helpers
+}`}
+          python={`import heapq
+
+# Python heapq is a min-heap
+pq = []
+
+heapq.heappush(pq, 3)
+heapq.heappush(pq, 1)
+heapq.heappush(pq, 2)
+
+min_val = heapq.heappop(pq)  # 1
+
+# For max-heap, negate values
+max_heap = []
+heapq.heappush(max_heap, -5)
+heapq.heappush(max_heap, -10)
+max_val = -heapq.heappop(max_heap)  # 10`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="priority-queue" category="queues" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// LRU Cache lesson
+function LRUCacheLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is an LRU Cache?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">LRU (Least Recently Used) Cache</strong> is
+          a data structure that evicts the least recently used item when capacity is reached.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          It combines a <strong>hash map</strong> for O(1) lookups with a <strong>doubly linked list</strong>
+          for O(1) insertion/deletion at both ends.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📱" title="Browser Tabs">
+        Your browser has limited memory. When you open too many tabs, it might close the tab you
+        haven&apos;t used in the longest time. Every time you click a tab, it becomes &quot;recently used.&quot;
+      </Analogy>
+
+      <LearnCard title="Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">get(key) - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Return value if exists, move to front (most recently used). Return -1 if not found.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">put(key, value) - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Insert/update key. If at capacity, evict LRU (tail). Move to front.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Get", time: "O(1)", description: "Hash map lookup + list move" },
+          { case: "Put", time: "O(1)", description: "Hash map insert + list operations" },
+        ]}
+        spaceComplexity="O(capacity)"
+        spaceDescription="Fixed capacity"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();  // Maintains insertion order
+  }
+  
+  get(key) {
+    if (!this.cache.has(key)) return -1;
+    const value = this.cache.get(key);
+    // Move to end (most recently used)
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+  
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      // Evict LRU (first item)
+      const lruKey = this.cache.keys().next().value;
+      this.cache.delete(lruKey);
+    }
+    this.cache.set(key, value);
+  }
+}`}
+          python={`from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+    
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        # Move to end (most recently used)
+        self.cache.move_to_end(key)
+        return self.cache[key]
+    
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
+        if len(self.cache) > self.capacity:
+            # Evict LRU (first item)
+            self.cache.popitem(last=False)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="lru-cache" category="queues" locale={locale} />
         </div>
       </div>
     </div>
