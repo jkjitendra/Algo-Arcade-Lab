@@ -192,6 +192,27 @@ const lessonContent: Record<string, {
     duration: "10 min",
     description: "Use the slow and fast pointer technique.",
   },
+  // Recursion
+  "factorial": {
+    title: "Factorial",
+    duration: "10 min",
+    description: "The classic introduction to recursion — n! = n × (n-1)!",
+  },
+  "fibonacci": {
+    title: "Fibonacci Sequence",
+    duration: "15 min",
+    description: "Generate Fibonacci numbers recursively and understand overlapping subproblems.",
+  },
+  "tower-of-hanoi": {
+    title: "Tower of Hanoi",
+    duration: "18 min",
+    description: "Classic puzzle demonstrating the power of recursive thinking.",
+  },
+  "n-queens": {
+    title: "N-Queens Problem",
+    duration: "25 min",
+    description: "Place N queens on an N×N board using backtracking.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -204,6 +225,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     stacks: ["stack-operations", "balanced-parentheses", "infix-to-postfix", "next-greater-element"],
     queues: ["queue-operations", "circular-queue", "priority-queue", "lru-cache"],
     "linked-lists": ["singly-linked-list", "reverse-linked-list", "detect-cycle", "find-middle"],
+    recursion: ["factorial", "fibonacci", "tower-of-hanoi", "n-queens"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -317,6 +339,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "reverse-linked-list" && <ReverseLinkedListLesson locale={locale} />}
       {lesson === "detect-cycle" && <DetectCycleLesson locale={locale} />}
       {lesson === "find-middle" && <FindMiddleLesson locale={locale} />}
+      {lesson === "factorial" && <FactorialLesson locale={locale} />}
+      {lesson === "fibonacci" && <FibonacciLesson locale={locale} />}
+      {lesson === "tower-of-hanoi" && <TowerOfHanoiLesson locale={locale} />}
+      {lesson === "n-queens" && <NQueensLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -3773,6 +3799,386 @@ function FindMiddleLesson({ locale }: { locale: string }) {
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="find-middle" category="linked-lists" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Factorial lesson
+function FactorialLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Factorial?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Factorial</strong> of n (written n!) is
+          the product of all positive integers from 1 to n. It&apos;s the classic introduction
+          to recursion!
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          <code>n! = n × (n-1) × (n-2) × ... × 2 × 1</code>
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🪆" title="Russian Dolls">
+        To find how many dolls there are, open one and count it, then count what&apos;s inside.
+        When you reach the smallest doll (base case), stop and add up!
+      </Analogy>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+          <p>5! = 5 × 4 × 3 × 2 × 1 = 120</p>
+          <p>4! = 4 × 3 × 2 × 1 = 24</p>
+          <p>1! = 1</p>
+          <p>0! = 1 (by definition)</p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Recursive Thinking" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Base case", description: "n = 0 or n = 1 → return 1" },
+            { title: "Recursive case", description: "n! = n × (n-1)!" },
+            { title: "Trust the recursion", description: "Assume (n-1)! works correctly" },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "Compute n!", time: "O(n)", description: "n multiplications" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="n stack frames (can be O(1) iteratively)"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Recursive
+function factorial(n) {
+  if (n <= 1) return 1;  // Base case
+  return n * factorial(n - 1);  // Recursive case
+}
+
+// Iterative (for comparison)
+function factorialIterative(n) {
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}`}
+          python={`# Recursive
+def factorial(n):
+    if n <= 1:
+        return 1  # Base case
+    return n * factorial(n - 1)  # Recursive case
+
+# Iterative (for comparison)
+def factorial_iterative(n):
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="factorial" category="recursion" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Fibonacci lesson
+function FibonacciLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is the Fibonacci Sequence?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Each <strong className="text-[var(--text-primary)]">Fibonacci number</strong> is the sum
+          of the two preceding ones: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34...
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          <code>F(n) = F(n-1) + F(n-2)</code>, with F(0) = 0, F(1) = 1
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🐇" title="Rabbit Population">
+        Each pair of rabbits produces a new pair every month. The population follows the Fibonacci
+        sequence! This was Fibonacci&apos;s original problem in 1202.
+      </Analogy>
+
+      <LearnCard title="The Problem with Naive Recursion" iconEmoji="⚠️" color="from-orange-500 to-red-500">
+        <p className="text-[var(--text-secondary)] mb-4">
+          Naive recursion recalculates the same values many times. F(5) calls F(4) and F(3),
+          but F(4) also calls F(3)!
+        </p>
+        <p className="text-sm text-[var(--text-tertiary)]">
+          This leads to O(2^n) time — exponential and very slow for large n.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Naive Recursive", time: "O(2^n)", description: "Exponential!" },
+          { case: "Memoized", time: "O(n)", description: "Each value computed once" },
+          { case: "Iterative", time: "O(n)", description: "Bottom-up" },
+        ]}
+        spaceComplexity="O(n) or O(1)"
+        spaceDescription="Memoization vs iterative with 2 vars"
+      />
+
+      <LearnCard title="Code Implementations" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Naive (slow!)
+function fibNaive(n) {
+  if (n <= 1) return n;
+  return fibNaive(n - 1) + fibNaive(n - 2);
+}
+
+// Memoized (fast!)
+function fibMemo(n, memo = {}) {
+  if (n in memo) return memo[n];
+  if (n <= 1) return n;
+  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
+  return memo[n];
+}
+
+// Iterative (optimal!)
+function fibIterative(n) {
+  if (n <= 1) return n;
+  let a = 0, b = 1;
+  for (let i = 2; i <= n; i++) {
+    [a, b] = [b, a + b];
+  }
+  return b;
+}`}
+          python={`# Naive (slow!)
+def fib_naive(n):
+    if n <= 1: return n
+    return fib_naive(n - 1) + fib_naive(n - 2)
+
+# Memoized with decorator
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib_memo(n):
+    if n <= 1: return n
+    return fib_memo(n - 1) + fib_memo(n - 2)
+
+# Iterative (optimal!)
+def fib_iterative(n):
+    if n <= 1: return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="fibonacci" category="recursion" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Tower of Hanoi lesson
+function TowerOfHanoiLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Tower of Hanoi?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Move n disks from source peg to destination peg, using an auxiliary peg. Rules:
+        </p>
+        <ul className="list-disc list-inside text-[var(--text-secondary)] space-y-1">
+          <li>Move only one disk at a time</li>
+          <li>Larger disk cannot be placed on smaller disk</li>
+          <li>Only the top disk of a peg can be moved</li>
+        </ul>
+      </LearnCard>
+
+      <Analogy emoji="🗼" title="Moving a Tower">
+        To move a tower of n disks: First move the top n-1 disks out of the way, move the
+        bottom disk, then put the n-1 disks on top. It&apos;s recursive!
+      </Analogy>
+
+      <LearnCard title="Recursive Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Base case (n=1)", description: "Move single disk from source to destination." },
+            { title: "Move n-1 disks", description: "From source to auxiliary." },
+            { title: "Move largest disk", description: "From source to destination." },
+            { title: "Move n-1 disks", description: "From auxiliary to destination." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "n disks", time: "O(2^n)", description: "2^n - 1 moves required" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="Recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function hanoi(n, source, dest, aux) {
+  if (n === 1) {
+    console.log(\`Move disk 1 from \${source} to \${dest}\`);
+    return;
+  }
+  
+  // Move n-1 disks from source to auxiliary
+  hanoi(n - 1, source, aux, dest);
+  
+  // Move largest disk to destination
+  console.log(\`Move disk \${n} from \${source} to \${dest}\`);
+  
+  // Move n-1 disks from auxiliary to destination
+  hanoi(n - 1, aux, dest, source);
+}
+
+// Usage: hanoi(3, 'A', 'C', 'B');`}
+          python={`def hanoi(n, source, dest, aux):
+    if n == 1:
+        print(f"Move disk 1 from {source} to {dest}")
+        return
+    
+    # Move n-1 disks from source to auxiliary
+    hanoi(n - 1, source, aux, dest)
+    
+    # Move largest disk to destination
+    print(f"Move disk {n} from {source} to {dest}")
+    
+    # Move n-1 disks from auxiliary to destination
+    hanoi(n - 1, aux, dest, source)
+
+# Usage: hanoi(3, 'A', 'C', 'B')`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="tower-of-hanoi" category="recursion" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// N-Queens lesson
+function NQueensLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is the N-Queens Problem?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Place N chess queens on an N×N board so that <strong className="text-[var(--text-primary)]">no
+            two queens attack each other</strong> (same row, column, or diagonal).
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This classic problem demonstrates <strong>backtracking</strong> — trying choices and
+          undoing them when they lead to dead ends.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="♛" title="Job Interview Seating">
+        Imagine seating interviewers in a grid where certain pairs can&apos;t sit in the same row,
+        column, or diagonal. You try placements, and when conflicts arise, you go back and try
+        another spot!
+      </Analogy>
+
+      <LearnCard title="Backtracking Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Place row by row", description: "Try placing a queen in each column of current row." },
+            { title: "Check safety", description: "Is this position safe from attacks?" },
+            { title: "Safe?", description: "Recurse to next row." },
+            { title: "Not safe?", description: "Try next column." },
+            { title: "No valid column?", description: "Backtrack to previous row." },
+            { title: "All rows filled?", description: "Solution found!" },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Worst case", time: "O(N!)", description: "Pruned by constraints" },
+        ]}
+        spaceComplexity="O(N)"
+        spaceDescription="Store queen positions"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function solveNQueens(n) {
+  const solutions = [];
+  const board = Array(n).fill(-1);  // board[row] = column
+  
+  function isSafe(row, col) {
+    for (let r = 0; r < row; r++) {
+      const c = board[r];
+      if (c === col || Math.abs(r - row) === Math.abs(c - col)) {
+        return false;  // Same column or diagonal
+      }
+    }
+    return true;
+  }
+  
+  function solve(row) {
+    if (row === n) {
+      solutions.push([...board]);
+      return;
+    }
+    for (let col = 0; col < n; col++) {
+      if (isSafe(row, col)) {
+        board[row] = col;
+        solve(row + 1);
+        board[row] = -1;  // Backtrack
+      }
+    }
+  }
+  
+  solve(0);
+  return solutions;
+}`}
+          python={`def solve_n_queens(n):
+    solutions = []
+    board = [-1] * n  # board[row] = column
+    
+    def is_safe(row, col):
+        for r in range(row):
+            c = board[r]
+            if c == col or abs(r - row) == abs(c - col):
+                return False  # Same column or diagonal
+        return True
+    
+    def solve(row):
+        if row == n:
+            solutions.append(board[:])
+            return
+        for col in range(n):
+            if is_safe(row, col):
+                board[row] = col
+                solve(row + 1)
+                board[row] = -1  # Backtrack
+    
+    solve(0)
+    return solutions`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="n-queens" category="recursion" locale={locale} />
         </div>
       </div>
     </div>
