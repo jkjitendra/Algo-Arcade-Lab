@@ -113,6 +113,22 @@ const lessonContent: Record<string, {
     duration: "15 min",
     description: "Check if two strings are anagrams using sorting or frequency counting.",
   },
+  // Searching (additional)
+  "lower-bound": {
+    title: "Lower Bound",
+    duration: "12 min",
+    description: "Find the first position where an element could be inserted to keep the array sorted.",
+  },
+  "upper-bound": {
+    title: "Upper Bound",
+    duration: "12 min",
+    description: "Find the position after the last occurrence of a value in a sorted array.",
+  },
+  "peak-element": {
+    title: "Peak Element",
+    duration: "15 min",
+    description: "Find a local maximum in an array using binary search in O(log n) time.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -219,6 +235,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "brute-force-search" && <BruteForceSearchLesson locale={locale} />}
       {lesson === "kmp-algorithm" && <KMPAlgorithmLesson locale={locale} />}
       {lesson === "anagram-detection" && <AnagramDetectionLesson locale={locale} />}
+      {lesson === "linear-search" && <LinearSearchLesson locale={locale} />}
+      {lesson === "lower-bound" && <LowerBoundLesson locale={locale} />}
+      {lesson === "upper-bound" && <UpperBoundLesson locale={locale} />}
+      {lesson === "peak-element" && <PeakElementLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -2178,6 +2198,350 @@ def is_anagram_counter(s1, s2):
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="anagram-detection" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Linear Search lesson
+function LinearSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Linear Search?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Linear Search</strong> (or Sequential Search)
+          is the simplest search algorithm. It checks each element one by one until the target is found.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          While not the most efficient, it works on <strong>unsorted</strong> arrays and is easy to implement.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📚" title="Finding a Book on a Shelf">
+        Imagine looking for a specific book on an unorganized shelf. You start from one end and
+        check each book until you find the one you want. That&apos;s linear search!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Start at index 0", description: "Begin at the first element." },
+            { title: "Compare", description: "Check if current element equals target." },
+            { title: "Found?", description: "If match, return the current index." },
+            { title: "Move forward", description: "Otherwise, proceed to next element." },
+            { title: "Repeat", description: "Continue until found or array ends." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(1)", description: "Target is first element" },
+          { case: "Average Case", time: "O(n)", description: "Target in middle" },
+          { case: "Worst Case", time: "O(n)", description: "Target at end or not found" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only uses a loop variable"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function linearSearch(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;  // Found at index i
+    }
+  }
+  return -1;  // Not found
+}`}
+          python={`def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i  # Found at index i
+    return -1  # Not found`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use Linear Search">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li><strong>Unsorted arrays:</strong> No choice but linear search</li>
+          <li><strong>Small arrays:</strong> Overhead of sorting isn&apos;t worth it</li>
+          <li><strong>Single search:</strong> Not worth preprocessing</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="linear-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Lower Bound lesson
+function LowerBoundLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Lower Bound?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Lower Bound</strong> finds the first position
+          where a value could be inserted to maintain sorted order. It returns the index of the first
+          element ≥ target.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This is a variation of binary search commonly used in competitive programming and for
+          finding the first occurrence of a value.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📏" title="Finding Your Place in Line">
+        Imagine students lined up by height. To find where you belong, you look for the first
+        person who is at least as tall as you — that&apos;s your lower bound position!
+      </Analogy>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Target Exists" input="[1, 2, 4, 4, 4, 5, 8], target = 4" output="Index: 2">
+          <p className="text-sm text-[var(--text-secondary)]">
+            The first 4 is at index 2. Lower bound returns the first occurrence.
+          </p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Target Not Present" input="[1, 2, 5, 8], target = 4" output="Index: 2" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            4 is not in the array, but would be inserted at index 2 (before 5).
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Binary search variant" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Iterative version"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function lowerBound(arr, target) {
+  let left = 0, right = arr.length;
+  
+  while (left < right) {
+    const mid = left + Math.floor((right - left) / 2);
+    if (arr[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid;  // Keep looking left
+    }
+  }
+  return left;  // First position where arr[i] >= target
+}`}
+          python={`def lower_bound(arr, target):
+    left, right = 0, len(arr)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid  # Keep looking left
+    
+    return left  # First position where arr[i] >= target`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="lower-bound" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Upper Bound lesson
+function UpperBoundLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Upper Bound?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Upper Bound</strong> finds the first position
+          <strong> after</strong> all occurrences of a value. It returns the index of the first element
+          <strong> greater than</strong> the target.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Combined with lower bound, you can find the count of a value:
+          <code>upperBound - lowerBound</code>
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Multiple Occurrences" input="[1, 2, 4, 4, 4, 5, 8], target = 4" output="Index: 5">
+          <p className="text-sm text-[var(--text-secondary)]">
+            The last 4 is at index 4. Upper bound returns 5 (first element &gt; 4).
+            <br />Count of 4s = upper_bound(5) - lower_bound(2) = 3
+          </p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Target Not Present" input="[1, 2, 5, 8], target = 4" output="Index: 2" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            Same as lower bound when target is not present.
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Binary search variant" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Iterative version"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function upperBound(arr, target) {
+  let left = 0, right = arr.length;
+  
+  while (left < right) {
+    const mid = left + Math.floor((right - left) / 2);
+    if (arr[mid] <= target) {  // Note: <= instead of <
+      left = mid + 1;
+    } else {
+      right = mid;
+    }
+  }
+  return left;  // First position where arr[i] > target
+}`}
+          python={`def upper_bound(arr, target):
+    left, right = 0, len(arr)
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        if arr[mid] <= target:  # Note: <= instead of <
+            left = mid + 1
+        else:
+            right = mid
+    
+    return left  # First position where arr[i] > target`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Lower vs Upper Bound">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Lower Bound: First element <strong>≥</strong> target</li>
+          <li>Upper Bound: First element <strong>&gt;</strong> target</li>
+          <li>Difference: Count of target in array</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="upper-bound" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Peak Element lesson
+function PeakElementLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Peak Element?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">peak element</strong> is an element that
+          is greater than its neighbors. For corner elements, we only compare with one neighbor.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Surprisingly, we can find a peak in O(log n) time using binary search, even though
+          the array is unsorted!
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="⛰️" title="Finding a Mountain Peak">
+        Imagine walking on hilly terrain. You want to find any peak. At any point, if the ground
+        rises to your left, go left — there must be a peak that way. If it rises to your right,
+        go right. You&apos;ll always find a peak!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Check middle", description: "Look at arr[mid] and its neighbors." },
+            { title: "Is it a peak?", description: "If arr[mid] > both neighbors, return mid." },
+            { title: "Go uphill", description: "If right neighbor is larger, peak is on right." },
+            { title: "Or left", description: "If left neighbor is larger, peak is on left." },
+            { title: "Converge", description: "Binary search guarantees we find a peak." },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Single Peak" input="[1, 2, 3, 1]" output="Index: 2 (value 3)">
+          <p className="text-sm text-[var(--text-secondary)]">
+            3 is greater than both neighbors (2 and 1), so it&apos;s a peak.
+          </p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Multiple Peaks" input="[1, 3, 2, 4, 1]" output="Index: 1 or 3" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            Both 3 and 4 are peaks. We only need to find one!
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Binary search" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Iterative version"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function findPeakElement(arr) {
+  let left = 0, right = arr.length - 1;
+  
+  while (left < right) {
+    const mid = left + Math.floor((right - left) / 2);
+    
+    if (arr[mid] < arr[mid + 1]) {
+      left = mid + 1;  // Peak is on right
+    } else {
+      right = mid;     // Peak is on left (or mid)
+    }
+  }
+  return left;  // left === right, found peak
+}`}
+          python={`def find_peak_element(arr):
+    left, right = 0, len(arr) - 1
+    
+    while left < right:
+        mid = left + (right - left) // 2
+        
+        if arr[mid] < arr[mid + 1]:
+            left = mid + 1  # Peak is on right
+        else:
+            right = mid     # Peak is on left (or mid)
+    
+    return left  # left == right, found peak`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Does This Work?">
+        If arr[mid] &lt; arr[mid+1], we go right because the slope is going up.
+        Either we hit a peak, or we reach the end (which is also a valid peak).
+        The same logic applies when going left!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="peak-element" category="searching" locale={locale} />
         </div>
       </div>
     </div>
