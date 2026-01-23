@@ -213,6 +213,27 @@ const lessonContent: Record<string, {
     duration: "25 min",
     description: "Place N queens on an N×N board using backtracking.",
   },
+  // Trees
+  "binary-tree": {
+    title: "Binary Tree Basics",
+    duration: "15 min",
+    description: "Node-based tree structure where each node has at most two children.",
+  },
+  "tree-traversals": {
+    title: "Tree Traversals",
+    duration: "20 min",
+    description: "Inorder, Preorder, Postorder — master all three DFS traversal patterns.",
+  },
+  "bst-operations": {
+    title: "BST Operations",
+    duration: "22 min",
+    description: "Insert, search, and delete in a Binary Search Tree.",
+  },
+  "tree-height-depth": {
+    title: "Height and Depth",
+    duration: "12 min",
+    description: "Calculate tree height and node depth recursively.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -226,6 +247,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     queues: ["queue-operations", "circular-queue", "priority-queue", "lru-cache"],
     "linked-lists": ["singly-linked-list", "reverse-linked-list", "detect-cycle", "find-middle"],
     recursion: ["factorial", "fibonacci", "tower-of-hanoi", "n-queens"],
+    trees: ["binary-tree", "tree-traversals", "bst-operations", "tree-height-depth"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -343,6 +365,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "fibonacci" && <FibonacciLesson locale={locale} />}
       {lesson === "tower-of-hanoi" && <TowerOfHanoiLesson locale={locale} />}
       {lesson === "n-queens" && <NQueensLesson locale={locale} />}
+      {lesson === "binary-tree" && <BinaryTreeLesson locale={locale} />}
+      {lesson === "tree-traversals" && <TreeTraversalsLesson locale={locale} />}
+      {lesson === "bst-operations" && <BSTOperationsLesson locale={locale} />}
+      {lesson === "tree-height-depth" && <TreeHeightDepthLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -4179,6 +4205,321 @@ function NQueensLesson({ locale }: { locale: string }) {
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="n-queens" category="recursion" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Binary Tree lesson
+function BinaryTreeLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Binary Tree?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Binary Tree</strong> is a hierarchical
+          data structure where each node has at most two children: left and right.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Trees are used in file systems, databases, expression parsing, and countless algorithms.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🌳" title="Family Tree">
+        Think of a family tree. Each person can have at most 2 biological parents connecting
+        upward. In a binary tree, each node has at most 2 children connecting downward!
+      </Analogy>
+
+      <LearnCard title="Terminology" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+          <p><strong>Root:</strong> The topmost node (no parent)</p>
+          <p><strong>Leaf:</strong> Node with no children</p>
+          <p><strong>Parent/Child:</strong> Direct connection between nodes</p>
+          <p><strong>Height:</strong> Longest path from root to leaf</p>
+          <p><strong>Depth:</strong> Distance from root to a node</p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Node Structure" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+// Create a tree:    1
+//                  / \\
+//                 2   3
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);`}
+          python={`class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+# Create a tree:    1
+#                  / \\
+#                 2   3
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-tree" category="trees" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Tree Traversals lesson
+function TreeTraversalsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Tree Traversal Patterns" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Traversal</strong> means visiting every
+          node in the tree exactly once. The three DFS patterns differ in when you process
+          the current node.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="The Three DFS Patterns" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Inorder (Left → Root → Right)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Visit left subtree, process root, visit right. For BST: gives sorted order!</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Preorder (Root → Left → Right)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Process root first, then subtrees. Good for copying/serializing trees.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Postorder (Left → Right → Root)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Process children before parent. Good for deleting trees, evaluating expressions.</p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Traversals", time: "O(n)", description: "Visit each node once" }]}
+        spaceComplexity="O(h)"
+        spaceDescription="h = height (recursion stack)"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function inorder(root, result = []) {
+  if (!root) return result;
+  inorder(root.left, result);
+  result.push(root.val);
+  inorder(root.right, result);
+  return result;
+}
+
+function preorder(root, result = []) {
+  if (!root) return result;
+  result.push(root.val);
+  preorder(root.left, result);
+  preorder(root.right, result);
+  return result;
+}
+
+function postorder(root, result = []) {
+  if (!root) return result;
+  postorder(root.left, result);
+  postorder(root.right, result);
+  result.push(root.val);
+  return result;
+}`}
+          python={`def inorder(root):
+    if not root: return []
+    return inorder(root.left) + [root.val] + inorder(root.right)
+
+def preorder(root):
+    if not root: return []
+    return [root.val] + preorder(root.left) + preorder(root.right)
+
+def postorder(root):
+    if not root: return []
+    return postorder(root.left) + postorder(root.right) + [root.val]`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="tree-traversals" category="trees" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// BST Operations lesson
+function BSTOperationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Binary Search Tree?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">BST</strong> is a binary tree where
+          for every node: all values in left subtree &lt; node value &lt; all values in right subtree.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This property enables O(log n) search, insert, and delete (when balanced).
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Core Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Search", description: "Compare with root, go left or right based on value." },
+            { title: "Insert", description: "Find correct leaf position, add new node." },
+            { title: "Delete", description: "Three cases: leaf, one child, two children." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Search/Insert/Delete (avg)", time: "O(log n)", description: "Balanced tree" },
+          { case: "Worst Case (skewed)", time: "O(n)", description: "Unbalanced tree" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n nodes"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function search(root, target) {
+  if (!root || root.val === target) return root;
+  return target < root.val 
+    ? search(root.left, target) 
+    : search(root.right, target);
+}
+
+function insert(root, val) {
+  if (!root) return new TreeNode(val);
+  if (val < root.val) {
+    root.left = insert(root.left, val);
+  } else {
+    root.right = insert(root.right, val);
+  }
+  return root;
+}`}
+          python={`def search(root, target):
+    if not root or root.val == target:
+        return root
+    return search(root.left, target) if target < root.val \
+           else search(root.right, target)
+
+def insert(root, val):
+    if not root:
+        return TreeNode(val)
+    if val < root.val:
+        root.left = insert(root.left, val)
+    else:
+        root.right = insert(root.right, val)
+    return root`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="bst-operations" category="trees" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Tree Height and Depth lesson
+function TreeHeightDepthLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Height vs Depth" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Height:</strong> Longest path from a
+          node down to a leaf. Tree height = height of root.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          <strong className="text-[var(--text-primary)]">Depth:</strong> Distance from the root
+          to a node. Root has depth 0.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Tree Height" input="Tree: [1, 2, 3, 4, 5]" output="Height = 2">
+          <p className="text-sm text-[var(--text-secondary)]">
+            Root → left → left-left = 2 edges (longest path to leaf).
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "Calculate Height", time: "O(n)", description: "Visit all nodes" }]}
+        spaceComplexity="O(h)"
+        spaceDescription="Recursion stack"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Height of tree (edges)
+function height(root) {
+  if (!root) return -1;  // Empty tree
+  return 1 + Math.max(height(root.left), height(root.right));
+}
+
+// Max depth (nodes on longest path)
+function maxDepth(root) {
+  if (!root) return 0;
+  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+}
+
+// Depth of specific node
+function depthOf(root, target, depth = 0) {
+  if (!root) return -1;
+  if (root.val === target) return depth;
+  const left = depthOf(root.left, target, depth + 1);
+  return left !== -1 ? left : depthOf(root.right, target, depth + 1);
+}`}
+          python={`# Height of tree (edges)
+def height(root):
+    if not root:
+        return -1  # Empty tree
+    return 1 + max(height(root.left), height(root.right))
+
+# Max depth (nodes on longest path)
+def max_depth(root):
+    if not root:
+        return 0
+    return 1 + max(max_depth(root.left), max_depth(root.right))
+
+# Depth of specific node
+def depth_of(root, target, depth=0):
+    if not root:
+        return -1
+    if root.val == target:
+        return depth
+    left = depth_of(root.left, target, depth + 1)
+    return left if left != -1 else depth_of(root.right, target, depth + 1)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="tree-height-depth" category="trees" locale={locale} />
         </div>
       </div>
     </div>
