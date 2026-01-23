@@ -171,6 +171,27 @@ const lessonContent: Record<string, {
     duration: "22 min",
     description: "Least Recently Used cache using a hash map and doubly linked list.",
   },
+  // Linked Lists
+  "singly-linked-list": {
+    title: "Singly Linked List",
+    duration: "15 min",
+    description: "Nodes connected by pointers — the foundation of dynamic data structures.",
+  },
+  "reverse-linked-list": {
+    title: "Reverse Linked List",
+    duration: "12 min",
+    description: "Reverse a linked list iteratively and recursively.",
+  },
+  "detect-cycle": {
+    title: "Detect Cycle",
+    duration: "15 min",
+    description: "Floyd's Tortoise and Hare algorithm to detect loops.",
+  },
+  "find-middle": {
+    title: "Find Middle Element",
+    duration: "10 min",
+    description: "Use the slow and fast pointer technique.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -182,6 +203,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     searching: ["linear-search", "binary-search", "lower-bound", "upper-bound", "peak-element"],
     stacks: ["stack-operations", "balanced-parentheses", "infix-to-postfix", "next-greater-element"],
     queues: ["queue-operations", "circular-queue", "priority-queue", "lru-cache"],
+    "linked-lists": ["singly-linked-list", "reverse-linked-list", "detect-cycle", "find-middle"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -291,6 +313,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "circular-queue" && <CircularQueueLesson locale={locale} />}
       {lesson === "priority-queue" && <PriorityQueueLesson locale={locale} />}
       {lesson === "lru-cache" && <LRUCacheLesson locale={locale} />}
+      {lesson === "singly-linked-list" && <SinglyLinkedListLesson locale={locale} />}
+      {lesson === "reverse-linked-list" && <ReverseLinkedListLesson locale={locale} />}
+      {lesson === "detect-cycle" && <DetectCycleLesson locale={locale} />}
+      {lesson === "find-middle" && <FindMiddleLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -3385,6 +3411,368 @@ class LRUCache:
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="lru-cache" category="queues" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Singly Linked List lesson
+function SinglyLinkedListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Singly Linked List?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Singly Linked List</strong> is a linear
+          data structure where each node contains data and a pointer to the next node.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Unlike arrays, linked lists allow O(1) insertion/deletion at any position (if you have
+          the reference), but O(n) access by index.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔗" title="Chain of Paper Clips">
+        Imagine paper clips linked together. Each clip holds onto the next one. To find the 5th
+        clip, you must start from the first and follow the chain. You can easily add or remove
+        a clip anywhere without moving others!
+      </Analogy>
+
+      <LearnCard title="Node Structure" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <CodeTabs
+          javascript={`class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}`}
+          python={`class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None`}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Access by index", time: "O(n)", description: "Must traverse" },
+          { case: "Insert at head", time: "O(1)", description: "Just update pointer" },
+          { case: "Insert at tail", time: "O(n) or O(1)*", description: "*with tail pointer" },
+          { case: "Delete (with ref)", time: "O(1)", description: "Update prev.next" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n nodes"
+      />
+
+      <LearnCard title="Basic Operations" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class LinkedList {
+  constructor() { this.head = null; }
+  
+  // Insert at head
+  prepend(data) {
+    const node = new Node(data);
+    node.next = this.head;
+    this.head = node;
+  }
+  
+  // Traverse and print
+  print() {
+    let curr = this.head;
+    while (curr) {
+      console.log(curr.data);
+      curr = curr.next;
+    }
+  }
+}`}
+          python={`class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    # Insert at head
+    def prepend(self, data):
+        node = Node(data)
+        node.next = self.head
+        self.head = node
+    
+    # Traverse and print
+    def print_list(self):
+        curr = self.head
+        while curr:
+            print(curr.data)
+            curr = curr.next`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="singly-linked-list" category="linked-lists" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Reverse Linked List lesson
+function ReverseLinkedListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Reversing a Linked List" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Reversing a linked list</strong> changes
+          the direction of all pointers so the last node becomes the new head.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This is a classic interview question with both iterative and recursive solutions.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="↩️" title="Flipping a Line of Dominoes">
+        Imagine a line of dominoes where each points to the next. Reversing means making each
+        domino point to the one behind it instead!
+      </Analogy>
+
+      <LearnCard title="Iterative Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Initialize prev = null", description: "Will become the new head." },
+            { title: "curr = head", description: "Start at the head." },
+            { title: "Save next", description: "Store curr.next before overwriting." },
+            { title: "Reverse pointer", description: "curr.next = prev." },
+            { title: "Move forward", description: "prev = curr, curr = next." },
+            { title: "Repeat", description: "Until curr is null." },
+            { title: "Return prev", description: "It's the new head!" },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Iterative", time: "O(n)", description: "Single pass" },
+          { case: "Recursive", time: "O(n)", description: "Visit each node" },
+        ]}
+        spaceComplexity="O(1) / O(n)"
+        spaceDescription="Iterative O(1), Recursive O(n) stack"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Iterative
+function reverseList(head) {
+  let prev = null;
+  let curr = head;
+  
+  while (curr) {
+    const next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  
+  return prev;  // New head
+}
+
+// Recursive
+function reverseListRecursive(head) {
+  if (!head || !head.next) return head;
+  
+  const newHead = reverseListRecursive(head.next);
+  head.next.next = head;
+  head.next = null;
+  
+  return newHead;
+}`}
+          python={`# Iterative
+def reverse_list(head):
+    prev = None
+    curr = head
+    
+    while curr:
+        next_node = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_node
+    
+    return prev  # New head
+
+# Recursive
+def reverse_list_recursive(head):
+    if not head or not head.next:
+        return head
+    
+    new_head = reverse_list_recursive(head.next)
+    head.next.next = head
+    head.next = None
+    
+    return new_head`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="reverse-linked-list" category="linked-lists" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Detect Cycle lesson
+function DetectCycleLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Detecting a Cycle in Linked List" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A cycle exists when a node&apos;s next pointer points to a previous node, creating a loop.
+          <strong className="text-[var(--text-primary)]"> Floyd&apos;s Tortoise and Hare</strong>
+          algorithm detects this in O(1) space.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🐢🐇" title="Tortoise and Hare">
+        Imagine a tortoise and hare on a circular track. The hare moves twice as fast. If there&apos;s
+        a loop, they MUST meet eventually. If the track is straight, the hare reaches the end first.
+      </Analogy>
+
+      <LearnCard title="Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Two pointers", description: "slow (1 step) and fast (2 steps)." },
+            { title: "Move both", description: "slow = slow.next, fast = fast.next.next." },
+            { title: "They meet?", description: "Cycle detected!" },
+            { title: "fast reaches null?", description: "No cycle exists." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "At most 2 loops" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function hasCycle(head) {
+  if (!head || !head.next) return false;
+  
+  let slow = head;
+  let fast = head;
+  
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    
+    if (slow === fast) {
+      return true;  // Cycle detected!
+    }
+  }
+  
+  return false;  // No cycle
+}`}
+          python={`def has_cycle(head):
+    if not head or not head.next:
+        return False
+    
+    slow = head
+    fast = head
+    
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+        if slow == fast:
+            return True  # Cycle detected!
+    
+    return False  # No cycle`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Finding Cycle Start">
+        After detection, reset slow to head. Move both one step at a time. They meet at the
+        cycle&apos;s start node!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="detect-cycle" category="linked-lists" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Find Middle lesson
+function FindMiddleLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Finding the Middle of a Linked List" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Find the middle node in <strong className="text-[var(--text-primary)]">one pass</strong> using
+          the slow/fast pointer technique. When fast reaches the end, slow is at the middle!
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏃" title="Racing at Different Speeds">
+        Two runners start at the same point. One runs twice as fast. When the fast runner finishes,
+        the slow runner is exactly halfway!
+      </Analogy>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Odd Length" input="1 → 2 → 3 → 4 → 5" output="3 (middle node)">
+          <p className="text-sm text-[var(--text-secondary)]">5 nodes, middle is node 3.</p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Even Length" input="1 → 2 → 3 → 4" output="3 (second middle)" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">For 4 nodes, return second of two middles.</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function findMiddle(head) {
+  let slow = head;
+  let fast = head;
+  
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  
+  return slow;  // Middle node
+}`}
+          python={`def find_middle(head):
+    slow = head
+    fast = head
+    
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    return slow  # Middle node`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Applications">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Starting point for Merge Sort on linked lists</li>
+          <li>Checking if a linked list is a palindrome</li>
+          <li>Splitting a list into two halves</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="find-middle" category="linked-lists" locale={locale} />
         </div>
       </div>
     </div>
