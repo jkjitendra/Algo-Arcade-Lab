@@ -129,6 +129,27 @@ const lessonContent: Record<string, {
     duration: "15 min",
     description: "Find a local maximum in an array using binary search in O(log n) time.",
   },
+  // Stacks
+  "stack-operations": {
+    title: "Stack Operations",
+    duration: "12 min",
+    description: "Push, pop, peek — master the LIFO (Last-In-First-Out) data structure.",
+  },
+  "balanced-parentheses": {
+    title: "Balanced Parentheses",
+    duration: "15 min",
+    description: "Use a stack to check if brackets are properly matched.",
+  },
+  "infix-to-postfix": {
+    title: "Infix to Postfix",
+    duration: "20 min",
+    description: "Convert infix expressions using the Shunting Yard algorithm.",
+  },
+  "next-greater-element": {
+    title: "Next Greater Element",
+    duration: "18 min",
+    description: "Find the next larger element using a monotonic stack.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -138,6 +159,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     arrays: ["array-operations", "two-pointers", "sliding-window", "prefix-sum", "kadanes"],
     strings: ["string-operations", "character-frequency", "brute-force-search", "kmp-algorithm", "anagram-detection"],
     searching: ["linear-search", "binary-search", "lower-bound", "upper-bound", "peak-element"],
+    stacks: ["stack-operations", "balanced-parentheses", "infix-to-postfix", "next-greater-element"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -239,6 +261,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "lower-bound" && <LowerBoundLesson locale={locale} />}
       {lesson === "upper-bound" && <UpperBoundLesson locale={locale} />}
       {lesson === "peak-element" && <PeakElementLesson locale={locale} />}
+      {lesson === "stack-operations" && <StackOperationsLesson locale={locale} />}
+      {lesson === "balanced-parentheses" && <BalancedParenthesesLesson locale={locale} />}
+      {lesson === "infix-to-postfix" && <InfixToPostfixLesson locale={locale} />}
+      {lesson === "next-greater-element" && <NextGreaterElementLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -2542,6 +2568,401 @@ function PeakElementLesson({ locale }: { locale: string }) {
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="peak-element" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Stack Operations lesson
+function StackOperationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Stack?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Stack</strong> is a LIFO (Last-In-First-Out)
+          data structure. The last element added is the first one removed — like a stack of plates.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Stacks are fundamental for function calls, undo operations, expression evaluation, and more.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📚" title="Stack of Books">
+        Imagine a stack of heavy books. You can only add a new book on top, and you can only remove
+        the top book. To get a book at the bottom, you must remove all books above it first!
+      </Analogy>
+
+      <LearnCard title="Core Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">push(x) - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Add element x to the top of the stack.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">pop() - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Remove and return the top element.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">peek() / top() - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Return the top element without removing it.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">isEmpty() - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Check if the stack is empty.</p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Push/Pop/Peek", time: "O(1)", description: "Constant time" },
+          { case: "Search", time: "O(n)", description: "Must check each element" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n elements stored"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class Stack {
+  constructor() {
+    this.items = [];
+  }
+  
+  push(x) { this.items.push(x); }
+  pop() { return this.items.pop(); }
+  peek() { return this.items[this.items.length - 1]; }
+  isEmpty() { return this.items.length === 0; }
+  size() { return this.items.length; }
+}
+
+// Usage
+const stack = new Stack();
+stack.push(1); stack.push(2); stack.push(3);
+console.log(stack.pop());  // 3
+console.log(stack.peek()); // 2`}
+          python={`# Python list works as a stack!
+stack = []
+
+stack.append(1)  # push
+stack.append(2)
+stack.append(3)
+
+top = stack.pop()     # 3
+peek = stack[-1]      # 2
+is_empty = len(stack) == 0`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="stack-operations" category="stacks" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Balanced Parentheses lesson
+function BalancedParenthesesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is the Balanced Parentheses Problem?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given a string of brackets <code>()[]&#123;&#125;</code>, determine if they are
+          <strong className="text-[var(--text-primary)]"> properly matched</strong>. Every opening
+          bracket must have a corresponding closing bracket in the correct order.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🚪" title="Opening and Closing Doors">
+        Imagine walking through doors. Each time you enter a door, you must exit through the same
+        type of door. You can&apos;t exit a round door if you entered a square one!
+      </Analogy>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Valid" input="'([]){}'" output="true">
+          <p className="text-sm text-[var(--text-secondary)]">Every bracket has its matching pair in correct order.</p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Invalid - Wrong Order" input="'([)]'" output="false" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">The ] closes ( instead of [.</p>
+        </ExampleBox>
+        <ExampleBox number={3} title="Invalid - Unmatched" input="'(('" output="false" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">Opening brackets without closing ones.</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <LearnCard title="Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Initialize stack", description: "Empty stack to track opening brackets." },
+            { title: "For each character", description: "Process left to right." },
+            { title: "Opening bracket?", description: "Push it onto the stack." },
+            { title: "Closing bracket?", description: "Pop and check if it matches." },
+            { title: "Mismatch?", description: "Return false immediately." },
+            { title: "End check", description: "Stack must be empty for valid input." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack size in worst case"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function isValid(s) {
+  const stack = [];
+  const map = { ')': '(', ']': '[', '}': '{' };
+  
+  for (const char of s) {
+    if (char in map) {
+      // Closing bracket
+      if (stack.pop() !== map[char]) return false;
+    } else {
+      // Opening bracket
+      stack.push(char);
+    }
+  }
+  
+  return stack.length === 0;
+}`}
+          python={`def is_valid(s):
+    stack = []
+    mapping = {')': '(', ']': '[', '}': '{'}
+    
+    for char in s:
+        if char in mapping:
+            # Closing bracket
+            if not stack or stack.pop() != mapping[char]:
+                return False
+        else:
+            # Opening bracket
+            stack.append(char)
+    
+    return len(stack) == 0`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="balanced-parentheses" category="stacks" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Infix to Postfix lesson
+function InfixToPostfixLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Infix to Postfix Conversion?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Infix</strong>: operators between operands (2 + 3).<br />
+          <strong className="text-[var(--text-primary)]">Postfix</strong>: operators after operands (2 3 +).
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Postfix notation removes ambiguity and doesn&apos;t need parentheses. Computers evaluate
+          postfix easily using a stack!
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Simple" input="'A + B'" output="'A B +'">
+          <p className="text-sm text-[var(--text-secondary)]">Move operator to the end.</p>
+        </ExampleBox>
+        <ExampleBox number={2} title="With Precedence" input="'A + B * C'" output="'A B C * +'" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">* has higher precedence, evaluated first.</p>
+        </ExampleBox>
+        <ExampleBox number={3} title="With Parentheses" input="'(A + B) * C'" output="'A B + C *'" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">Parentheses change evaluation order.</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <LearnCard title="Shunting Yard Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Operand", description: "Add directly to output." },
+            { title: "Opening parenthesis", description: "Push onto stack." },
+            { title: "Closing parenthesis", description: "Pop to output until opening parenthesis." },
+            { title: "Operator", description: "Pop higher/equal precedence operators, then push." },
+            { title: "End", description: "Pop remaining operators to output." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack for operators"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function infixToPostfix(expr) {
+  const precedence = {'+': 1, '-': 1, '*': 2, '/': 2};
+  const stack = [];
+  let output = '';
+  
+  for (const char of expr) {
+    if (/[A-Za-z0-9]/.test(char)) {
+      output += char;
+    } else if (char === '(') {
+      stack.push(char);
+    } else if (char === ')') {
+      while (stack.length && stack.at(-1) !== '(') {
+        output += stack.pop();
+      }
+      stack.pop(); // Remove '('
+    } else {
+      while (stack.length && precedence[stack.at(-1)] >= precedence[char]) {
+        output += stack.pop();
+      }
+      stack.push(char);
+    }
+  }
+  
+  return output + stack.reverse().join('');
+}`}
+          python={`def infix_to_postfix(expr):
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2}
+    stack = []
+    output = []
+    
+    for char in expr:
+        if char.isalnum():
+            output.append(char)
+        elif char == '(':
+            stack.append(char)
+        elif char == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()  # Remove '('
+        else:
+            while stack and stack[-1] != '(' and precedence.get(stack[-1], 0) >= precedence[char]:
+                output.append(stack.pop())
+            stack.append(char)
+    
+    return ''.join(output + stack[::-1])`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="infix-to-postfix" category="stacks" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Next Greater Element lesson
+function NextGreaterElementLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Next Greater Element?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          For each element in an array, find the <strong className="text-[var(--text-primary)]">next
+            element that is greater</strong> than it (to its right). If none exists, return -1.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          This classic problem is solved efficiently using a <strong>monotonic stack</strong> — a
+          stack that maintains elements in increasing or decreasing order.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Basic" input="[4, 5, 2, 10]" output="[5, 10, 10, -1]">
+          <div className="text-sm text-[var(--text-secondary)] space-y-1">
+            <p>NGE of 4 → 5 (next greater)</p>
+            <p>NGE of 5 → 10</p>
+            <p>NGE of 2 → 10</p>
+            <p>NGE of 10 → -1 (no greater element)</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <LearnCard title="Monotonic Stack Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Process right to left", description: "Start from the end of the array." },
+            { title: "Pop smaller elements", description: "Remove elements ≤ current from stack." },
+            { title: "Stack empty?", description: "No greater element, answer is -1." },
+            { title: "Stack not empty?", description: "Top of stack is the NGE." },
+            { title: "Push current", description: "Add current element to stack." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each element pushed/popped once" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack and result array"
+      />
+
+      <Callout type="insight" title="Why O(n)?">
+        Although there&apos;s a while loop inside a for loop, each element is pushed and popped
+        at most once. Total operations: 2n = O(n).
+      </Callout>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function nextGreaterElement(arr) {
+  const n = arr.length;
+  const result = new Array(n).fill(-1);
+  const stack = [];  // Monotonic decreasing stack
+  
+  // Process from right to left
+  for (let i = n - 1; i >= 0; i--) {
+    // Pop elements smaller than or equal to current
+    while (stack.length && stack.at(-1) <= arr[i]) {
+      stack.pop();
+    }
+    
+    // If stack not empty, top is NGE
+    if (stack.length) {
+      result[i] = stack.at(-1);
+    }
+    
+    // Push current element
+    stack.push(arr[i]);
+  }
+  
+  return result;
+}`}
+          python={`def next_greater_element(arr):
+    n = len(arr)
+    result = [-1] * n
+    stack = []  # Monotonic decreasing stack
+    
+    # Process from right to left
+    for i in range(n - 1, -1, -1):
+        # Pop elements smaller than or equal to current
+        while stack and stack[-1] <= arr[i]:
+            stack.pop()
+        
+        # If stack not empty, top is NGE
+        if stack:
+            result[i] = stack[-1]
+        
+        # Push current element
+        stack.append(arr[i])
+    
+    return result`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="next-greater-element" category="stacks" locale={locale} />
         </div>
       </div>
     </div>
