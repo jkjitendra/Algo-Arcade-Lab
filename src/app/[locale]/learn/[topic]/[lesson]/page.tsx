@@ -87,6 +87,32 @@ const lessonContent: Record<string, {
     duration: "18 min",
     description: "Find the maximum sum subarray in O(n) time using dynamic programming.",
   },
+  // Strings
+  "string-operations": {
+    title: "String Operations",
+    duration: "12 min",
+    description: "Fundamental string operations: traversal, reversal, comparison, and manipulation.",
+  },
+  "character-frequency": {
+    title: "Character Frequency",
+    duration: "10 min",
+    description: "Count character occurrences using arrays or hash maps.",
+  },
+  "brute-force-search": {
+    title: "Brute Force Pattern Matching",
+    duration: "12 min",
+    description: "Simple pattern matching by checking every possible position.",
+  },
+  "kmp-algorithm": {
+    title: "KMP Algorithm",
+    duration: "25 min",
+    description: "Efficient pattern matching using the Longest Proper Prefix-Suffix (LPS) array.",
+  },
+  "anagram-detection": {
+    title: "Anagram Detection",
+    duration: "15 min",
+    description: "Check if two strings are anagrams using sorting or frequency counting.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -188,6 +214,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "sliding-window" && <SlidingWindowLesson locale={locale} />}
       {lesson === "prefix-sum" && <PrefixSumLesson locale={locale} />}
       {lesson === "kadanes" && <KadanesLesson locale={locale} />}
+      {lesson === "string-operations" && <StringOperationsLesson locale={locale} />}
+      {lesson === "character-frequency" && <CharacterFrequencyLesson locale={locale} />}
+      {lesson === "brute-force-search" && <BruteForceSearchLesson locale={locale} />}
+      {lesson === "kmp-algorithm" && <KMPAlgorithmLesson locale={locale} />}
+      {lesson === "anagram-detection" && <AnagramDetectionLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -1633,6 +1664,520 @@ function KadanesLesson({ locale }: { locale: string }) {
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="kadanes-algorithm" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// String Operations lesson
+function StringOperationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What are String Operations?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Strings are sequences of characters. In most languages, strings are <strong className="text-[var(--text-primary)]">immutable</strong> —
+          you can&apos;t change individual characters, only create new strings.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Understanding string operations is fundamental for text processing, parsing, and solving
+          many interview problems.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📿" title="A String of Beads">
+        Think of a string as beads on a necklace. Each bead is a character. You can look at any
+        bead by its position, count the beads, or create a new necklace by rearranging them —
+        but you can&apos;t change a bead that&apos;s already threaded.
+      </Analogy>
+
+      <LearnCard title="Core Operations" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Access - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Get character at index: <code>str[i]</code> or <code>str.charAt(i)</code></p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Length - O(1)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Get string length: <code>str.length</code></p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">3. Concatenation - O(n+m)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Join strings: <code>str1 + str2</code></p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">4. Substring - O(n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Extract portion: <code>str.substring(start, end)</code></p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Code Examples" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Traversal
+for (let i = 0; i < str.length; i++) {
+  console.log(str[i]);
+}
+
+// Reverse string
+const reversed = str.split('').reverse().join('');
+
+// Check palindrome
+function isPalindrome(s) {
+  let left = 0, right = s.length - 1;
+  while (left < right) {
+    if (s[left] !== s[right]) return false;
+    left++; right--;
+  }
+  return true;
+}`}
+          python={`# Traversal
+for char in s:
+    print(char)
+
+# Reverse string
+reversed_s = s[::-1]
+
+# Check palindrome
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left < right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="string-operations" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Character Frequency lesson
+function CharacterFrequencyLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Character Frequency?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Character frequency</strong> counts how many
+          times each character appears in a string. This is foundational for anagram detection,
+          permutation checking, and text analysis.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📊" title="Counting Votes">
+        Imagine counting votes in an election. You go through each ballot and add a tally mark
+        next to the candidate&apos;s name. At the end, you know exactly how many votes each
+        candidate received. Character frequency works the same way!
+      </Analogy>
+
+      <LearnCard title="Two Approaches" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Array (for lowercase letters)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Use a size-26 array. Index = char - &apos;a&apos;. O(1) access, O(26) space.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Hash Map (for any characters)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Use a hash map/dictionary. Works for Unicode, mixed case, special chars.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Build Frequency", time: "O(n)", description: "Process each character once" },
+          { case: "Lookup", time: "O(1)", description: "Direct access" },
+        ]}
+        spaceComplexity="O(k)"
+        spaceDescription="k = number of unique characters"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Using object/map
+function charFrequency(str) {
+  const freq = {};
+  for (const char of str) {
+    freq[char] = (freq[char] || 0) + 1;
+  }
+  return freq;
+}
+
+// Using array (lowercase only)
+function charFreqArray(str) {
+  const freq = new Array(26).fill(0);
+  for (const char of str) {
+    freq[char.charCodeAt(0) - 97]++;
+  }
+  return freq;
+}`}
+          python={`# Using Counter (most Pythonic)
+from collections import Counter
+freq = Counter(s)
+
+# Manual approach
+def char_frequency(s):
+    freq = {}
+    for char in s:
+        freq[char] = freq.get(char, 0) + 1
+    return freq
+
+# Using array (lowercase only)
+def char_freq_array(s):
+    freq = [0] * 26
+    for char in s:
+        freq[ord(char) - ord('a')] += 1
+    return freq`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="character-frequency" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Brute Force Pattern Matching lesson
+function BruteForceSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Brute Force Pattern Matching?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Brute Force</strong> pattern matching checks
+          every possible position in the text where the pattern could start. It&apos;s simple but
+          can be slow for large inputs.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Also called the &quot;naive&quot; string matching algorithm, it&apos;s the foundation for
+          understanding more efficient algorithms like KMP.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔍" title="Finding a Word in a Book">
+        Imagine looking for &quot;algorithm&quot; in a book without an index. You start at page 1,
+        check if it matches, move one character forward, check again... until you find it or
+        reach the end. That&apos;s brute force!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Start at position 0", description: "Align pattern with start of text." },
+            { title: "Compare characters", description: "Match pattern chars with text chars." },
+            { title: "All match?", description: "If all pattern chars match, found it!" },
+            { title: "Mismatch?", description: "Shift pattern right by 1 position." },
+            { title: "Repeat", description: "Continue until pattern found or text exhausted." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(n)", description: "Pattern not in text (first char never matches)" },
+          { case: "Worst Case", time: "O(n×m)", description: "Pattern like 'aaa' in text 'aaaa...aaab'" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only uses indices"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function bruteForceSearch(text, pattern) {
+  const n = text.length;
+  const m = pattern.length;
+  
+  for (let i = 0; i <= n - m; i++) {
+    let j = 0;
+    while (j < m && text[i + j] === pattern[j]) {
+      j++;
+    }
+    if (j === m) {
+      return i;  // Found at index i
+    }
+  }
+  return -1;  // Not found
+}`}
+          python={`def brute_force_search(text, pattern):
+    n, m = len(text), len(pattern)
+    
+    for i in range(n - m + 1):
+        j = 0
+        while j < m and text[i + j] == pattern[j]:
+            j += 1
+        if j == m:
+            return i  # Found at index i
+    
+    return -1  # Not found`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="brute-force-search" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// KMP Algorithm lesson
+function KMPAlgorithmLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is the KMP Algorithm?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Knuth-Morris-Pratt (KMP)</strong> is an efficient
+          pattern matching algorithm that avoids re-comparing characters by using information about
+          the pattern itself.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          It precomputes a &quot;Longest Proper Prefix which is also Suffix&quot; (LPS) array to
+          skip ahead intelligently after a mismatch.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🧠" title="Remembering What You Saw">
+        Imagine searching for &quot;ABAB&quot; in text. When you match &quot;AB&quot; then
+        mismatch, brute force restarts from scratch. KMP remembers: &quot;I already matched AB,
+        and the pattern starts with AB too, so I can skip ahead!&quot;
+      </Analogy>
+
+      <LearnCard title="The LPS Array" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] mb-4">
+          LPS[i] = length of the longest proper prefix of pattern[0..i] that is also a suffix.
+        </p>
+        <ExampleBox number={1} title="LPS for 'ABAB'" input="pattern = 'ABAB'" output="LPS = [0, 0, 1, 2]">
+          <div className="text-sm text-[var(--text-secondary)] space-y-1">
+            <p>LPS[0] = 0 (&quot;A&quot; has no proper prefix)</p>
+            <p>LPS[1] = 0 (&quot;AB&quot;: no prefix=suffix)</p>
+            <p>LPS[2] = 1 (&quot;ABA&quot;: &quot;A&quot; is prefix and suffix)</p>
+            <p>LPS[3] = 2 (&quot;ABAB&quot;: &quot;AB&quot; is prefix and suffix)</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Preprocessing", time: "O(m)", description: "Build LPS array" },
+          { case: "Searching", time: "O(n)", description: "Single pass through text" },
+          { case: "Total", time: "O(n + m)", description: "Much better than O(n×m)!" },
+        ]}
+        spaceComplexity="O(m)"
+        spaceDescription="LPS array"
+      />
+
+      <Callout type="insight" title="Why KMP is Faster">
+        When a mismatch occurs at pattern[j], KMP uses LPS[j-1] to know how many characters
+        at the start of the pattern still match. It jumps there instead of starting over!
+      </Callout>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function computeLPS(pattern) {
+  const m = pattern.length;
+  const lps = [0];
+  let len = 0, i = 1;
+  
+  while (i < m) {
+    if (pattern[i] === pattern[len]) {
+      lps[i++] = ++len;
+    } else if (len > 0) {
+      len = lps[len - 1];
+    } else {
+      lps[i++] = 0;
+    }
+  }
+  return lps;
+}
+
+function kmpSearch(text, pattern) {
+  const lps = computeLPS(pattern);
+  let i = 0, j = 0;
+  
+  while (i < text.length) {
+    if (text[i] === pattern[j]) {
+      i++; j++;
+      if (j === pattern.length) return i - j;
+    } else if (j > 0) {
+      j = lps[j - 1];
+    } else {
+      i++;
+    }
+  }
+  return -1;
+}`}
+          python={`def compute_lps(pattern):
+    m = len(pattern)
+    lps = [0] * m
+    length, i = 0, 1
+    
+    while i < m:
+        if pattern[i] == pattern[length]:
+            length += 1
+            lps[i] = length
+            i += 1
+        elif length > 0:
+            length = lps[length - 1]
+        else:
+            lps[i] = 0
+            i += 1
+    return lps
+
+def kmp_search(text, pattern):
+    lps = compute_lps(pattern)
+    i = j = 0
+    
+    while i < len(text):
+        if text[i] == pattern[j]:
+            i += 1
+            j += 1
+            if j == len(pattern):
+                return i - j
+        elif j > 0:
+            j = lps[j - 1]
+        else:
+            i += 1
+    return -1`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="kmp-algorithm" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Anagram Detection lesson
+function AnagramDetectionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is an Anagram?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          An <strong className="text-[var(--text-primary)]">anagram</strong> is a word formed by
+          rearranging the letters of another word. For example, &quot;listen&quot; and
+          &quot;silent&quot; are anagrams.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Anagram detection is about checking if two strings contain the exact same characters
+          with the exact same frequencies.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🧩" title="Same Puzzle Pieces">
+        Two anagrams are like two completed puzzles made from the same set of pieces. The final
+        pictures look different, but if you count the pieces by color, shape, etc., they&apos;re identical!
+      </Analogy>
+
+      <LearnCard title="Two Approaches" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Sorting - O(n log n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Sort both strings. If sorted versions are equal, they&apos;re anagrams.
+              Simple but not optimal.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Character Counting - O(n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Count character frequencies in both strings. Compare the counts.
+              Optimal for this problem!
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Examples" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox number={1} title="Valid Anagram" input="'listen', 'silent'" output="true">
+          <p className="text-sm text-[var(--text-secondary)]">
+            Both have: e(1), i(1), l(1), n(1), s(1), t(1)
+          </p>
+        </ExampleBox>
+        <ExampleBox number={2} title="Not Anagram" input="'hello', 'world'" output="false" defaultOpen={false}>
+          <p className="text-sm text-[var(--text-secondary)]">
+            Different characters and frequencies.
+          </p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Sorting Approach", time: "O(n log n)", description: "Dominated by sorting" },
+          { case: "Counting Approach", time: "O(n)", description: "Single pass each" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Fixed 26-char array (for lowercase)"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Optimal: Character counting
+function isAnagram(s1, s2) {
+  if (s1.length !== s2.length) return false;
+  
+  const count = new Array(26).fill(0);
+  
+  for (let i = 0; i < s1.length; i++) {
+    count[s1.charCodeAt(i) - 97]++;
+    count[s2.charCodeAt(i) - 97]--;
+  }
+  
+  return count.every(c => c === 0);
+}
+
+// Simple: Sorting
+function isAnagramSort(s1, s2) {
+  return s1.split('').sort().join('') === 
+         s2.split('').sort().join('');
+}`}
+          python={`# Optimal: Character counting
+def is_anagram(s1, s2):
+    if len(s1) != len(s2):
+        return False
+    
+    count = [0] * 26
+    for c1, c2 in zip(s1, s2):
+        count[ord(c1) - ord('a')] += 1
+        count[ord(c2) - ord('a')] -= 1
+    
+    return all(c == 0 for c in count)
+
+# Simple: Sorting
+def is_anagram_sort(s1, s2):
+    return sorted(s1) == sorted(s2)
+
+# Pythonic: Counter
+from collections import Counter
+def is_anagram_counter(s1, s2):
+    return Counter(s1) == Counter(s2)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="anagram-detection" category="strings" locale={locale} />
         </div>
       </div>
     </div>
