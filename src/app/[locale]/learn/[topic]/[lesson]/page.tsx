@@ -234,6 +234,27 @@ const lessonContent: Record<string, {
     duration: "12 min",
     description: "Calculate tree height and node depth recursively.",
   },
+  // Heaps
+  "heap-structure": {
+    title: "Heap Structure",
+    duration: "15 min",
+    description: "Complete binary tree with heap property — max-heap or min-heap.",
+  },
+  "heapify": {
+    title: "Heapify Operation",
+    duration: "18 min",
+    description: "Convert an array into a heap in O(n) time.",
+  },
+  "heap-sort": {
+    title: "Heap Sort",
+    duration: "20 min",
+    description: "O(n log n) in-place sorting using a max-heap.",
+  },
+  "kth-largest": {
+    title: "K-th Largest Element",
+    duration: "15 min",
+    description: "Find the k-th largest element efficiently using a min-heap.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -248,6 +269,7 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     "linked-lists": ["singly-linked-list", "reverse-linked-list", "detect-cycle", "find-middle"],
     recursion: ["factorial", "fibonacci", "tower-of-hanoi", "n-queens"],
     trees: ["binary-tree", "tree-traversals", "bst-operations", "tree-height-depth"],
+    heaps: ["heap-structure", "heapify", "heap-sort", "kth-largest"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -369,6 +391,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "tree-traversals" && <TreeTraversalsLesson locale={locale} />}
       {lesson === "bst-operations" && <BSTOperationsLesson locale={locale} />}
       {lesson === "tree-height-depth" && <TreeHeightDepthLesson locale={locale} />}
+      {lesson === "heap-structure" && <HeapStructureLesson locale={locale} />}
+      {lesson === "heapify" && <HeapifyLesson locale={locale} />}
+      {lesson === "heap-sort" && <HeapSortLesson locale={locale} />}
+      {lesson === "kth-largest" && <KthLargestLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
@@ -4520,6 +4546,338 @@ def depth_of(root, target, depth=0):
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="tree-height-depth" category="trees" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Heap Structure lesson
+function HeapStructureLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Heap?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">Heap</strong> is a complete binary tree
+          stored as an array. It satisfies the heap property:
+        </p>
+        <ul className="list-disc list-inside text-[var(--text-secondary)] space-y-1">
+          <li><strong>Max-Heap:</strong> Parent ≥ both children</li>
+          <li><strong>Min-Heap:</strong> Parent ≤ both children</li>
+        </ul>
+      </LearnCard>
+
+      <Analogy emoji="🏔️" title="Mountain Peak">
+        Think of a max-heap as a mountain — the peak (root) is always the highest point.
+        As you go down, values decrease. Every sub-mountain also has this property!
+      </Analogy>
+
+      <LearnCard title="Array Representation" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+          <p>For node at index i (0-indexed):</p>
+          <p><strong>Parent:</strong> floor((i - 1) / 2)</p>
+          <p><strong>Left child:</strong> 2i + 1</p>
+          <p><strong>Right child:</strong> 2i + 2</p>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Insert", time: "O(log n)", description: "Bubble up" },
+          { case: "Extract Max/Min", time: "O(log n)", description: "Bubble down" },
+          { case: "Peek", time: "O(1)", description: "Root element" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="n elements"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class MaxHeap {
+  constructor() { this.heap = []; }
+  
+  parent(i) { return Math.floor((i - 1) / 2); }
+  left(i) { return 2 * i + 1; }
+  right(i) { return 2 * i + 2; }
+  
+  insert(val) {
+    this.heap.push(val);
+    this._bubbleUp(this.heap.length - 1);
+  }
+  
+  _bubbleUp(i) {
+    while (i > 0 && this.heap[i] > this.heap[this.parent(i)]) {
+      [this.heap[i], this.heap[this.parent(i)]] = 
+        [this.heap[this.parent(i)], this.heap[i]];
+      i = this.parent(i);
+    }
+  }
+}`}
+          python={`class MaxHeap:
+    def __init__(self):
+        self.heap = []
+    
+    def parent(self, i): return (i - 1) // 2
+    def left(self, i): return 2 * i + 1
+    def right(self, i): return 2 * i + 2
+    
+    def insert(self, val):
+        self.heap.append(val)
+        self._bubble_up(len(self.heap) - 1)
+    
+    def _bubble_up(self, i):
+        while i > 0 and self.heap[i] > self.heap[self.parent(i)]:
+            self.heap[i], self.heap[self.parent(i)] = \\
+                self.heap[self.parent(i)], self.heap[i]
+            i = self.parent(i)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="heap-structure" category="heaps" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Heapify lesson
+function HeapifyLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Heapify?" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Heapify</strong> converts an unsorted
+          array into a heap in O(n) time — faster than inserting elements one by one (O(n log n)).
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Bottom-Up Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Start from last non-leaf", description: "Index: floor(n/2) - 1." },
+            { title: "Apply sift-down", description: "Ensure subtree satisfies heap property." },
+            { title: "Move backwards", description: "Process each node to index 0." },
+          ]}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why O(n)?">
+        Most nodes are near the leaves and require only O(1) work. The math shows that summing
+        all sift-down operations gives O(n), not O(n log n)!
+      </Callout>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "Build Heap", time: "O(n)", description: "Bottom-up heapify" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function heapify(arr, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  
+  if (left < n && arr[left] > arr[largest]) largest = left;
+  if (right < n && arr[right] > arr[largest]) largest = right;
+  
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    heapify(arr, n, largest);
+  }
+}
+
+function buildMaxHeap(arr) {
+  const n = arr.length;
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+}`}
+          python={`def heapify(arr, n, i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+def build_max_heap(arr):
+    n = len(arr)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="heapify" category="heaps" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Heap Sort lesson
+function HeapSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="How Heap Sort Works" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Heap Sort</strong> uses a max-heap to
+          sort in ascending order. It&apos;s in-place and guarantees O(n log n).
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Build max-heap", description: "Heapify the array — O(n)." },
+            { title: "Swap root with last", description: "Largest element goes to end." },
+            { title: "Reduce heap size", description: "Exclude sorted element." },
+            { title: "Heapify root", description: "Restore heap property — O(log n)." },
+            { title: "Repeat", description: "Until heap size is 1." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n log n)", description: "Build O(n) + n × heapify O(log n)" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function heapSort(arr) {
+  const n = arr.length;
+  
+  // Build max-heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+  
+  // Extract elements one by one
+  for (let i = n - 1; i > 0; i--) {
+    [arr[0], arr[i]] = [arr[i], arr[0]];  // Swap
+    heapify(arr, i, 0);  // Heapify reduced heap
+  }
+  
+  return arr;
+}`}
+          python={`def heap_sort(arr):
+    n = len(arr)
+    
+    # Build max-heap
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+    
+    # Extract elements one by one
+    for i in range(n - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # Swap
+        heapify(arr, i, 0)  # Heapify reduced heap
+    
+    return arr`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="heap-sort" category="heaps" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// K-th Largest lesson
+function KthLargestLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Finding K-th Largest Element" iconEmoji="📌" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Find the k-th largest element without fully sorting. Use a <strong className="text-[var(--text-primary)]">
+            min-heap of size k</strong> — the root is always the k-th largest!
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Min-Heap Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            { title: "Build min-heap of first k elements", description: "O(k)" },
+            { title: "For remaining elements", description: "If larger than root, replace root." },
+            { title: "Heapify after replacement", description: "O(log k)" },
+            { title: "Result", description: "Root is k-th largest." },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Min-Heap Method", time: "O(n log k)", description: "Best for streaming" },
+          { case: "QuickSelect (avg)", time: "O(n)", description: "Alternative method" },
+        ]}
+        spaceComplexity="O(k)"
+        spaceDescription="Heap size"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function findKthLargest(nums, k) {
+  // Use min-heap of size k
+  const minHeap = new MinPriorityQueue();
+  
+  for (const num of nums) {
+    minHeap.enqueue(num);
+    if (minHeap.size() > k) {
+      minHeap.dequeue();  // Remove smallest
+    }
+  }
+  
+  return minHeap.front().element;  // k-th largest
+}
+
+// Without library (sort-based, simpler)
+function kthLargestSimple(nums, k) {
+  nums.sort((a, b) => b - a);
+  return nums[k - 1];
+}`}
+          python={`import heapq
+
+def find_kth_largest(nums, k):
+    # Min-heap of size k
+    min_heap = []
+    
+    for num in nums:
+        heapq.heappush(min_heap, num)
+        if len(min_heap) > k:
+            heapq.heappop(min_heap)  # Remove smallest
+    
+    return min_heap[0]  # k-th largest
+
+# One-liner using nlargest
+def kth_largest_simple(nums, k):
+    return heapq.nlargest(k, nums)[-1]`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="kth-largest" category="heaps" locale={locale} />
         </div>
       </div>
     </div>
