@@ -12,6 +12,7 @@ import {
   StepByStep,
   ArrayDiagram,
   VisualizeLink,
+  LessonCompleteButton,
 } from "@/ui/components/learn";
 
 interface LessonPageProps {
@@ -255,6 +256,90 @@ const lessonContent: Record<string, {
     duration: "15 min",
     description: "Find the k-th largest element efficiently using a min-heap.",
   },
+  // Hashing Lessons
+  "hash-functions": {
+    title: "Hash Functions",
+    duration: "12 min",
+    description: "Learn how hash functions convert data into fixed-size values for efficient lookups.",
+  },
+  "hash-tables": {
+    title: "Hash Tables",
+    duration: "15 min",
+    description: "Master the hash table data structure for O(1) average-time operations.",
+  },
+  "collision-resolution": {
+    title: "Collision Resolution",
+    duration: "15 min",
+    description: "Explore different strategies to handle hash collisions: chaining and open addressing.",
+  },
+  "two-sum": {
+    title: "Two Sum Problem",
+    duration: "10 min",
+    description: "Solve the classic Two Sum problem using hash tables for optimal efficiency.",
+  },
+  // Graphs Lessons
+  "graph-representation": {
+    title: "Graph Representation",
+    duration: "15 min",
+    description: "Learn how to represent graphs using adjacency matrices and adjacency lists.",
+  },
+  "bfs": {
+    title: "Breadth-First Search (BFS)",
+    duration: "18 min",
+    description: "Explore graphs level by level using a queue-based traversal approach.",
+  },
+  "dfs": {
+    title: "Depth-First Search (DFS)",
+    duration: "18 min",
+    description: "Explore graphs by going as deep as possible before backtracking.",
+  },
+  "cycle-detection": {
+    title: "Cycle Detection",
+    duration: "15 min",
+    description: "Detect cycles in directed and undirected graphs using DFS and coloring.",
+  },
+  // Dynamic Programming Lessons
+  "fibonacci-dp": {
+    title: "Fibonacci with DP",
+    duration: "15 min",
+    description: "Learn memoization and tabulation techniques using the classic Fibonacci problem.",
+  },
+  "knapsack-01": {
+    title: "0/1 Knapsack Problem",
+    duration: "20 min",
+    description: "Maximize value with limited capacity using dynamic programming.",
+  },
+  "lcs": {
+    title: "Longest Common Subsequence",
+    duration: "18 min",
+    description: "Find the longest subsequence common to two sequences using DP.",
+  },
+  "coin-change": {
+    title: "Coin Change Problem",
+    duration: "15 min",
+    description: "Find minimum coins needed to make a target amount using DP.",
+  },
+  // Greedy Algorithms Lessons
+  "activity-selection": {
+    title: "Activity Selection",
+    duration: "12 min",
+    description: "Select maximum non-overlapping activities using the greedy approach.",
+  },
+  "fractional-knapsack": {
+    title: "Fractional Knapsack",
+    duration: "15 min",
+    description: "Maximize value by taking fractions of items using greedy selection.",
+  },
+  "huffman-coding": {
+    title: "Huffman Coding",
+    duration: "20 min",
+    description: "Build optimal prefix codes for data compression using a greedy algorithm.",
+  },
+  "job-sequencing": {
+    title: "Job Sequencing with Deadlines",
+    duration: "15 min",
+    description: "Schedule jobs to maximize profit while meeting deadlines.",
+  },
 };
 
 // Get adjacent lessons for navigation
@@ -270,6 +355,10 @@ function getAdjacentLessons(topic: string, currentLesson: string) {
     recursion: ["factorial", "fibonacci", "tower-of-hanoi", "n-queens"],
     trees: ["binary-tree", "tree-traversals", "bst-operations", "tree-height-depth"],
     heaps: ["heap-structure", "heapify", "heap-sort", "kth-largest"],
+    hashing: ["hash-functions", "hash-tables", "collision-resolution", "two-sum"],
+    graphs: ["graph-representation", "bfs", "dfs", "cycle-detection"],
+    "dynamic-programming": ["fibonacci-dp", "knapsack-01", "lcs", "coin-change"],
+    "greedy": ["activity-selection", "fractional-knapsack", "huffman-coding", "job-sequencing"],
   };
 
   const lessons = topicLessons[topic] || [];
@@ -395,9 +484,30 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "heapify" && <HeapifyLesson locale={locale} />}
       {lesson === "heap-sort" && <HeapSortLesson locale={locale} />}
       {lesson === "kth-largest" && <KthLargestLesson locale={locale} />}
+      {lesson === "hash-functions" && <HashFunctionsLesson locale={locale} />}
+      {lesson === "hash-tables" && <HashTablesLesson locale={locale} />}
+      {lesson === "collision-resolution" && <CollisionResolutionLesson locale={locale} />}
+      {lesson === "two-sum" && <TwoSumLesson locale={locale} />}
+      {lesson === "graph-representation" && <GraphRepresentationLesson locale={locale} />}
+      {lesson === "bfs" && <BFSLesson locale={locale} />}
+      {lesson === "dfs" && <DFSLesson locale={locale} />}
+      {lesson === "cycle-detection" && <CycleDetectionLesson locale={locale} />}
+      {lesson === "fibonacci-dp" && <FibonacciDPLesson locale={locale} />}
+      {lesson === "knapsack-01" && <Knapsack01Lesson locale={locale} />}
+      {lesson === "lcs" && <LCSLesson locale={locale} />}
+      {lesson === "coin-change" && <CoinChangeLesson locale={locale} />}
+      {lesson === "activity-selection" && <ActivitySelectionLesson locale={locale} />}
+      {lesson === "fractional-knapsack" && <FractionalKnapsackLesson locale={locale} />}
+      {lesson === "huffman-coding" && <HuffmanCodingLesson locale={locale} />}
+      {lesson === "job-sequencing" && <JobSequencingLesson locale={locale} />}
 
       {/* Lesson Navigation */}
       <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
+        {/* Mark Complete Button */}
+        <div className="flex justify-center mb-6">
+          <LessonCompleteButton topic={topic} lesson={lesson} />
+        </div>
+
         <div className="flex items-center justify-between">
           {adjacentLessons.prev ? (
             <Link
@@ -4883,3 +4993,3385 @@ def kth_largest_simple(nums, k):
     </div>
   );
 }
+
+// Hash Functions Lesson
+function HashFunctionsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What are Hash Functions?" iconEmoji="🔑" color="from-purple-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">hash function</strong> is a mathematical function that
+          converts an input (or &quot;key&quot;) of any size into a fixed-size output called a <strong className="text-[var(--text-primary)]">hash value</strong> or
+          <strong className="text-[var(--text-primary)]"> hash code</strong>.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Hash functions are the backbone of hash tables, enabling O(1) average-time lookups by converting keys
+          directly into array indices. A good hash function distributes keys uniformly across the available slots.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📬" title="Mailbox Sorting">
+        Imagine a post office with numbered mailboxes. When a letter arrives, the postal worker uses the
+        recipient&apos;s name to calculate which mailbox number to place it in. The &quot;calculation&quot; is like a
+        hash function — it takes a name (any length) and produces a mailbox number (fixed range).
+        Different names should ideally go to different mailboxes for efficient retrieval.
+      </Analogy>
+
+      <LearnCard title="Properties of Good Hash Functions" iconEmoji="✨" color="from-green-500 to-teal-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Deterministic",
+              description: "Same input always produces the same output. hash('apple') is always the same.",
+            },
+            {
+              title: "Uniform Distribution",
+              description: "Hash values should be evenly spread across the output range to minimize collisions.",
+            },
+            {
+              title: "Fast Computation",
+              description: "The hash should be computed quickly — ideally O(1) or O(k) where k is key length.",
+            },
+            {
+              title: "Avalanche Effect",
+              description: "Small changes in input should cause significant changes in output (for cryptographic hashes).",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Common Hash Techniques" iconEmoji="🧮" color="from-orange-500 to-red-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Division Method</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(k) = k mod m</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              Simple and fast. Choose m as a prime number not close to a power of 2 for best distribution.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Multiplication Method</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(k) = ⌊m × (k × A mod 1)⌋</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              Uses a constant A (0 &lt; A &lt; 1). Knuth suggests A ≈ 0.6180339887 (golden ratio).
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">String Hashing (Polynomial)</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(s) = Σ s[i] × p^i mod m</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              For strings: each character contributes based on its position. Common choices: p=31, m=10^9+9.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Best Case", time: "O(1)", description: "Fixed-size key hashing" },
+            { case: "Average Case", time: "O(1)", description: "Variable-length key of length k is O(k)" },
+            { case: "Worst Case", time: "O(n)", description: "During collision resolution in hash tables" },
+          ]}
+          spaceComplexity="O(1)"
+          spaceDescription="Only stores the hash value"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Simple hash functions in JavaScript
+
+// Division method hash
+function divisionHash(key, tableSize) {
+  return key % tableSize;
+}
+
+// String hash (polynomial rolling hash)
+function stringHash(str, tableSize) {
+  const p = 31;  // Prime base
+  const m = 1e9 + 9;  // Large prime modulus
+  let hash = 0;
+  let pPow = 1;
+  
+  for (let char of str) {
+    hash = (hash + (char.charCodeAt(0) - 'a'.charCodeAt(0) + 1) * pPow) % m;
+    pPow = (pPow * p) % m;
+  }
+  
+  return hash % tableSize;
+}
+
+// djb2 hash (popular string hash)
+function djb2Hash(str) {
+  let hash = 5381;
+  for (let char of str) {
+    hash = ((hash << 5) + hash) + char.charCodeAt(0);
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash);
+}
+
+// Example usage
+console.log(divisionHash(42, 10));      // 2
+console.log(stringHash("hello", 100));  // Varies
+console.log(djb2Hash("hello"));         // 261238937`}
+          python={`# Simple hash functions in Python
+
+def division_hash(key: int, table_size: int) -> int:
+    """Division method hash."""
+    return key % table_size
+
+def string_hash(s: str, table_size: int) -> int:
+    """Polynomial rolling hash for strings."""
+    p = 31  # Prime base
+    m = 10**9 + 9  # Large prime modulus
+    hash_value = 0
+    p_pow = 1
+    
+    for char in s:
+        hash_value = (hash_value + (ord(char) - ord('a') + 1) * p_pow) % m
+        p_pow = (p_pow * p) % m
+    
+    return hash_value % table_size
+
+def djb2_hash(s: str) -> int:
+    """djb2 hash algorithm (popular string hash)."""
+    hash_value = 5381
+    for char in s:
+        hash_value = ((hash_value << 5) + hash_value) + ord(char)
+        hash_value &= 0xFFFFFFFF  # Keep as 32-bit
+    return hash_value
+
+# Python's built-in hash (for reference)
+print(hash("hello"))  # Python's default hash
+
+# Custom implementations
+print(division_hash(42, 10))      # 2
+print(string_hash("hello", 100))  # Varies
+print(djb2_hash("hello"))         # 261238937`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Hash vs Cryptographic Hash">
+        Regular hash functions (like those in hash tables) prioritize speed and uniform distribution.
+        Cryptographic hash functions (SHA-256, MD5) add security properties like collision resistance
+        and pre-image resistance, but are slower. Don&apos;t use cryptographic hashes for hash tables!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="hash-functions" category="hashing" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Hash Tables Lesson
+function HashTablesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Hash Table?" iconEmoji="📦" color="from-blue-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">hash table</strong> (also known as a hash map) is a data
+          structure that implements an associative array — a structure that maps keys to values using a hash function.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Hash tables provide <strong className="text-[var(--text-primary)]">O(1) average-time complexity</strong> for
+          insertions, deletions, and lookups, making them one of the most efficient data structures for key-value storage.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📚" title="Library Catalog">
+        Think of a hash table like a library&apos;s card catalog system. Each book (value) has a unique ISBN
+        (key). The catalog uses a system (hash function) to quickly determine exactly which shelf and
+        position (array index) a book should be placed in or retrieved from. Instead of searching all shelves,
+        you go directly to the right spot!
+      </Analogy>
+
+      <LearnCard title="How Hash Tables Work" iconEmoji="⚙️" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Hash the Key",
+              description: "Apply a hash function to the key to get an integer hash code.",
+            },
+            {
+              title: "Compute Index",
+              description: "Use modulo operation: index = hashCode % arraySize to get a valid array index.",
+            },
+            {
+              title: "Store/Retrieve",
+              description: "Store the key-value pair at the computed index, or retrieve the value at that index.",
+            },
+            {
+              title: "Handle Collisions",
+              description: "When two keys hash to the same index, use collision resolution (chaining or probing).",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Hash Table Operations" iconEmoji="🔧" color="from-green-500 to-teal-500">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border-primary)]">
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Operation</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Average</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Worst</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Description</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--text-secondary)]">
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4 font-mono">put(key, value)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">Insert or update a key-value pair</td>
+              </tr>
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4 font-mono">get(key)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">Retrieve value by key</td>
+              </tr>
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4 font-mono">delete(key)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">Remove a key-value pair</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4 font-mono">contains(key)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">Check if key exists</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Load Factor & Resizing" iconEmoji="📈" color="from-orange-500 to-amber-500">
+        <ExampleBox
+          number={1}
+          title="Load Factor"
+          input="n entries, m table size"
+          output="α = n / m"
+        >
+          <div className="space-y-2">
+            <code className="text-[var(--color-primary-400)]">Load Factor (α) = n / m</code>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Where n = number of entries, m = table size. Higher load factor means more collisions.
+            </p>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Typically, tables resize (double capacity) when α exceeds 0.7-0.75 to maintain O(1) performance.
+            </p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Simple Hash Table with Chaining
+class HashTable {
+  constructor(size = 53) {
+    this.table = new Array(size);
+    this.size = size;
+    this.count = 0;
+  }
+  
+  // Simple hash function
+  _hash(key) {
+    let hash = 0;
+    for (let char of String(key)) {
+      hash = (hash * 31 + char.charCodeAt(0)) % this.size;
+    }
+    return hash;
+  }
+  
+  // Insert or update
+  put(key, value) {
+    const index = this._hash(key);
+    if (!this.table[index]) {
+      this.table[index] = [];
+    }
+    
+    // Check if key exists, update if so
+    for (let pair of this.table[index]) {
+      if (pair[0] === key) {
+        pair[1] = value;
+        return;
+      }
+    }
+    
+    // Add new key-value pair
+    this.table[index].push([key, value]);
+    this.count++;
+  }
+  
+  // Retrieve value
+  get(key) {
+    const index = this._hash(key);
+    const bucket = this.table[index];
+    
+    if (bucket) {
+      for (let [k, v] of bucket) {
+        if (k === key) return v;
+      }
+    }
+    return undefined;
+  }
+  
+  // Remove key
+  delete(key) {
+    const index = this._hash(key);
+    const bucket = this.table[index];
+    
+    if (bucket) {
+      for (let i = 0; i < bucket.length; i++) {
+        if (bucket[i][0] === key) {
+          bucket.splice(i, 1);
+          this.count--;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+  // Check if key exists
+  has(key) {
+    return this.get(key) !== undefined;
+  }
+}
+
+// Usage
+const ht = new HashTable();
+ht.put("name", "Alice");
+ht.put("age", 25);
+console.log(ht.get("name"));  // "Alice"
+console.log(ht.has("age"));   // true
+ht.delete("age");
+console.log(ht.has("age"));   // false`}
+          python={`# Simple Hash Table with Chaining
+class HashTable:
+    def __init__(self, size: int = 53):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+        self.count = 0
+    
+    def _hash(self, key) -> int:
+        """Simple hash function."""
+        hash_value = 0
+        for char in str(key):
+            hash_value = (hash_value * 31 + ord(char)) % self.size
+        return hash_value
+    
+    def put(self, key, value) -> None:
+        """Insert or update a key-value pair."""
+        index = self._hash(key)
+        
+        # Check if key exists, update if so
+        for pair in self.table[index]:
+            if pair[0] == key:
+                pair[1] = value
+                return
+        
+        # Add new key-value pair
+        self.table[index].append([key, value])
+        self.count += 1
+    
+    def get(self, key):
+        """Retrieve value by key."""
+        index = self._hash(key)
+        
+        for k, v in self.table[index]:
+            if k == key:
+                return v
+        return None
+    
+    def delete(self, key) -> bool:
+        """Remove a key-value pair."""
+        index = self._hash(key)
+        
+        for i, (k, v) in enumerate(self.table[index]):
+            if k == key:
+                self.table[index].pop(i)
+                self.count -= 1
+                return True
+        return False
+    
+    def __contains__(self, key) -> bool:
+        """Check if key exists (enables 'in' operator)."""
+        return self.get(key) is not None
+
+# Usage
+ht = HashTable()
+ht.put("name", "Alice")
+ht.put("age", 25)
+print(ht.get("name"))   # "Alice"
+print("age" in ht)      # True
+ht.delete("age")
+print("age" in ht)      # False
+
+# Python's built-in dict IS a hash table!
+d = {"name": "Alice", "age": 25}
+print(d["name"])        # "Alice"`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use Hash Tables">
+        Use hash tables when you need fast lookups by key: caching, counting frequencies, implementing sets,
+        deduplication, indexing database records, and symbol tables in compilers.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="hash-tables" category="hashing" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Collision Resolution Lesson
+function CollisionResolutionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What are Hash Collisions?" iconEmoji="💥" color="from-red-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">collision</strong> occurs when two different keys
+          produce the same hash value (index). Since hash tables have finite size but potentially infinite keys,
+          collisions are inevitable by the Pigeonhole Principle.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Collision resolution strategies determine how to handle these conflicts to ensure all key-value pairs
+          can be stored and retrieved correctly.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏠" title="Two Families, One Address">
+        Imagine two families are assigned the same house address by the postal system. There are two ways
+        to handle this: <strong>Chaining</strong> — both families live together in the same house (multiple
+        entries at same index), or <strong>Open Addressing</strong> — one family looks for the next available
+        house on the street (probing for empty slot).
+      </Analogy>
+
+      <LearnCard title="1. Separate Chaining" iconEmoji="🔗" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Each bucket contains a linked list (or dynamic array) of all key-value pairs that hash to that index.
+        </p>
+        <StepByStep
+          steps={[
+            {
+              title: "Insert",
+              description: "Hash the key, then append the key-value pair to the list at that index.",
+            },
+            {
+              title: "Search",
+              description: "Hash the key, then traverse the list at that index to find the matching key.",
+            },
+            {
+              title: "Delete",
+              description: "Hash the key, find and remove the pair from the list.",
+            },
+          ]}
+        />
+        <div className="mt-4 p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+          <p className="text-sm text-[var(--text-secondary)]">
+            <strong className="text-green-400">Pros:</strong> Simple, never fills up, works well with high load factors<br />
+            <strong className="text-red-400">Cons:</strong> Extra memory for pointers, cache-unfriendly due to scattered memory access
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="2. Open Addressing" iconEmoji="🔍" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          All entries are stored in the hash table array itself. When a collision occurs, we probe for the next empty slot.
+        </p>
+
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Linear Probing</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(k, i) = (h(k) + i) mod m</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              Check slots sequentially: index, index+1, index+2... Simple but causes <em>clustering</em>.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Quadratic Probing</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(k, i) = (h(k) + c₁×i + c₂×i²) mod m</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              Check slots at quadratic intervals: index, index+1, index+4, index+9... Reduces primary clustering.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Double Hashing</h4>
+            <code className="text-sm text-[var(--color-primary-400)]">h(k, i) = (h₁(k) + i×h₂(k)) mod m</code>
+            <p className="text-sm text-[var(--text-secondary)] mt-2">
+              Uses a second hash function for step size. Best distribution, minimizes clustering.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Comparison" iconEmoji="📊" color="from-cyan-500 to-teal-500">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border-primary)]">
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Method</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Average</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Worst</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Space</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--text-secondary)]">
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4">Separate Chaining</td>
+                <td className="py-3 px-4 text-green-400">O(1 + α)</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">O(m + n)</td>
+              </tr>
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4">Linear Probing</td>
+                <td className="py-3 px-4 text-green-400">O(1/(1-α))</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">O(m)</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4">Double Hashing</td>
+                <td className="py-3 px-4 text-green-400">O(1/(1-α))</td>
+                <td className="py-3 px-4 text-red-400">O(n)</td>
+                <td className="py-3 px-4">O(m)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-[var(--text-secondary)] mt-3">
+          α = load factor (n/m). For open addressing, keep α &lt; 0.7 for good performance.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Hash Table with Linear Probing (Open Addressing)
+class HashTableLP {
+  constructor(size = 53) {
+    this.size = size;
+    this.keys = new Array(size).fill(null);
+    this.values = new Array(size).fill(null);
+    this.count = 0;
+  }
+  
+  _hash(key) {
+    let hash = 0;
+    for (let char of String(key)) {
+      hash = (hash * 31 + char.charCodeAt(0)) % this.size;
+    }
+    return hash;
+  }
+  
+  // Linear probing: find next available slot
+  put(key, value) {
+    if (this.count >= this.size * 0.7) {
+      throw new Error("Table is too full! Need to resize.");
+    }
+    
+    let index = this._hash(key);
+    
+    // Probe until empty slot or same key found
+    while (this.keys[index] !== null) {
+      if (this.keys[index] === key) {
+        this.values[index] = value;  // Update existing
+        return;
+      }
+      index = (index + 1) % this.size;  // Linear probe
+    }
+    
+    // Insert new entry
+    this.keys[index] = key;
+    this.values[index] = value;
+    this.count++;
+  }
+  
+  get(key) {
+    let index = this._hash(key);
+    let probes = 0;
+    
+    while (this.keys[index] !== null && probes < this.size) {
+      if (this.keys[index] === key) {
+        return this.values[index];
+      }
+      index = (index + 1) % this.size;
+      probes++;
+    }
+    return undefined;
+  }
+  
+  // Delete with tombstone (to maintain probe sequence)
+  delete(key) {
+    let index = this._hash(key);
+    
+    while (this.keys[index] !== null) {
+      if (this.keys[index] === key) {
+        this.keys[index] = "DELETED";  // Tombstone
+        this.values[index] = null;
+        this.count--;
+        return true;
+      }
+      index = (index + 1) % this.size;
+    }
+    return false;
+  }
+}
+
+// Usage
+const ht = new HashTableLP(10);
+ht.put("apple", 5);
+ht.put("banana", 3);
+ht.put("cherry", 7);
+console.log(ht.get("banana"));  // 3`}
+          python={`# Hash Table with Linear Probing (Open Addressing)
+class HashTableLP:
+    DELETED = object()  # Tombstone marker
+    
+    def __init__(self, size: int = 53):
+        self.size = size
+        self.keys = [None] * size
+        self.values = [None] * size
+        self.count = 0
+    
+    def _hash(self, key) -> int:
+        hash_value = 0
+        for char in str(key):
+            hash_value = (hash_value * 31 + ord(char)) % self.size
+        return hash_value
+    
+    def put(self, key, value) -> None:
+        """Insert with linear probing."""
+        if self.count >= self.size * 0.7:
+            raise Exception("Table is too full! Need to resize.")
+        
+        index = self._hash(key)
+        
+        # Probe until empty or same key
+        while self.keys[index] is not None:
+            if self.keys[index] == key:
+                self.values[index] = value  # Update
+                return
+            if self.keys[index] is self.DELETED:
+                break  # Can reuse deleted slot
+            index = (index + 1) % self.size
+        
+        self.keys[index] = key
+        self.values[index] = value
+        self.count += 1
+    
+    def get(self, key):
+        """Retrieve with linear probing."""
+        index = self._hash(key)
+        probes = 0
+        
+        while self.keys[index] is not None and probes < self.size:
+            if self.keys[index] == key:
+                return self.values[index]
+            index = (index + 1) % self.size
+            probes += 1
+        return None
+    
+    def delete(self, key) -> bool:
+        """Delete with tombstone."""
+        index = self._hash(key)
+        
+        while self.keys[index] is not None:
+            if self.keys[index] == key:
+                self.keys[index] = self.DELETED
+                self.values[index] = None
+                self.count -= 1
+                return True
+            index = (index + 1) % self.size
+        return False
+
+# Usage
+ht = HashTableLP(10)
+ht.put("apple", 5)
+ht.put("banana", 3)
+print(ht.get("banana"))  # 3`}
+        />
+      </LearnCard>
+
+      <Callout type="warning" title="Deletion in Open Addressing">
+        You cannot simply remove an entry in open addressing — it would break the probe sequence.
+        Use <strong>tombstones</strong> (special &quot;DELETED&quot; markers) or <strong>lazy deletion</strong>
+        to mark slots as deleted while preserving the probe chain.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="collision-resolution" category="hashing" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Two Sum Problem Lesson
+function TwoSumLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="The Two Sum Problem" iconEmoji="🎯" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Two Sum</strong> is a classic coding interview problem:
+          Given an array of integers and a target sum, find two numbers that add up to the target. Return
+          their indices.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="nums = [2, 7, 11, 15], target = 9"
+          output="[0, 1]"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Explanation: nums[0] + nums[1] = 2 + 7 = 9</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="🧩" title="Finding Puzzle Pieces">
+        Imagine you have a collection of puzzle pieces, each with a number on it. You need to find two
+        pieces that add up to a specific number to complete a section. The naive way is to try every
+        combination. The smart way? Keep a &quot;wanted list&quot; — for each piece you see, write down what
+        piece you&apos;d need to complete the sum. When you find a match, you&apos;re done!
+      </Analogy>
+
+      <LearnCard title="Approach Comparison" iconEmoji="⚖️" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">❌ Brute Force: O(n²)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Check every pair of numbers. For each element, scan the rest of the array.
+              Time: O(n²), Space: O(1)
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">✅ Hash Map: O(n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Use a hash map to store seen numbers and their indices. For each number, check if
+              (target - number) exists in the map.
+              Time: O(n), Space: O(n)
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">✅ Two Pointers: O(n log n)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Sort the array, use two pointers from both ends. Requires returning values, not indices.
+              Time: O(n log n), Space: O(1) or O(n) for sorted copy
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Hash Map Solution (Optimal)" iconEmoji="📖" color="from-blue-500 to-indigo-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Initialize Hash Map",
+              description: "Create an empty hash map to store {number: index} pairs.",
+            },
+            {
+              title: "Iterate Through Array",
+              description: "For each number at index i, calculate complement = target - nums[i].",
+            },
+            {
+              title: "Check Hash Map",
+              description: "If complement exists in map, return [map[complement], i].",
+            },
+            {
+              title: "Store Current Number",
+              description: "If not found, add nums[i] → i to the hash map and continue.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Best Case", time: "O(1)", description: "Target pair found at the start" },
+            { case: "Average Case", time: "O(n)", description: "Single pass through array" },
+            { case: "Worst Case", time: "O(n)", description: "Target pair at the end" },
+          ]}
+          spaceComplexity="O(n)"
+          spaceDescription="Hash map stores up to n elements"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Two Sum - Hash Map Solution (Optimal)
+function twoSum(nums, target) {
+  const map = new Map();  // number -> index
+  
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    
+    // Check if complement exists
+    if (map.has(complement)) {
+      return [map.get(complement), i];
+    }
+    
+    // Store current number with its index
+    map.set(nums[i], i);
+  }
+  
+  return [];  // No solution found
+}
+
+// Example usage
+console.log(twoSum([2, 7, 11, 15], 9));   // [0, 1]
+console.log(twoSum([3, 2, 4], 6));        // [1, 2]
+console.log(twoSum([3, 3], 6));           // [0, 1]
+
+// Brute Force (for comparison)
+function twoSumBrute(nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        return [i, j];
+      }
+    }
+  }
+  return [];
+}
+
+// Two Pointers (returns values, not indices)
+function twoSumSorted(nums, target) {
+  const sorted = [...nums].sort((a, b) => a - b);
+  let left = 0, right = sorted.length - 1;
+  
+  while (left < right) {
+    const sum = sorted[left] + sorted[right];
+    if (sum === target) {
+      return [sorted[left], sorted[right]];
+    } else if (sum < target) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+  return [];
+}`}
+          python={`# Two Sum - Hash Map Solution (Optimal)
+def two_sum(nums: list[int], target: int) -> list[int]:
+    seen = {}  # number -> index
+    
+    for i, num in enumerate(nums):
+        complement = target - num
+        
+        # Check if complement exists
+        if complement in seen:
+            return [seen[complement], i]
+        
+        # Store current number with its index
+        seen[num] = i
+    
+    return []  # No solution found
+
+# Example usage
+print(two_sum([2, 7, 11, 15], 9))   # [0, 1]
+print(two_sum([3, 2, 4], 6))        # [1, 2]
+print(two_sum([3, 3], 6))           # [0, 1]
+
+# Brute Force (for comparison)
+def two_sum_brute(nums: list[int], target: int) -> list[int]:
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []
+
+# Two Pointers (works on sorted array, returns values)
+def two_sum_sorted(nums: list[int], target: int) -> list[int]:
+    sorted_nums = sorted(nums)
+    left, right = 0, len(sorted_nums) - 1
+    
+    while left < right:
+        total = sorted_nums[left] + sorted_nums[right]
+        if total == target:
+            return [sorted_nums[left], sorted_nums[right]]
+        elif total < target:
+            left += 1
+        else:
+            right -= 1
+    return []`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Hash Maps?">
+        The key insight is that for each number x, we need to find (target - x). A hash map gives us
+        O(1) lookup for whether we&apos;ve seen the complement before. This transforms O(n²) brute force
+        into O(n) — a massive speedup for large arrays!
+      </Callout>
+
+      <LearnCard title="Variations & Follow-ups" iconEmoji="🔄" color="from-amber-500 to-orange-500">
+        <div className="space-y-3">
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Three Sum:</strong>
+            <span className="text-[var(--text-secondary)]"> Find three numbers that add to target (sort + two pointers)</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Two Sum II (Sorted):</strong>
+            <span className="text-[var(--text-secondary)]"> Input is sorted — use two pointers for O(1) space</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Two Sum - Data Structure:</strong>
+            <span className="text-[var(--text-secondary)]"> Design a class with add() and find() operations</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Subarray Sum:</strong>
+            <span className="text-[var(--text-secondary)]"> Find subarray with given sum (prefix sums + hash map)</span>
+          </div>
+        </div>
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="two-sum" category="hashing" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Graph Representation Lesson
+function GraphRepresentationLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Graph?" iconEmoji="🕸️" color="from-purple-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">graph</strong> is a non-linear data structure
+          consisting of <strong className="text-[var(--text-primary)]">vertices</strong> (nodes) connected by
+          <strong className="text-[var(--text-primary)]"> edges</strong> (links). Graphs are used to model
+          relationships between objects.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Undirected Graph</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Edges have no direction (A—B means both can reach each other)</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Directed Graph (Digraph)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">Edges have direction (A→B means only A can reach B)</p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <Analogy emoji="🗺️" title="City Road Map">
+        Think of a city as a graph: intersections are vertices, and roads are edges. One-way streets
+        are directed edges, while two-way streets are undirected. Finding the shortest route between
+        two locations is a classic graph problem (shortest path).
+      </Analogy>
+
+      <LearnCard title="Graph Terminology" iconEmoji="📚" color="from-green-500 to-teal-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Vertex (Node):</strong>
+            <span className="text-[var(--text-secondary)]"> A point in the graph</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Edge:</strong>
+            <span className="text-[var(--text-secondary)]"> Connection between two vertices</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Degree:</strong>
+            <span className="text-[var(--text-secondary)]"> Number of edges connected to a vertex</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Path:</strong>
+            <span className="text-[var(--text-secondary)]"> Sequence of vertices connected by edges</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Cycle:</strong>
+            <span className="text-[var(--text-secondary)]"> Path that starts and ends at the same vertex</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Weighted:</strong>
+            <span className="text-[var(--text-secondary)]"> Edges have associated costs/distances</span>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="1. Adjacency Matrix" iconEmoji="📊" color="from-blue-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A 2D array where <code className="text-[var(--color-primary-400)]">matrix[i][j] = 1</code> if there&apos;s
+          an edge from vertex i to j, and 0 otherwise. For weighted graphs, store the weight instead of 1.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-green-400 mb-2">✅ Pros</h4>
+            <ul className="text-sm text-[var(--text-secondary)] space-y-1">
+              <li>• O(1) edge lookup</li>
+              <li>• Simple implementation</li>
+              <li>• Good for dense graphs</li>
+            </ul>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-red-400 mb-2">❌ Cons</h4>
+            <ul className="text-sm text-[var(--text-secondary)] space-y-1">
+              <li>• O(V²) space always</li>
+              <li>• Wasteful for sparse graphs</li>
+              <li>• Adding vertices is expensive</li>
+            </ul>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="2. Adjacency List" iconEmoji="📝" color="from-orange-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          An array of lists where each vertex has a list of its neighboring vertices. More space-efficient
+          for sparse graphs (most real-world graphs).
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-green-400 mb-2">✅ Pros</h4>
+            <ul className="text-sm text-[var(--text-secondary)] space-y-1">
+              <li>• O(V + E) space</li>
+              <li>• Efficient for sparse graphs</li>
+              <li>• Easy to iterate neighbors</li>
+            </ul>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-red-400 mb-2">❌ Cons</h4>
+            <ul className="text-sm text-[var(--text-secondary)] space-y-1">
+              <li>• O(degree) edge lookup</li>
+              <li>• Slightly complex structure</li>
+              <li>• More memory per edge (pointers)</li>
+            </ul>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Comparison" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border-primary)]">
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Operation</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Adj Matrix</th>
+                <th className="text-left py-3 px-4 text-[var(--text-primary)] font-semibold">Adj List</th>
+              </tr>
+            </thead>
+            <tbody className="text-[var(--text-secondary)]">
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4">Space</td>
+                <td className="py-3 px-4">O(V²)</td>
+                <td className="py-3 px-4 text-green-400">O(V + E)</td>
+              </tr>
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4">Check edge (u, v)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4">O(degree(u))</td>
+              </tr>
+              <tr className="border-b border-[var(--border-primary)]/50">
+                <td className="py-3 px-4">Add edge</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+                <td className="py-3 px-4 text-green-400">O(1)</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4">Get all neighbors</td>
+                <td className="py-3 px-4">O(V)</td>
+                <td className="py-3 px-4 text-green-400">O(degree(u))</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Graph Representation in JavaScript
+
+// 1. Adjacency Matrix
+class GraphMatrix {
+  constructor(numVertices) {
+    this.V = numVertices;
+    this.matrix = Array(numVertices)
+      .fill(null)
+      .map(() => Array(numVertices).fill(0));
+  }
+  
+  addEdge(u, v, directed = false) {
+    this.matrix[u][v] = 1;
+    if (!directed) {
+      this.matrix[v][u] = 1;  // Undirected: add both directions
+    }
+  }
+  
+  hasEdge(u, v) {
+    return this.matrix[u][v] === 1;
+  }
+  
+  getNeighbors(u) {
+    const neighbors = [];
+    for (let v = 0; v < this.V; v++) {
+      if (this.matrix[u][v]) neighbors.push(v);
+    }
+    return neighbors;
+  }
+}
+
+// 2. Adjacency List (more common)
+class GraphList {
+  constructor() {
+    this.adjList = new Map();
+  }
+  
+  addVertex(v) {
+    if (!this.adjList.has(v)) {
+      this.adjList.set(v, []);
+    }
+  }
+  
+  addEdge(u, v, directed = false) {
+    this.addVertex(u);
+    this.addVertex(v);
+    this.adjList.get(u).push(v);
+    if (!directed) {
+      this.adjList.get(v).push(u);
+    }
+  }
+  
+  getNeighbors(u) {
+    return this.adjList.get(u) || [];
+  }
+  
+  hasEdge(u, v) {
+    return this.adjList.has(u) && this.adjList.get(u).includes(v);
+  }
+}
+
+// Example usage
+const g = new GraphList();
+g.addEdge(0, 1);
+g.addEdge(0, 2);
+g.addEdge(1, 2);
+console.log(g.getNeighbors(0));  // [1, 2]`}
+          python={`# Graph Representation in Python
+
+# 1. Adjacency Matrix
+class GraphMatrix:
+    def __init__(self, num_vertices: int):
+        self.V = num_vertices
+        self.matrix = [[0] * num_vertices for _ in range(num_vertices)]
+    
+    def add_edge(self, u: int, v: int, directed: bool = False):
+        self.matrix[u][v] = 1
+        if not directed:
+            self.matrix[v][u] = 1  # Undirected
+    
+    def has_edge(self, u: int, v: int) -> bool:
+        return self.matrix[u][v] == 1
+    
+    def get_neighbors(self, u: int) -> list[int]:
+        return [v for v in range(self.V) if self.matrix[u][v]]
+
+# 2. Adjacency List (more common)
+from collections import defaultdict
+
+class GraphList:
+    def __init__(self):
+        self.adj_list = defaultdict(list)
+    
+    def add_edge(self, u, v, directed: bool = False):
+        self.adj_list[u].append(v)
+        if not directed:
+            self.adj_list[v].append(u)
+    
+    def get_neighbors(self, u):
+        return self.adj_list[u]
+    
+    def has_edge(self, u, v) -> bool:
+        return v in self.adj_list[u]
+
+# Example usage
+g = GraphList()
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 2)
+print(g.get_neighbors(0))  # [1, 2]`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use Which?">
+        Use <strong>adjacency list</strong> for most applications — it&apos;s more space-efficient and most
+        graphs are sparse. Use <strong>adjacency matrix</strong> when you need O(1) edge lookups or the
+        graph is dense (E ≈ V²).
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="graph-representation" category="graphs" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// BFS Lesson
+function BFSLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Breadth-First Search?" iconEmoji="🌊" color="from-blue-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Breadth-First Search (BFS)</strong> is a graph
+          traversal algorithm that explores vertices level by level, starting from a source node. It visits
+          all neighbors at the current depth before moving to the next level.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          BFS uses a <strong className="text-[var(--text-primary)]">queue</strong> to keep track of vertices
+          to visit, ensuring FIFO (First-In-First-Out) order. This makes it ideal for finding shortest paths
+          in unweighted graphs.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🌊" title="Ripples in a Pond">
+        Imagine dropping a pebble into a still pond. The ripples spread outward in concentric circles —
+        first the closest water molecules move, then those further away, and so on. BFS works the same way:
+        it explores all vertices at distance 1 from the start, then distance 2, then distance 3...
+      </Analogy>
+
+      <LearnCard title="How BFS Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Initialize",
+              description: "Create a queue, add the starting vertex, and mark it as visited.",
+            },
+            {
+              title: "Dequeue",
+              description: "Remove the front vertex from the queue and process it.",
+            },
+            {
+              title: "Explore Neighbors",
+              description: "For each unvisited neighbor, mark it visited and add it to the queue.",
+            },
+            {
+              title: "Repeat",
+              description: "Continue until the queue is empty. All reachable vertices will be visited.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="BFS Applications" iconEmoji="🎯" color="from-green-500 to-teal-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Shortest Path:</strong>
+            <span className="text-[var(--text-secondary)]"> In unweighted graphs</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Level Order:</strong>
+            <span className="text-[var(--text-secondary)]"> Tree traversal by levels</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Connected Components:</strong>
+            <span className="text-[var(--text-secondary)]"> Find all connected vertices</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Bipartite Check:</strong>
+            <span className="text-[var(--text-secondary)]"> Can graph be 2-colored?</span>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Time", time: "O(V + E)", description: "Visit each vertex and edge once" },
+          ]}
+          spaceComplexity="O(V)"
+          spaceDescription="Queue and visited array storage"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Breadth-First Search (BFS)
+function bfs(graph, start) {
+  const visited = new Set();
+  const queue = [start];
+  const result = [];
+  
+  visited.add(start);
+  
+  while (queue.length > 0) {
+    const vertex = queue.shift();  // Dequeue
+    result.push(vertex);
+    
+    // Explore all neighbors
+    for (const neighbor of graph.getNeighbors(vertex)) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push(neighbor);  // Enqueue
+      }
+    }
+  }
+  
+  return result;
+}
+
+// BFS Shortest Path (unweighted graph)
+function bfsShortestPath(graph, start, end) {
+  const visited = new Set([start]);
+  const queue = [[start, [start]]];  // [vertex, path]
+  
+  while (queue.length > 0) {
+    const [vertex, path] = queue.shift();
+    
+    if (vertex === end) {
+      return path;  // Found shortest path!
+    }
+    
+    for (const neighbor of graph.getNeighbors(vertex)) {
+      if (!visited.has(neighbor)) {
+        visited.add(neighbor);
+        queue.push([neighbor, [...path, neighbor]]);
+      }
+    }
+  }
+  
+  return null;  // No path exists
+}
+
+// Example with adjacency list
+class Graph {
+  constructor() {
+    this.adjList = new Map();
+  }
+  addEdge(u, v) {
+    if (!this.adjList.has(u)) this.adjList.set(u, []);
+    if (!this.adjList.has(v)) this.adjList.set(v, []);
+    this.adjList.get(u).push(v);
+    this.adjList.get(v).push(u);
+  }
+  getNeighbors(u) {
+    return this.adjList.get(u) || [];
+  }
+}
+
+const g = new Graph();
+g.addEdge(0, 1);
+g.addEdge(0, 2);
+g.addEdge(1, 3);
+g.addEdge(2, 3);
+console.log(bfs(g, 0));  // [0, 1, 2, 3]
+console.log(bfsShortestPath(g, 0, 3));  // [0, 1, 3] or [0, 2, 3]`}
+          python={`# Breadth-First Search (BFS)
+from collections import deque, defaultdict
+
+def bfs(graph: dict, start) -> list:
+    visited = {start}
+    queue = deque([start])
+    result = []
+    
+    while queue:
+        vertex = queue.popleft()  # Dequeue
+        result.append(vertex)
+        
+        # Explore all neighbors
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)  # Enqueue
+    
+    return result
+
+# BFS Shortest Path (unweighted graph)
+def bfs_shortest_path(graph: dict, start, end) -> list:
+    visited = {start}
+    queue = deque([(start, [start])])  # (vertex, path)
+    
+    while queue:
+        vertex, path = queue.popleft()
+        
+        if vertex == end:
+            return path  # Found shortest path!
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    
+    return None  # No path exists
+
+# Example with adjacency list
+class Graph:
+    def __init__(self):
+        self.adj_list = defaultdict(list)
+    
+    def add_edge(self, u, v):
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)
+
+g = Graph()
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 3)
+g.add_edge(2, 3)
+print(bfs(g.adj_list, 0))  # [0, 1, 2, 3]
+print(bfs_shortest_path(g.adj_list, 0, 3))  # [0, 1, 3]`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="BFS vs DFS">
+        BFS explores <strong>breadth-wise</strong> (level by level) using a queue, while DFS explores
+        <strong> depth-wise</strong> (as deep as possible) using a stack or recursion. BFS guarantees
+        shortest path in unweighted graphs; DFS is often simpler and uses less memory for deep graphs.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="bfs" category="graphs" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// DFS Lesson
+function DFSLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Depth-First Search?" iconEmoji="🏊" color="from-purple-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Depth-First Search (DFS)</strong> is a graph
+          traversal algorithm that explores as far as possible along each branch before backtracking. It
+          dives deep into one path before exploring alternatives.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          DFS can be implemented using <strong className="text-[var(--text-primary)]">recursion</strong> (implicit
+          call stack) or an explicit <strong className="text-[var(--text-primary)]">stack</strong>. It&apos;s
+          fundamental for many graph algorithms like topological sort and cycle detection.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🌲" title="Exploring a Maze">
+        Imagine exploring a maze: you walk down a path until you hit a dead end, then backtrack to the
+        last junction and try a different path. You keep doing this until you&apos;ve explored the entire maze.
+        That&apos;s DFS — go deep, hit a wall, backtrack, repeat.
+      </Analogy>
+
+      <LearnCard title="How DFS Works" iconEmoji="📖" color="from-pink-500 to-rose-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Start at Source",
+              description: "Mark the starting vertex as visited and begin exploration.",
+            },
+            {
+              title: "Go Deep",
+              description: "Pick an unvisited neighbor and recursively visit it.",
+            },
+            {
+              title: "Backtrack",
+              description: "When no unvisited neighbors remain, return to the previous vertex.",
+            },
+            {
+              title: "Complete",
+              description: "Continue until all reachable vertices have been visited.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="DFS Applications" iconEmoji="🎯" color="from-green-500 to-teal-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Cycle Detection:</strong>
+            <span className="text-[var(--text-secondary)]"> Find if graph has cycles</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Topological Sort:</strong>
+            <span className="text-[var(--text-secondary)]"> Order tasks by dependencies</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Path Finding:</strong>
+            <span className="text-[var(--text-secondary)]"> Find any path between nodes</span>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <strong className="text-[var(--text-primary)]">Strongly Connected:</strong>
+            <span className="text-[var(--text-secondary)]"> Find SCCs in digraphs</span>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Time", time: "O(V + E)", description: "Visit each vertex and edge once" },
+          ]}
+          spaceComplexity="O(V)"
+          spaceDescription="Recursion stack or explicit stack + visited array"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-orange-500 to-amber-500">
+        <CodeTabs
+          javascript={`// Depth-First Search (DFS)
+
+// Recursive DFS
+function dfsRecursive(graph, start, visited = new Set()) {
+  visited.add(start);
+  console.log(start);  // Process vertex
+  
+  for (const neighbor of graph.getNeighbors(start)) {
+    if (!visited.has(neighbor)) {
+      dfsRecursive(graph, neighbor, visited);
+    }
+  }
+  
+  return visited;
+}
+
+// Iterative DFS (using stack)
+function dfsIterative(graph, start) {
+  const visited = new Set();
+  const stack = [start];
+  const result = [];
+  
+  while (stack.length > 0) {
+    const vertex = stack.pop();  // Pop from stack
+    
+    if (!visited.has(vertex)) {
+      visited.add(vertex);
+      result.push(vertex);
+      
+      // Add neighbors to stack (reverse for consistent order)
+      const neighbors = graph.getNeighbors(vertex);
+      for (let i = neighbors.length - 1; i >= 0; i--) {
+        if (!visited.has(neighbors[i])) {
+          stack.push(neighbors[i]);
+        }
+      }
+    }
+  }
+  
+  return result;
+}
+
+// DFS to find path
+function dfsPath(graph, start, end, visited = new Set(), path = []) {
+  visited.add(start);
+  path.push(start);
+  
+  if (start === end) {
+    return [...path];  // Found path!
+  }
+  
+  for (const neighbor of graph.getNeighbors(start)) {
+    if (!visited.has(neighbor)) {
+      const result = dfsPath(graph, neighbor, end, visited, path);
+      if (result) return result;
+    }
+  }
+  
+  path.pop();  // Backtrack
+  return null;
+}
+
+// Example
+class Graph {
+  constructor() { this.adjList = new Map(); }
+  addEdge(u, v) {
+    if (!this.adjList.has(u)) this.adjList.set(u, []);
+    if (!this.adjList.has(v)) this.adjList.set(v, []);
+    this.adjList.get(u).push(v);
+    this.adjList.get(v).push(u);
+  }
+  getNeighbors(u) { return this.adjList.get(u) || []; }
+}
+
+const g = new Graph();
+g.addEdge(0, 1);
+g.addEdge(0, 2);
+g.addEdge(1, 3);
+g.addEdge(2, 3);
+console.log(dfsIterative(g, 0));  // [0, 1, 3, 2] or [0, 2, 3, 1]`}
+          python={`# Depth-First Search (DFS)
+from collections import defaultdict
+
+# Recursive DFS
+def dfs_recursive(graph: dict, start, visited: set = None) -> list:
+    if visited is None:
+        visited = set()
+    
+    visited.add(start)
+    result = [start]
+    
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            result.extend(dfs_recursive(graph, neighbor, visited))
+    
+    return result
+
+# Iterative DFS (using stack)
+def dfs_iterative(graph: dict, start) -> list:
+    visited = set()
+    stack = [start]
+    result = []
+    
+    while stack:
+        vertex = stack.pop()  # Pop from stack
+        
+        if vertex not in visited:
+            visited.add(vertex)
+            result.append(vertex)
+            
+            # Add neighbors to stack (reverse for consistent order)
+            for neighbor in reversed(graph[vertex]):
+                if neighbor not in visited:
+                    stack.append(neighbor)
+    
+    return result
+
+# DFS to find path
+def dfs_path(graph: dict, start, end, visited: set = None, path: list = None):
+    if visited is None:
+        visited = set()
+    if path is None:
+        path = []
+    
+    visited.add(start)
+    path.append(start)
+    
+    if start == end:
+        return list(path)  # Found path!
+    
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            result = dfs_path(graph, neighbor, end, visited, path)
+            if result:
+                return result
+    
+    path.pop()  # Backtrack
+    return None
+
+# Example
+class Graph:
+    def __init__(self):
+        self.adj_list = defaultdict(list)
+    
+    def add_edge(self, u, v):
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)
+
+g = Graph()
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 3)
+g.add_edge(2, 3)
+print(dfs_iterative(g.adj_list, 0))  # [0, 1, 3, 2]`}
+        />
+      </LearnCard>
+
+      <Callout type="warning" title="Watch for Stack Overflow">
+        Recursive DFS can cause stack overflow on very deep graphs. For large graphs, use the iterative
+        version with an explicit stack, or increase the recursion limit.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="dfs" category="graphs" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Cycle Detection Lesson
+function CycleDetectionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Cycle Detection?" iconEmoji="🔄" color="from-red-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Cycle detection</strong> determines if a graph
+          contains a cycle — a path that starts and ends at the same vertex. This is crucial for detecting
+          deadlocks, circular dependencies, and validating DAGs (Directed Acyclic Graphs).
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Undirected Graph</h4>
+            <p className="text-sm text-[var(--text-secondary)]">A cycle exists if we visit a vertex that&apos;s already visited (and not the parent)</p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Directed Graph</h4>
+            <p className="text-sm text-[var(--text-secondary)]">A cycle exists if we revisit a vertex that&apos;s currently on the recursion stack</p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <Analogy emoji="🚦" title="Traffic Loop">
+        Imagine following road signs that eventually lead you back to where you started — you&apos;re stuck
+        in a loop! In software, cycles can cause infinite loops in dependency resolution, deadlocks in
+        resource allocation, or indicate a bug in course prerequisites.
+      </Analogy>
+
+      <LearnCard title="Coloring Approach (Directed Graphs)" iconEmoji="🎨" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Use three colors to track vertex states during DFS:
+        </p>
+        <div className="space-y-3">
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex items-center gap-3">
+            <span className="w-4 h-4 rounded-full bg-white border border-gray-400"></span>
+            <div>
+              <strong className="text-[var(--text-primary)]">White (0):</strong>
+              <span className="text-[var(--text-secondary)]"> Unvisited — not yet explored</span>
+            </div>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex items-center gap-3">
+            <span className="w-4 h-4 rounded-full bg-gray-500"></span>
+            <div>
+              <strong className="text-[var(--text-primary)]">Gray (1):</strong>
+              <span className="text-[var(--text-secondary)]"> In Progress — currently on recursion stack</span>
+            </div>
+          </div>
+          <div className="p-3 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-primary)] flex items-center gap-3">
+            <span className="w-4 h-4 rounded-full bg-black border border-gray-400"></span>
+            <div>
+              <strong className="text-[var(--text-primary)]">Black (2):</strong>
+              <span className="text-[var(--text-secondary)]"> Done — fully explored and backtracked</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-sm text-[var(--text-secondary)] mt-4">
+          <strong>Cycle detected</strong> when we encounter a <strong>Gray</strong> vertex during DFS!
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Time", time: "O(V + E)", description: "DFS visits each vertex and edge once" },
+          ]}
+          spaceComplexity="O(V)"
+          spaceDescription="Color array + recursion stack"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Cycle Detection in Graphs
+
+// 1. Undirected Graph - DFS approach
+function hasCycleUndirected(graph) {
+  const visited = new Set();
+  
+  function dfs(vertex, parent) {
+    visited.add(vertex);
+    
+    for (const neighbor of graph.getNeighbors(vertex)) {
+      if (!visited.has(neighbor)) {
+        if (dfs(neighbor, vertex)) return true;
+      } else if (neighbor !== parent) {
+        // Found a back edge to a visited non-parent vertex
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  // Check all components
+  for (const vertex of graph.getVertices()) {
+    if (!visited.has(vertex)) {
+      if (dfs(vertex, -1)) return true;
+    }
+  }
+  return false;
+}
+
+// 2. Directed Graph - Coloring approach (WHITE=0, GRAY=1, BLACK=2)
+function hasCycleDirected(graph) {
+  const color = new Map();  // 0=white, 1=gray, 2=black
+  
+  function dfs(vertex) {
+    color.set(vertex, 1);  // Mark gray (in progress)
+    
+    for (const neighbor of graph.getNeighbors(vertex)) {
+      if (color.get(neighbor) === 1) {
+        return true;  // Back edge to gray = CYCLE!
+      }
+      if (color.get(neighbor) === 0) {
+        if (dfs(neighbor)) return true;
+      }
+    }
+    
+    color.set(vertex, 2);  // Mark black (done)
+    return false;
+  }
+  
+  // Initialize all vertices as white
+  for (const vertex of graph.getVertices()) {
+    color.set(vertex, 0);
+  }
+  
+  // Check all components
+  for (const vertex of graph.getVertices()) {
+    if (color.get(vertex) === 0) {
+      if (dfs(vertex)) return true;
+    }
+  }
+  return false;
+}
+
+// Example Graph class
+class DirectedGraph {
+  constructor() { this.adjList = new Map(); }
+  addVertex(v) { if (!this.adjList.has(v)) this.adjList.set(v, []); }
+  addEdge(u, v) { 
+    this.addVertex(u); 
+    this.addVertex(v);
+    this.adjList.get(u).push(v); 
+  }
+  getNeighbors(v) { return this.adjList.get(v) || []; }
+  getVertices() { return this.adjList.keys(); }
+}
+
+// Test
+const g = new DirectedGraph();
+g.addEdge(0, 1);
+g.addEdge(1, 2);
+g.addEdge(2, 0);  // Creates cycle!
+console.log(hasCycleDirected(g));  // true`}
+          python={`# Cycle Detection in Graphs
+from collections import defaultdict
+from enum import IntEnum
+
+class Color(IntEnum):
+    WHITE = 0  # Unvisited
+    GRAY = 1   # In progress (on recursion stack)
+    BLACK = 2  # Done
+
+# 1. Undirected Graph - DFS approach
+def has_cycle_undirected(graph: dict) -> bool:
+    visited = set()
+    
+    def dfs(vertex: int, parent: int) -> bool:
+        visited.add(vertex)
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                if dfs(neighbor, vertex):
+                    return True
+            elif neighbor != parent:
+                # Back edge to visited non-parent
+                return True
+        return False
+    
+    # Check all components
+    for vertex in graph:
+        if vertex not in visited:
+            if dfs(vertex, -1):
+                return True
+    return False
+
+# 2. Directed Graph - Coloring approach
+def has_cycle_directed(graph: dict) -> bool:
+    color = {v: Color.WHITE for v in graph}
+    
+    def dfs(vertex: int) -> bool:
+        color[vertex] = Color.GRAY  # Mark in progress
+        
+        for neighbor in graph[vertex]:
+            if color[neighbor] == Color.GRAY:
+                return True  # Back edge to gray = CYCLE!
+            if color[neighbor] == Color.WHITE:
+                if dfs(neighbor):
+                    return True
+        
+        color[vertex] = Color.BLACK  # Mark done
+        return False
+    
+    # Check all components
+    for vertex in graph:
+        if color[vertex] == Color.WHITE:
+            if dfs(vertex):
+                return True
+    return False
+
+# Test
+graph = defaultdict(list)
+graph[0].append(1)
+graph[1].append(2)
+graph[2].append(0)  # Creates cycle!
+print(has_cycle_directed(graph))  # True
+
+# No cycle
+graph2 = defaultdict(list)
+graph2[0].append(1)
+graph2[1].append(2)
+print(has_cycle_directed(graph2))  # False`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Coloring Matters for Directed Graphs">
+        In undirected graphs, any back edge indicates a cycle. In directed graphs, a back edge to a
+        <strong> fully processed (black)</strong> vertex is fine — it&apos;s just a cross edge or forward edge.
+        Only a back edge to a <strong>gray (in-progress)</strong> vertex indicates a cycle!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="cycle-detection" category="graphs" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Fibonacci DP Lesson
+function FibonacciDPLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Dynamic Programming Introduction" iconEmoji="🧠" color="from-purple-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Dynamic Programming (DP)</strong> is an optimization
+          technique that solves complex problems by breaking them into simpler overlapping subproblems, solving
+          each subproblem only once, and storing their solutions.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The Fibonacci sequence is the perfect introduction to DP concepts — it demonstrates how naive
+          recursion leads to exponential time, and how memoization/tabulation achieve linear time.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📝" title="Exam Preparation">
+        Imagine preparing for an exam where many questions are based on the same core concepts. Instead of
+        re-learning each concept every time you encounter a question, you write notes (memoization) or
+        prepare a study guide (tabulation) the first time. This saves massive time!
+      </Analogy>
+
+      <LearnCard title="The Problem with Naive Recursion" iconEmoji="🐢" color="from-red-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <code className="text-[var(--color-primary-400)]">fib(n) = fib(n-1) + fib(n-2)</code>
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Naive recursion has <strong className="text-red-400">O(2^n)</strong> time complexity because it
+          recomputes the same values repeatedly. <code>fib(5)</code> computes <code>fib(3)</code> twice,
+          <code>fib(2)</code> three times, etc.
+        </p>
+        <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+          <p className="text-sm font-mono text-[var(--text-secondary)]">
+            fib(5) → fib(4) + fib(3)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;fib(4) → fib(3) + fib(2) ← fib(3) calculated again!<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fib(3) → fib(2) + fib(1) ← fib(2) calculated again!
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Two DP Approaches" iconEmoji="🔄" color="from-blue-500 to-cyan-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Memoization (Top-Down)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Start from the top problem, recursively solve subproblems, and cache results.
+              Uses recursion + hash map/array to store computed values.
+            </p>
+          </div>
+          <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Tabulation (Bottom-Up)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Start from the smallest subproblems, iteratively build up solutions.
+              Uses iteration + table to fill in values progressively.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Naive Recursion", time: "O(2^n)", description: "Exponential — recalculates subproblems" },
+            { case: "Memoization", time: "O(n)", description: "Linear — each subproblem solved once" },
+            { case: "Tabulation", time: "O(n)", description: "Linear — iterative, single pass" },
+          ]}
+          spaceComplexity="O(n) or O(1)"
+          spaceDescription="O(n) for memoization/tabulation array, O(1) with space optimization"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Fibonacci with Dynamic Programming
+
+// 1. Naive Recursion - O(2^n) time ❌
+function fibNaive(n) {
+  if (n <= 1) return n;
+  return fibNaive(n - 1) + fibNaive(n - 2);
+}
+
+// 2. Memoization (Top-Down) - O(n) time ✅
+function fibMemo(n, memo = {}) {
+  if (n <= 1) return n;
+  
+  if (memo[n] !== undefined) {
+    return memo[n];  // Return cached result
+  }
+  
+  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
+  return memo[n];
+}
+
+// 3. Tabulation (Bottom-Up) - O(n) time ✅
+function fibTab(n) {
+  if (n <= 1) return n;
+  
+  const dp = new Array(n + 1);
+  dp[0] = 0;
+  dp[1] = 1;
+  
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
+  }
+  
+  return dp[n];
+}
+
+// 4. Space Optimized - O(1) space ✅
+function fibOptimized(n) {
+  if (n <= 1) return n;
+  
+  let prev2 = 0, prev1 = 1;
+  
+  for (let i = 2; i <= n; i++) {
+    const curr = prev1 + prev2;
+    prev2 = prev1;
+    prev1 = curr;
+  }
+  
+  return prev1;
+}
+
+// Test
+console.log(fibOptimized(10));  // 55
+console.log(fibOptimized(50));  // 12586269025`}
+          python={`# Fibonacci with Dynamic Programming
+from functools import lru_cache
+
+# 1. Naive Recursion - O(2^n) time ❌
+def fib_naive(n: int) -> int:
+    if n <= 1:
+        return n
+    return fib_naive(n - 1) + fib_naive(n - 2)
+
+# 2. Memoization (Top-Down) - O(n) time ✅
+def fib_memo(n: int, memo: dict = None) -> int:
+    if memo is None:
+        memo = {}
+    if n <= 1:
+        return n
+    
+    if n in memo:
+        return memo[n]  # Return cached result
+    
+    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
+    return memo[n]
+
+# 2b. Using Python's built-in cache decorator ✅
+@lru_cache(maxsize=None)
+def fib_cached(n: int) -> int:
+    if n <= 1:
+        return n
+    return fib_cached(n - 1) + fib_cached(n - 2)
+
+# 3. Tabulation (Bottom-Up) - O(n) time ✅
+def fib_tab(n: int) -> int:
+    if n <= 1:
+        return n
+    
+    dp = [0] * (n + 1)
+    dp[0], dp[1] = 0, 1
+    
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    
+    return dp[n]
+
+# 4. Space Optimized - O(1) space ✅
+def fib_optimized(n: int) -> int:
+    if n <= 1:
+        return n
+    
+    prev2, prev1 = 0, 1
+    
+    for _ in range(2, n + 1):
+        curr = prev1 + prev2
+        prev2, prev1 = prev1, curr
+    
+    return prev1
+
+# Test
+print(fib_optimized(10))  # 55
+print(fib_optimized(50))  # 12586269025`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="DP Problem-Solving Pattern">
+        1. <strong>Define subproblems:</strong> What smaller problems can I solve?<br />
+        2. <strong>Find recurrence:</strong> How do subproblems relate to the main problem?<br />
+        3. <strong>Identify base cases:</strong> What are the smallest solvable problems?<br />
+        4. <strong>Choose approach:</strong> Top-down (memoization) or bottom-up (tabulation)?<br />
+        5. <strong>Optimize space:</strong> Can I reduce memory usage?
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="fibonacci-dp" category="dynamic-programming" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 0/1 Knapsack Lesson
+function Knapsack01Lesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="The 0/1 Knapsack Problem" iconEmoji="🎒" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given a set of items, each with a <strong className="text-[var(--text-primary)]">weight</strong> and
+          a <strong className="text-[var(--text-primary)]">value</strong>, determine the maximum value you can
+          carry in a knapsack of limited capacity. Each item can only be taken once (0 or 1 — hence the name).
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="weights = [1, 3, 4, 5], values = [1, 4, 5, 7], capacity = 7"
+          output="9 (take items with weights 3 and 4)"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Maximum value = 4 + 5 = 9</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="🏕️" title="Packing for a Hike">
+        You&apos;re packing for a hike with a bag that can hold 10kg. You have items like a tent (3kg, high value),
+        food (2kg, high value), heavy camera (5kg, medium value), and books (4kg, low value). You can&apos;t take
+        everything — you must choose the combination that maximizes value within your weight limit!
+      </Analogy>
+
+      <LearnCard title="DP State Definition" iconEmoji="📐" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <code className="text-[var(--color-primary-400)]">dp[i][w]</code> = maximum value achievable using
+          first <code>i</code> items with capacity <code>w</code>
+        </p>
+        <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Transition</h4>
+          <p className="text-sm font-mono text-[var(--text-secondary)]">
+            If weight[i-1] &gt; w: dp[i][w] = dp[i-1][w] (can&apos;t take item)<br />
+            Else: dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i-1]] + value[i-1])
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Standard DP", time: "O(n × W)", description: "n items, W capacity" },
+          ]}
+          spaceComplexity="O(n × W) or O(W)"
+          spaceDescription="2D table or 1D optimized array"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// 0/1 Knapsack Problem
+
+// Standard 2D DP Solution
+function knapsack(weights, values, capacity) {
+  const n = weights.length;
+  // dp[i][w] = max value using first i items with capacity w
+  const dp = Array(n + 1).fill(null)
+    .map(() => Array(capacity + 1).fill(0));
+  
+  for (let i = 1; i <= n; i++) {
+    for (let w = 0; w <= capacity; w++) {
+      // Don't take item i
+      dp[i][w] = dp[i - 1][w];
+      
+      // Take item i (if it fits)
+      if (weights[i - 1] <= w) {
+        dp[i][w] = Math.max(
+          dp[i][w],
+          dp[i - 1][w - weights[i - 1]] + values[i - 1]
+        );
+      }
+    }
+  }
+  
+  return dp[n][capacity];
+}
+
+// Space Optimized 1D DP
+function knapsackOptimized(weights, values, capacity) {
+  const dp = Array(capacity + 1).fill(0);
+  
+  for (let i = 0; i < weights.length; i++) {
+    // Traverse backwards to avoid using same item twice
+    for (let w = capacity; w >= weights[i]; w--) {
+      dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
+    }
+  }
+  
+  return dp[capacity];
+}
+
+// Example
+const weights = [1, 3, 4, 5];
+const values = [1, 4, 5, 7];
+const capacity = 7;
+console.log(knapsack(weights, values, capacity));  // 9
+console.log(knapsackOptimized(weights, values, capacity));  // 9`}
+          python={`# 0/1 Knapsack Problem
+
+# Standard 2D DP Solution
+def knapsack(weights: list[int], values: list[int], capacity: int) -> int:
+    n = len(weights)
+    # dp[i][w] = max value using first i items with capacity w
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+    
+    for i in range(1, n + 1):
+        for w in range(capacity + 1):
+            # Don't take item i
+            dp[i][w] = dp[i - 1][w]
+            
+            # Take item i (if it fits)
+            if weights[i - 1] <= w:
+                dp[i][w] = max(
+                    dp[i][w],
+                    dp[i - 1][w - weights[i - 1]] + values[i - 1]
+                )
+    
+    return dp[n][capacity]
+
+# Space Optimized 1D DP
+def knapsack_optimized(weights: list[int], values: list[int], capacity: int) -> int:
+    dp = [0] * (capacity + 1)
+    
+    for i in range(len(weights)):
+        # Traverse backwards to avoid using same item twice
+        for w in range(capacity, weights[i] - 1, -1):
+            dp[w] = max(dp[w], dp[w - weights[i]] + values[i])
+    
+    return dp[capacity]
+
+# Example
+weights = [1, 3, 4, 5]
+values = [1, 4, 5, 7]
+capacity = 7
+print(knapsack(weights, values, capacity))  # 9
+print(knapsack_optimized(weights, values, capacity))  # 9`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Traverse Backwards?">
+        In the 1D optimization, we iterate capacity <strong>backwards</strong> to ensure each item is used
+        at most once. Forward iteration would allow an item to be picked multiple times (which is the
+        <strong> Unbounded Knapsack</strong> problem — a different variant).
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="knapsack-01" category="dynamic-programming" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Longest Common Subsequence Lesson
+function LCSLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Longest Common Subsequence (LCS)" iconEmoji="🔗" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given two strings, find the length of the <strong className="text-[var(--text-primary)]">longest
+            subsequence</strong> present in both. A subsequence is a sequence derived by deleting some or no
+          elements without changing the order of remaining elements.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input='text1 = "ABCDGH", text2 = "AEDFHR"'
+          output='3 (LCS is "ADH")'
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Common subsequences: A, D, H, AD, AH, DH, ADH</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="🧬" title="DNA Sequence Matching">
+        In bioinformatics, LCS is used to find similarities between DNA sequences. If two organisms share
+        a long common subsequence in their DNA, they are likely evolutionarily related. The longer the LCS,
+        the more similar the sequences.
+      </Analogy>
+
+      <LearnCard title="DP State Definition" iconEmoji="📐" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <code className="text-[var(--color-primary-400)]">dp[i][j]</code> = length of LCS of first
+          <code>i</code> characters of text1 and first <code>j</code> characters of text2
+        </p>
+        <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Transition</h4>
+          <p className="text-sm font-mono text-[var(--text-secondary)]">
+            If text1[i-1] == text2[j-1]: dp[i][j] = dp[i-1][j-1] + 1<br />
+            Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Standard DP", time: "O(m × n)", description: "m and n are string lengths" },
+          ]}
+          spaceComplexity="O(m × n) or O(min(m, n))"
+          spaceDescription="2D table or optimized to two rows"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Longest Common Subsequence (LCS)
+
+// Standard 2D DP Solution
+function longestCommonSubsequence(text1, text2) {
+  const m = text1.length, n = text2.length;
+  // dp[i][j] = LCS length of first i chars of text1, first j chars of text2
+  const dp = Array(m + 1).fill(null)
+    .map(() => Array(n + 1).fill(0));
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;  // Characters match
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);  // Take best
+      }
+    }
+  }
+  
+  return dp[m][n];
+}
+
+// Reconstruct the actual LCS string
+function getLCS(text1, text2) {
+  const m = text1.length, n = text2.length;
+  const dp = Array(m + 1).fill(null)
+    .map(() => Array(n + 1).fill(0));
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+  
+  // Backtrack to find the LCS string
+  let lcs = "";
+  let i = m, j = n;
+  while (i > 0 && j > 0) {
+    if (text1[i - 1] === text2[j - 1]) {
+      lcs = text1[i - 1] + lcs;
+      i--; j--;
+    } else if (dp[i - 1][j] > dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+  
+  return lcs;
+}
+
+// Example
+console.log(longestCommonSubsequence("ABCDGH", "AEDFHR"));  // 3
+console.log(getLCS("ABCDGH", "AEDFHR"));  // "ADH"`}
+          python={`# Longest Common Subsequence (LCS)
+
+# Standard 2D DP Solution
+def longest_common_subsequence(text1: str, text2: str) -> int:
+    m, n = len(text1), len(text2)
+    # dp[i][j] = LCS length of first i chars of text1, first j of text2
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1  # Match
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])  # Take best
+    
+    return dp[m][n]
+
+# Reconstruct the actual LCS string
+def get_lcs(text1: str, text2: str) -> str:
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    
+    # Backtrack to find the LCS string
+    lcs = []
+    i, j = m, n
+    while i > 0 and j > 0:
+        if text1[i - 1] == text2[j - 1]:
+            lcs.append(text1[i - 1])
+            i -= 1
+            j -= 1
+        elif dp[i - 1][j] > dp[i][j - 1]:
+            i -= 1
+        else:
+            j -= 1
+    
+    return ''.join(reversed(lcs))
+
+# Example
+print(longest_common_subsequence("ABCDGH", "AEDFHR"))  # 3
+print(get_lcs("ABCDGH", "AEDFHR"))  # "ADH"`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Related Problems">
+        LCS is a building block for many problems: <strong>Longest Common Substring</strong> (contiguous),
+        <strong> Edit Distance</strong> (insertions, deletions, substitutions), <strong>Diff tools</strong>
+        (git diff), and <strong>Shortest Common Supersequence</strong>.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="lcs" category="dynamic-programming" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Coin Change Lesson
+function CoinChangeLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="The Coin Change Problem" iconEmoji="💰" color="from-yellow-500 to-amber-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given coins of different denominations and a target amount, find the
+          <strong className="text-[var(--text-primary)]"> minimum number of coins</strong> needed to make
+          that amount. If it&apos;s not possible, return -1. You have infinite supply of each coin.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="coins = [1, 2, 5], amount = 11"
+          output="3 (coins: 5 + 5 + 1)"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Optimal: 5 + 5 + 1 = 11 using 3 coins</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="🏪" title="Making Change at a Store">
+        A cashier needs to return $11 in change using the fewest coins possible. With $5, $2, and $1 coins,
+        the greedy approach (always pick largest) gives 5 + 5 + 1 = 3 coins. But greedy doesn&apos;t always work —
+        if coins were [1, 3, 4] and amount is 6, greedy gives 4+1+1=3 coins, but 3+3=2 is better!
+      </Analogy>
+
+      <LearnCard title="DP State Definition" iconEmoji="📐" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <code className="text-[var(--color-primary-400)]">dp[i]</code> = minimum coins needed to make amount <code>i</code>
+        </p>
+        <div className="p-4 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)]">
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Transition</h4>
+          <p className="text-sm font-mono text-[var(--text-secondary)]">
+            dp[i] = min(dp[i - coin] + 1) for each coin where coin &le; i<br />
+            Base case: dp[0] = 0 (0 coins for amount 0)
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "DP Solution", time: "O(n × amount)", description: "n coins, each amount checked" },
+          ]}
+          spaceComplexity="O(amount)"
+          spaceDescription="1D DP array of size amount+1"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Coin Change Problem
+
+// Minimum coins to make amount
+function coinChange(coins, amount) {
+  // dp[i] = min coins needed to make amount i
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0;  // Base case: 0 coins for amount 0
+  
+  for (let i = 1; i <= amount; i++) {
+    for (const coin of coins) {
+      if (coin <= i && dp[i - coin] !== Infinity) {
+        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+      }
+    }
+  }
+  
+  return dp[amount] === Infinity ? -1 : dp[amount];
+}
+
+// Count total ways to make amount (Coin Change 2)
+function countWays(coins, amount) {
+  const dp = new Array(amount + 1).fill(0);
+  dp[0] = 1;  // One way to make 0: use no coins
+  
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] += dp[i - coin];
+    }
+  }
+  
+  return dp[amount];
+}
+
+// Get the actual coins used
+function getCoins(coins, amount) {
+  const dp = new Array(amount + 1).fill(Infinity);
+  const parent = new Array(amount + 1).fill(-1);
+  dp[0] = 0;
+  
+  for (let i = 1; i <= amount; i++) {
+    for (const coin of coins) {
+      if (coin <= i && dp[i - coin] + 1 < dp[i]) {
+        dp[i] = dp[i - coin] + 1;
+        parent[i] = coin;
+      }
+    }
+  }
+  
+  if (dp[amount] === Infinity) return [];
+  
+  // Backtrack to get coins
+  const result = [];
+  let curr = amount;
+  while (curr > 0) {
+    result.push(parent[curr]);
+    curr -= parent[curr];
+  }
+  return result;
+}
+
+// Example
+console.log(coinChange([1, 2, 5], 11));  // 3
+console.log(countWays([1, 2, 5], 5));    // 4 ways
+console.log(getCoins([1, 2, 5], 11));    // [5, 5, 1]`}
+          python={`# Coin Change Problem
+
+# Minimum coins to make amount
+def coin_change(coins: list[int], amount: int) -> int:
+    # dp[i] = min coins needed to make amount i
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0  # Base case: 0 coins for amount 0
+    
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i and dp[i - coin] != float('inf'):
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+# Count total ways to make amount (Coin Change 2)
+def count_ways(coins: list[int], amount: int) -> int:
+    dp = [0] * (amount + 1)
+    dp[0] = 1  # One way to make 0: use no coins
+    
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] += dp[i - coin]
+    
+    return dp[amount]
+
+# Get the actual coins used
+def get_coins(coins: list[int], amount: int) -> list[int]:
+    dp = [float('inf')] * (amount + 1)
+    parent = [-1] * (amount + 1)
+    dp[0] = 0
+    
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i and dp[i - coin] + 1 < dp[i]:
+                dp[i] = dp[i - coin] + 1
+                parent[i] = coin
+    
+    if dp[amount] == float('inf'):
+        return []
+    
+    # Backtrack to get coins
+    result = []
+    curr = amount
+    while curr > 0:
+        result.append(parent[curr])
+        curr -= parent[curr]
+    return result
+
+# Example
+print(coin_change([1, 2, 5], 11))  # 3
+print(count_ways([1, 2, 5], 5))    # 4 ways
+print(get_coins([1, 2, 5], 11))    # [5, 5, 1]`}
+        />
+      </LearnCard>
+
+      <Callout type="warning" title="Greedy Doesn't Always Work!">
+        For coin systems like [1, 3, 4] with amount 6: Greedy gives 4+1+1=3 coins, but optimal is 3+3=2 coins.
+        DP considers all possibilities. However, for canonical coin systems (like US coins), greedy works.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="coin-change" category="dynamic-programming" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Activity Selection Lesson
+function ActivitySelectionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Greedy Algorithm?" iconEmoji="🎯" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          A <strong className="text-[var(--text-primary)]">greedy algorithm</strong> makes the locally
+          optimal choice at each step, hoping to find a global optimum. Unlike dynamic programming, it
+          doesn&apos;t reconsider previous choices — it commits and moves forward.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Greedy works when the problem has <strong>optimal substructure</strong> (optimal solution contains
+          optimal solutions to subproblems) and <strong>greedy choice property</strong> (local optimal
+          leads to global optimal).
+        </p>
+      </LearnCard>
+
+      <LearnCard title="The Activity Selection Problem" iconEmoji="📅" color="from-blue-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given n activities with start and end times, select the <strong className="text-[var(--text-primary)]">
+            maximum number of non-overlapping activities</strong> that can be performed by a single person.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="activities = [(1,4), (3,5), (0,6), (5,7), (3,9), (5,9), (6,10), (8,11), (8,12), (2,14), (12,16)]"
+          output="4 activities: (1,4), (5,7), (8,11), (12,16)"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Maximum non-overlapping set</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="📺" title="Scheduling TV Shows">
+        Imagine you want to watch as many TV shows as possible in one evening. Each show has a start and
+        end time. To maximize shows watched, you should always pick the show that ends earliest — this
+        leaves maximum time for remaining shows!
+      </Analogy>
+
+      <LearnCard title="Greedy Strategy" iconEmoji="💡" color="from-yellow-500 to-orange-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Sort by End Time",
+              description: "Arrange activities in ascending order of their finish times.",
+            },
+            {
+              title: "Select First Activity",
+              description: "Always select the first activity (earliest finish).",
+            },
+            {
+              title: "Check Compatibility",
+              description: "For each remaining activity, select it only if its start time ≥ last selected end time.",
+            },
+            {
+              title: "Repeat",
+              description: "Continue until all activities are processed.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Time", time: "O(n log n)", description: "Dominated by sorting" },
+          ]}
+          spaceComplexity="O(1)"
+          spaceDescription="Only need to track the last selected activity"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Activity Selection Problem - Greedy
+
+function activitySelection(activities) {
+  // Sort by end time (finish time)
+  activities.sort((a, b) => a[1] - b[1]);
+  
+  const selected = [];
+  let lastEnd = -1;
+  
+  for (const [start, end] of activities) {
+    // If this activity starts after last one ends
+    if (start >= lastEnd) {
+      selected.push([start, end]);
+      lastEnd = end;
+    }
+  }
+  
+  return selected;
+}
+
+// Return just the count
+function maxActivities(activities) {
+  activities.sort((a, b) => a[1] - b[1]);
+  
+  let count = 0;
+  let lastEnd = -Infinity;
+  
+  for (const [start, end] of activities) {
+    if (start >= lastEnd) {
+      count++;
+      lastEnd = end;
+    }
+  }
+  
+  return count;
+}
+
+// Example
+const activities = [
+  [1, 4], [3, 5], [0, 6], [5, 7], [3, 9],
+  [5, 9], [6, 10], [8, 11], [8, 12], [2, 14], [12, 16]
+];
+console.log(activitySelection(activities));
+// [[1, 4], [5, 7], [8, 11], [12, 16]]
+console.log(maxActivities(activities));  // 4`}
+          python={`# Activity Selection Problem - Greedy
+
+def activity_selection(activities: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    # Sort by end time (finish time)
+    activities.sort(key=lambda x: x[1])
+    
+    selected = []
+    last_end = -1
+    
+    for start, end in activities:
+        # If this activity starts after last one ends
+        if start >= last_end:
+            selected.append((start, end))
+            last_end = end
+    
+    return selected
+
+# Return just the count
+def max_activities(activities: list[tuple[int, int]]) -> int:
+    activities.sort(key=lambda x: x[1])
+    
+    count = 0
+    last_end = float('-inf')
+    
+    for start, end in activities:
+        if start >= last_end:
+            count += 1
+            last_end = end
+    
+    return count
+
+# Example
+activities = [
+    (1, 4), (3, 5), (0, 6), (5, 7), (3, 9),
+    (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)
+]
+print(activity_selection(activities))
+# [(1, 4), (5, 7), (8, 11), (12, 16)]
+print(max_activities(activities))  # 4`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Earliest Finish Time?">
+        Selecting the activity that finishes earliest leaves the maximum remaining time for other activities.
+        This greedy choice is proven to be optimal — it never hurts to finish early!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="activity-selection" category="greedy" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Fractional Knapsack Lesson
+function FractionalKnapsackLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Fractional Knapsack Problem" iconEmoji="🎒" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given items with weights and values, fill a knapsack of capacity W to maximize value. Unlike 0/1
+          Knapsack, you can take <strong className="text-[var(--text-primary)]">fractions</strong> of items.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="items = [(60, 10), (100, 20), (120, 30)], capacity = 50"
+          output="Maximum value = 240"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Take all of items 1 & 2, and 20/30 of item 3</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="⛽" title="Filling Up Gas">
+        Imagine you&apos;re at a gas station with multiple fuel types. Each type has a different price per liter
+        and availability. You want to fill your tank while minimizing cost. Since gas is liquid (fractional),
+        you always buy the cheapest gas first until it runs out, then move to the next cheapest.
+      </Analogy>
+
+      <LearnCard title="Greedy Strategy" iconEmoji="💡" color="from-yellow-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          The key insight: <strong className="text-[var(--text-primary)]">maximize value per unit weight</strong>.
+        </p>
+        <StepByStep
+          steps={[
+            {
+              title: "Calculate Value Density",
+              description: "For each item, compute value/weight ratio.",
+            },
+            {
+              title: "Sort by Ratio",
+              description: "Sort items in descending order of value/weight.",
+            },
+            {
+              title: "Fill Greedily",
+              description: "Take items with highest ratio first, taking fractions if needed.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Time", time: "O(n log n)", description: "Dominated by sorting" },
+          ]}
+          spaceComplexity="O(1)"
+          spaceDescription="Only need to store total value and remaining capacity"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Fractional Knapsack Problem - Greedy
+
+function fractionalKnapsack(items, capacity) {
+  // items = [[value, weight], ...]
+  // Calculate and sort by value density (value/weight)
+  const itemsWithRatio = items.map(([value, weight], i) => ({
+    value, weight,
+    ratio: value / weight,
+    index: i
+  }));
+  
+  itemsWithRatio.sort((a, b) => b.ratio - a.ratio);
+  
+  let totalValue = 0;
+  let remaining = capacity;
+  const taken = [];
+  
+  for (const item of itemsWithRatio) {
+    if (remaining === 0) break;
+    
+    if (item.weight <= remaining) {
+      // Take the whole item
+      taken.push({ ...item, fraction: 1 });
+      totalValue += item.value;
+      remaining -= item.weight;
+    } else {
+      // Take a fraction
+      const fraction = remaining / item.weight;
+      taken.push({ ...item, fraction });
+      totalValue += item.value * fraction;
+      remaining = 0;
+    }
+  }
+  
+  return { totalValue, taken };
+}
+
+// Example
+const items = [[60, 10], [100, 20], [120, 30]];
+const capacity = 50;
+const result = fractionalKnapsack(items, capacity);
+console.log("Max Value:", result.totalValue);  // 240
+console.log("Items taken:", result.taken);`}
+          python={`# Fractional Knapsack Problem - Greedy
+
+def fractional_knapsack(items: list[tuple[int, int]], capacity: int) -> tuple[float, list]:
+    """
+    items = [(value, weight), ...]
+    Returns (max_value, [(value, weight, fraction), ...])
+    """
+    # Calculate and sort by value density (value/weight)
+    items_with_ratio = [
+        (value, weight, value / weight, i)
+        for i, (value, weight) in enumerate(items)
+    ]
+    items_with_ratio.sort(key=lambda x: x[2], reverse=True)
+    
+    total_value = 0
+    remaining = capacity
+    taken = []
+    
+    for value, weight, ratio, idx in items_with_ratio:
+        if remaining == 0:
+            break
+        
+        if weight <= remaining:
+            # Take the whole item
+            taken.append((value, weight, 1.0))
+            total_value += value
+            remaining -= weight
+        else:
+            # Take a fraction
+            fraction = remaining / weight
+            taken.append((value, weight, fraction))
+            total_value += value * fraction
+            remaining = 0
+    
+    return total_value, taken
+
+# Example
+items = [(60, 10), (100, 20), (120, 30)]
+capacity = 50
+max_value, taken = fractional_knapsack(items, capacity)
+print(f"Max Value: {max_value}")  # 240.0
+print(f"Items taken: {taken}")`}
+        />
+      </LearnCard>
+
+      <Callout type="warning" title="Greedy Works Here, Not for 0/1!">
+        Fractional Knapsack can be solved greedily because we can take fractions. For 0/1 Knapsack
+        (all-or-nothing), greedy fails and we need dynamic programming.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="fractional-knapsack" category="greedy" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Huffman Coding Lesson
+function HuffmanCodingLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Huffman Coding" iconEmoji="🗜️" color="from-indigo-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          <strong className="text-[var(--text-primary)]">Huffman Coding</strong> is a lossless data compression
+          algorithm that assigns variable-length codes to characters based on their frequencies. More frequent
+          characters get shorter codes.
+        </p>
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          It creates an optimal <strong className="text-[var(--text-primary)]">prefix-free code</strong> — no
+          code is a prefix of another, allowing unambiguous decoding.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📱" title="Text Message Abbreviations">
+        When texting, we naturally use shorter abbreviations for common words: &quot;u&quot; for &quot;you&quot;, &quot;r&quot; for
+        &quot;are&quot;, &quot;lol&quot; for a long phrase. Huffman coding automates this — it figures out which characters
+        appear most often and gives them the shortest codes!
+      </Analogy>
+
+      <LearnCard title="Building the Huffman Tree" iconEmoji="🌳" color="from-green-500 to-teal-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Count Frequencies",
+              description: "Count how often each character appears in the text.",
+            },
+            {
+              title: "Create Leaf Nodes",
+              description: "Create a node for each character with its frequency.",
+            },
+            {
+              title: "Build Tree (Greedy)",
+              description: "Repeatedly merge the two lowest-frequency nodes into a parent node.",
+            },
+            {
+              title: "Assign Codes",
+              description: "Traverse the tree: left edge = 0, right edge = 1. Codes are paths from root to leaves.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Building Tree", time: "O(n log n)", description: "n characters, using min-heap" },
+          ]}
+          spaceComplexity="O(n)"
+          spaceDescription="Store tree nodes and code table"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Huffman Coding - Greedy Algorithm
+
+class HuffmanNode {
+  constructor(char, freq) {
+    this.char = char;
+    this.freq = freq;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function buildHuffmanTree(text) {
+  // Count frequencies
+  const freq = {};
+  for (const char of text) {
+    freq[char] = (freq[char] || 0) + 1;
+  }
+  
+  // Create nodes & use array as priority queue (less efficient but clearer)
+  let nodes = Object.entries(freq).map(
+    ([char, f]) => new HuffmanNode(char, f)
+  );
+  
+  while (nodes.length > 1) {
+    // Sort by frequency (min-heap simulation)
+    nodes.sort((a, b) => a.freq - b.freq);
+    
+    // Take two smallest
+    const left = nodes.shift();
+    const right = nodes.shift();
+    
+    // Merge into parent
+    const parent = new HuffmanNode(null, left.freq + right.freq);
+    parent.left = left;
+    parent.right = right;
+    
+    nodes.push(parent);
+  }
+  
+  return nodes[0];
+}
+
+function generateCodes(node, code = "", codes = {}) {
+  if (!node) return codes;
+  
+  if (node.char !== null) {
+    codes[node.char] = code || "0";  // Handle single character case
+  }
+  
+  generateCodes(node.left, code + "0", codes);
+  generateCodes(node.right, code + "1", codes);
+  
+  return codes;
+}
+
+// Example
+const text = "ABRACADABRA";
+const tree = buildHuffmanTree(text);
+const codes = generateCodes(tree);
+console.log(codes);
+// Example: { A: '0', B: '10', R: '110', C: '1110', D: '1111' }
+
+// Encode
+const encoded = text.split('').map(c => codes[c]).join('');
+console.log(encoded);  // Much shorter than fixed-length!`}
+          python={`# Huffman Coding - Greedy Algorithm
+import heapq
+from collections import Counter
+
+class HuffmanNode:
+    def __init__(self, char, freq):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
+    
+    # For heap comparison
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def build_huffman_tree(text: str) -> HuffmanNode:
+    # Count frequencies
+    freq = Counter(text)
+    
+    # Create nodes and min-heap
+    heap = [HuffmanNode(char, f) for char, f in freq.items()]
+    heapq.heapify(heap)
+    
+    while len(heap) > 1:
+        # Take two smallest
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+        
+        # Merge into parent
+        parent = HuffmanNode(None, left.freq + right.freq)
+        parent.left = left
+        parent.right = right
+        
+        heapq.heappush(heap, parent)
+    
+    return heap[0]
+
+def generate_codes(node, code="", codes=None):
+    if codes is None:
+        codes = {}
+    if node is None:
+        return codes
+    
+    if node.char is not None:
+        codes[node.char] = code or "0"  # Handle single char
+    
+    generate_codes(node.left, code + "0", codes)
+    generate_codes(node.right, code + "1", codes)
+    
+    return codes
+
+# Example
+text = "ABRACADABRA"
+tree = build_huffman_tree(text)
+codes = generate_codes(tree)
+print(codes)
+# Example: {'A': '0', 'B': '10', 'R': '110', 'C': '1110', 'D': '1111'}
+
+# Encode
+encoded = ''.join(codes[c] for c in text)
+print(f"Encoded: {encoded}")
+print(f"Original bits: {len(text) * 8}")
+print(f"Compressed bits: {len(encoded)}")`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Real-World Applications">
+        Huffman coding is used in many compression formats: <strong>JPEG</strong> (images),
+        <strong> MP3</strong> (audio), <strong>ZIP/GZIP</strong> (file compression), and
+        <strong> DEFLATE</strong> algorithm. It&apos;s the foundation of many compression techniques!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="huffman-coding" category="greedy" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Job Sequencing Lesson
+function JobSequencingLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Job Sequencing with Deadlines" iconEmoji="⏰" color="from-orange-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+          Given n jobs with profits and deadlines, find the sequence that maximizes profit. Each job takes
+          1 unit of time and must be completed before its deadline. Only one job can run at a time.
+        </p>
+        <ExampleBox
+          number={1}
+          title="Example"
+          input="jobs = [(100, 2), (19, 1), (27, 2), (25, 1), (15, 3)] (profit, deadline)"
+          output="Maximum profit: 142 (jobs with profit 100, 27, 15)"
+        >
+          <p className="text-sm text-[var(--text-secondary)]">Schedule: Job(27) at t=2, Job(100) at t=1, Job(15) at t=3</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <Analogy emoji="💼" title="Freelance Work">
+        You&apos;re a freelancer with multiple project offers. Each project has a payment and a deadline.
+        You can only work on one project per day. To maximize earnings, you prioritize high-paying
+        projects and schedule each as late as possible before its deadline.
+      </Analogy>
+
+      <LearnCard title="Greedy Strategy" iconEmoji="💡" color="from-yellow-500 to-orange-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Sort by Profit",
+              description: "Arrange jobs in descending order of profit.",
+            },
+            {
+              title: "Schedule Each Job",
+              description: "For each job, find the latest available slot before its deadline.",
+            },
+            {
+              title: "Fill Slots",
+              description: "If a slot is available, schedule the job; otherwise, skip it.",
+            },
+            {
+              title: "Sum Profits",
+              description: "Total profit is the sum of all scheduled jobs.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Complexity Analysis" iconEmoji="📊" color="from-cyan-500 to-blue-500">
+        <ComplexityTable
+          timeComplexity={[
+            { case: "Naive", time: "O(n²)", description: "Linear slot search for each job" },
+            { case: "With Union-Find", time: "O(n log n)", description: "Optimized slot finding" },
+          ]}
+          spaceComplexity="O(max_deadline)"
+          spaceDescription="Array to track occupied time slots"
+        />
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-pink-500 to-rose-500">
+        <CodeTabs
+          javascript={`// Job Sequencing with Deadlines - Greedy
+
+function jobSequencing(jobs) {
+  // jobs = [[profit, deadline], ...]
+  // Sort by profit (descending)
+  jobs.sort((a, b) => b[0] - a[0]);
+  
+  const maxDeadline = Math.max(...jobs.map(j => j[1]));
+  const slots = new Array(maxDeadline + 1).fill(null);
+  
+  let totalProfit = 0;
+  const scheduledJobs = [];
+  
+  for (const [profit, deadline] of jobs) {
+    // Find the latest available slot before deadline
+    for (let slot = deadline; slot >= 1; slot--) {
+      if (slots[slot] === null) {
+        slots[slot] = { profit, deadline };
+        totalProfit += profit;
+        scheduledJobs.push({ profit, deadline, slot });
+        break;
+      }
+    }
+  }
+  
+  return { 
+    totalProfit, 
+    jobs: scheduledJobs,
+    schedule: slots.slice(1).filter(s => s !== null)
+  };
+}
+
+// Example
+const jobs = [
+  [100, 2],  // profit 100, deadline 2
+  [19, 1],   // profit 19, deadline 1
+  [27, 2],   // profit 27, deadline 2
+  [25, 1],   // profit 25, deadline 1
+  [15, 3]    // profit 15, deadline 3
+];
+
+const result = jobSequencing(jobs);
+console.log("Total Profit:", result.totalProfit);  // 142
+console.log("Scheduled:", result.jobs);
+// [{ profit: 100, deadline: 2, slot: 2 },
+//  { profit: 27, deadline: 2, slot: 1 },   (slot 2 taken, use 1)
+//  { profit: 15, deadline: 3, slot: 3 }]`}
+          python={`# Job Sequencing with Deadlines - Greedy
+
+def job_sequencing(jobs: list[tuple[int, int]]) -> tuple[int, list]:
+    """
+    jobs = [(profit, deadline), ...]
+    Returns (total_profit, scheduled_jobs)
+    """
+    # Sort by profit (descending)
+    jobs = sorted(jobs, key=lambda x: x[0], reverse=True)
+    
+    max_deadline = max(job[1] for job in jobs)
+    slots = [None] * (max_deadline + 1)  # 1-indexed
+    
+    total_profit = 0
+    scheduled_jobs = []
+    
+    for profit, deadline in jobs:
+        # Find the latest available slot before deadline
+        for slot in range(deadline, 0, -1):
+            if slots[slot] is None:
+                slots[slot] = (profit, deadline)
+                total_profit += profit
+                scheduled_jobs.append((profit, deadline, slot))
+                break
+    
+    return total_profit, scheduled_jobs
+
+# Example
+jobs = [
+    (100, 2),  # profit 100, deadline 2
+    (19, 1),   # profit 19, deadline 1
+    (27, 2),   # profit 27, deadline 2
+    (25, 1),   # profit 25, deadline 1
+    (15, 3)    # profit 15, deadline 3
+]
+
+total_profit, scheduled = job_sequencing(jobs)
+print(f"Total Profit: {total_profit}")  # 142
+print(f"Scheduled: {scheduled}")
+# [(100, 2, 2), (27, 2, 1), (15, 3, 3)]`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Schedule Late?">
+        By scheduling jobs as late as possible (right before their deadline), we leave earlier slots
+        available for other high-profit jobs that might have tighter deadlines. This maximizes our
+        flexibility!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="job-sequencing" category="greedy" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
