@@ -20,6 +20,7 @@ import {
   Clock,
   ChevronRight,
 } from "lucide-react";
+import { OverallProgressBar, ContinueLearning } from "@/ui/components/learn";
 
 interface LearnPageProps {
   params: Promise<{ locale: string }>;
@@ -200,6 +201,12 @@ function LearnContent({ locale }: { locale: string }) {
           Comprehensive lessons with theory, examples, and diagrams to help you
           understand DSA concepts deeply before visualizing them
         </p>
+      </div>
+
+      {/* Progress Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+        <OverallProgressBar />
+        <ContinueLearning locale={locale} />
       </div>
 
       {/* Topics by Level */}

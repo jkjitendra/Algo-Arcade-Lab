@@ -8,3 +8,10 @@ export { Analogy } from "./Analogy";
 export { StepByStep } from "./StepByStep";
 export { StaticDiagram, ArrayDiagram } from "./StaticDiagram";
 export { VisualizeLink } from "./VisualizeLink";
+export {
+  LessonCompleteButton,
+  TopicProgressBar,
+  OverallProgressBar,
+  ContinueLearning,
+  LessonCompletionBadge
+} from "./LessonProgress";

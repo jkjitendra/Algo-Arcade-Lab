@@ -2,7 +2,8 @@ import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, BookOpen, Clock, Play } from "lucide-react";
+import { ChevronLeft, BookOpen, Clock, Play, Check } from "lucide-react";
+import { TopicProgressBar, LessonCompletionBadge } from "@/ui/components/learn";
 
 interface TopicPageProps {
   params: Promise<{ locale: string; topic: string }>;
@@ -348,6 +349,11 @@ function TopicContent({
         <h2 className="text-xl font-semibold text-[var(--text-primary)]">Lessons</h2>
       </div>
 
+      {/* Progress Bar */}
+      <div className="mb-6">
+        <TopicProgressBar topic={topic} lessons={lessons.map(l => l.slug)} />
+      </div>
+
       {/* Lessons List */}
       <div className="space-y-4">
         {lessons.map((lesson, index) => (
@@ -374,6 +380,7 @@ function TopicContent({
 
               {/* Duration & Action */}
               <div className="flex items-center gap-4 flex-shrink-0">
+                <LessonCompletionBadge topic={topic} lesson={lesson.slug} />
                 <span className="text-sm text-[var(--text-tertiary)] flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5" />
                   {lesson.duration}
