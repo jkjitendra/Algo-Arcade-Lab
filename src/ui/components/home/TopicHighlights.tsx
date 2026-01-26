@@ -44,7 +44,7 @@ export function TopicHighlights({ locale, topics = [] }: TopicHighlightsProps) {
       color: "from-emerald-500 to-teal-500",
     },
     {
-      id: "dp",
+      id: "dynamic-programming",
       title: "Dynamic Programming",
       description: "Demystify DP with step-by-step table filling for Knapsack, LCS, and more.",
       algoCount: 20,
@@ -60,7 +60,7 @@ export function TopicHighlights({ locale, topics = [] }: TopicHighlightsProps) {
       color: "from-cyan-500 to-blue-500",
     },
     {
-      id: "greedy",
+      id: "greedy-algorithms",
       title: "Greedy Algorithms",
       description: "Learn optimization strategies including Huffman Coding and Activity Selection.",
       algoCount: 6,
@@ -92,7 +92,7 @@ export function TopicHighlights({ locale, topics = [] }: TopicHighlightsProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayTopics.map((topic) => (
             <Link
-              href={`/${locale}/topic/${topic.id}`}
+              href={`/${locale}/topics/${topic.id}`}
               key={topic.id}
               className="group flex flex-col bg-[var(--bg-card)] rounded-2xl overflow-hidden border border-[var(--border-primary)] hover:border-[var(--color-primary-500)] hover:shadow-xl transition-all duration-300"
             >
