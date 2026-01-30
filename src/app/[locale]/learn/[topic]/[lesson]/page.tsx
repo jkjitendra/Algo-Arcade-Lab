@@ -14,6 +14,7 @@ import {
   VisualizeLink,
   LessonCompleteButton,
 } from "@/ui/components/learn";
+import { getLessonMetadata, getAdjacentLessons } from "@/data/learnLessons";
 
 interface LessonPageProps {
   params: Promise<{ locale: string; topic: string; lesson: string }>;
@@ -342,45 +343,26 @@ const lessonContent: Record<string, {
   },
 };
 
-// Get adjacent lessons for navigation
-function getAdjacentLessons(topic: string, currentLesson: string) {
-  const topicLessons: Record<string, string[]> = {
-    sorting: ["bubble-sort", "selection-sort", "insertion-sort", "merge-sort", "quick-sort"],
-    arrays: ["array-operations", "two-pointers", "sliding-window", "prefix-sum", "kadanes"],
-    strings: ["string-operations", "character-frequency", "brute-force-search", "kmp-algorithm", "anagram-detection"],
-    searching: ["linear-search", "binary-search", "lower-bound", "upper-bound", "peak-element"],
-    stacks: ["stack-operations", "balanced-parentheses", "infix-to-postfix", "next-greater-element"],
-    queues: ["queue-operations", "circular-queue", "priority-queue", "lru-cache"],
-    "linked-lists": ["singly-linked-list", "reverse-linked-list", "detect-cycle", "find-middle"],
-    recursion: ["factorial", "fibonacci", "tower-of-hanoi", "n-queens"],
-    trees: ["binary-tree", "tree-traversals", "bst-operations", "tree-height-depth"],
-    heaps: ["heap-structure", "heapify", "heap-sort", "kth-largest"],
-    hashing: ["hash-functions", "hash-tables", "collision-resolution", "two-sum"],
-    graphs: ["graph-representation", "bfs", "dfs", "cycle-detection"],
-    "dynamic-programming": ["fibonacci-dp", "knapsack-01", "lcs", "coin-change"],
-    "greedy": ["activity-selection", "fractional-knapsack", "huffman-coding", "job-sequencing"],
-  };
 
-  const lessons = topicLessons[topic] || [];
-  const currentIndex = lessons.indexOf(currentLesson);
-
-  return {
-    prev: currentIndex > 0 ? lessons[currentIndex - 1] : null,
-    next: currentIndex < lessons.length - 1 ? lessons[currentIndex + 1] : null,
-  };
-}
 
 export default async function LessonPage({ params }: LessonPageProps) {
   const { locale, topic, lesson } = await params;
   setRequestLocale(locale);
 
-  // For now, only show bubble-sort as a demo lesson
-  // Other lessons will show "coming soon" until MDX content is added
-  const content = lessonContent[lesson];
+  // Get lesson metadata from centralized config
+  const lessonData = getLessonMetadata(lesson);
+  // Also check old lessonContent for backward compatibility with existing lesson components
+  const content = lessonContent[lesson] || (lessonData ? {
+    title: lessonData.title,
+    duration: lessonData.duration,
+    description: lessonData.description,
+  } : null);
+  const hasLessonComponent = lessonContent[lesson] !== undefined;
   const adjacentLessons = getAdjacentLessons(topic, lesson);
 
-  if (!content) {
-    // Show a placeholder for lessons that don't have content yet
+  // Show Coming Soon for lessons without a dedicated component
+  if (!content || !hasLessonComponent) {
+    const displayContent = content || { title: lesson, duration: "TBD", description: "" };
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Link
@@ -391,21 +373,68 @@ export default async function LessonPage({ params }: LessonPageProps) {
           Back to Topic
         </Link>
 
-        <div className="text-center py-20">
-          <div className="text-6xl mb-4">📝</div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
-            Lesson Coming Soon
+        {/* Lesson Header */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="px-3 py-1 rounded-full bg-[var(--color-primary-500)]/20 text-[var(--color-primary-400)] text-sm font-medium capitalize">
+              {topic.replace("-", " ")}
+            </span>
+            <span className="flex items-center gap-1 text-sm text-[var(--text-tertiary)]">
+              <Clock className="w-3.5 h-3.5" />
+              {displayContent.duration}
+            </span>
+          </div>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-3">
+            {displayContent.title}
           </h1>
+          {displayContent.description && (
+            <p className="text-[var(--text-secondary)]">{displayContent.description}</p>
+          )}
+        </div>
+
+        <div className="text-center py-20 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-primary)]">
+          <div className="text-6xl mb-4">📝</div>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
+            Lesson Coming Soon
+          </h2>
           <p className="text-[var(--text-secondary)] mb-6">
             This lesson content is being prepared. Check back soon!
           </p>
-          <Link
-            href={`/${locale}/learn/${topic}`}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary-500)] text-white font-medium hover:bg-[var(--color-primary-600)] transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back to {topic.replace("-", " ")}
-          </Link>
+        </div>
+
+        {/* Navigation */}
+        <div className="mt-12 pt-8 border-t border-[var(--border-primary)]">
+          <div className="flex items-center justify-between">
+            {adjacentLessons.prev ? (
+              <Link
+                href={`/${locale}/learn/${topic}/${adjacentLessons.prev}`}
+                className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--color-primary-400)] transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Previous Lesson
+              </Link>
+            ) : (
+              <div />
+            )}
+
+            {adjacentLessons.next ? (
+              <Link
+                href={`/${locale}/learn/${topic}/${adjacentLessons.next}`}
+                className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--color-primary-400)] transition-colors"
+              >
+                Next Lesson
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            ) : (
+              <Link
+                href={`/${locale}/topics/${topic}`}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-primary-500)] text-white font-medium hover:bg-[var(--color-primary-600)] transition-colors"
+              >
+                <Play className="w-4 h-4" />
+                Try Visualizer
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     );
