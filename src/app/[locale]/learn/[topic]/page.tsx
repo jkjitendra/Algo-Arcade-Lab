@@ -2,126 +2,15 @@ import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, BookOpen, Clock, Play, Check } from "lucide-react";
+import { ChevronLeft, BookOpen, Clock, Play } from "lucide-react";
 import { TopicProgressBar, LessonCompletionBadge } from "@/ui/components/learn";
+import { validTopics, getLessonsByTopic, isValidTopic, type Lesson } from "@/data/learnLessons";
 
 interface TopicPageProps {
   params: Promise<{ locale: string; topic: string }>;
 }
 
-// Valid topics
-const validTopics = [
-  "arrays",
-  "strings",
-  "sorting",
-  "searching",
-  "stacks",
-  "queues",
-  "linked-lists",
-  "recursion",
-  "trees",
-  "heaps",
-  "hashing",
-  "graphs",
-  "dynamic-programming",
-  "greedy-algorithms",
-] as const;
 
-// Lessons for each topic
-const topicLessons: Record<string, { slug: string; title: string; duration: string; description: string }[]> = {
-  sorting: [
-    { slug: "bubble-sort", title: "Bubble Sort", duration: "15 min", description: "The simplest sorting algorithm - compare and swap adjacent elements" },
-    { slug: "selection-sort", title: "Selection Sort", duration: "12 min", description: "Find the minimum element and place it at the beginning" },
-    { slug: "insertion-sort", title: "Insertion Sort", duration: "12 min", description: "Build sorted array one element at a time" },
-    { slug: "merge-sort", title: "Merge Sort", duration: "20 min", description: "Divide and conquer with O(n log n) guarantee" },
-    { slug: "quick-sort", title: "Quick Sort", duration: "25 min", description: "Efficient in-place sorting using partitioning" },
-  ],
-  arrays: [
-    { slug: "array-operations", title: "Array Operations", duration: "15 min", description: "Insert, delete, update, and traverse arrays" },
-    { slug: "two-pointers", title: "Two Pointers", duration: "18 min", description: "Solve array problems using two pointer technique" },
-    { slug: "sliding-window", title: "Sliding Window", duration: "20 min", description: "Find subarrays or substrings efficiently" },
-    { slug: "prefix-sum", title: "Prefix Sum", duration: "15 min", description: "O(1) range sum queries with preprocessing" },
-    { slug: "kadanes", title: "Kadane's Algorithm", duration: "18 min", description: "Find maximum subarray sum in linear time" },
-  ],
-  strings: [
-    { slug: "string-operations", title: "String Operations", duration: "12 min", description: "Traverse, reverse, and compare strings" },
-    { slug: "character-frequency", title: "Character Frequency", duration: "10 min", description: "Count occurrences of characters" },
-    { slug: "brute-force-search", title: "Brute Force Search", duration: "12 min", description: "Simple pattern matching algorithm" },
-    { slug: "kmp-algorithm", title: "KMP Algorithm", duration: "25 min", description: "Efficient pattern matching with LPS array" },
-    { slug: "anagram-detection", title: "Anagram Detection", duration: "15 min", description: "Check if strings are anagrams" },
-  ],
-  searching: [
-    { slug: "linear-search", title: "Linear Search", duration: "8 min", description: "Sequential search through all elements" },
-    { slug: "binary-search", title: "Binary Search", duration: "18 min", description: "O(log n) search in sorted arrays" },
-    { slug: "lower-bound", title: "Lower Bound", duration: "12 min", description: "Find first occurrence of target" },
-    { slug: "upper-bound", title: "Upper Bound", duration: "12 min", description: "Find last occurrence of target" },
-    { slug: "peak-element", title: "Peak Element", duration: "15 min", description: "Find local maximum in array" },
-  ],
-  stacks: [
-    { slug: "stack-operations", title: "Stack Operations", duration: "12 min", description: "Push, pop, peek - LIFO fundamentals" },
-    { slug: "balanced-parentheses", title: "Balanced Parentheses", duration: "15 min", description: "Check if brackets are balanced" },
-    { slug: "infix-to-postfix", title: "Infix to Postfix", duration: "20 min", description: "Convert expressions using Shunting Yard" },
-    { slug: "next-greater-element", title: "Next Greater Element", duration: "18 min", description: "Monotonic stack pattern" },
-  ],
-  queues: [
-    { slug: "queue-operations", title: "Queue Operations", duration: "12 min", description: "Enqueue, dequeue - FIFO fundamentals" },
-    { slug: "circular-queue", title: "Circular Queue", duration: "15 min", description: "Fixed-size queue with wrap-around" },
-    { slug: "priority-queue", title: "Priority Queue", duration: "18 min", description: "Priority-based dequeue order" },
-    { slug: "lru-cache", title: "LRU Cache", duration: "25 min", description: "Least recently used eviction policy" },
-  ],
-  "linked-lists": [
-    { slug: "singly-linked-list", title: "Singly Linked List", duration: "18 min", description: "Insert, delete, traverse operations" },
-    { slug: "reverse-linked-list", title: "Reverse Linked List", duration: "15 min", description: "Iterative and recursive reversal" },
-    { slug: "detect-cycle", title: "Detect Cycle", duration: "15 min", description: "Floyd's cycle detection algorithm" },
-    { slug: "find-middle", title: "Find Middle Element", duration: "12 min", description: "Two-pointer slow & fast technique" },
-  ],
-  recursion: [
-    { slug: "factorial", title: "Factorial", duration: "10 min", description: "Classic recursive calculation" },
-    { slug: "fibonacci", title: "Fibonacci Sequence", duration: "15 min", description: "Generate nth Fibonacci number" },
-    { slug: "tower-of-hanoi", title: "Tower of Hanoi", duration: "20 min", description: "Classic recursion puzzle" },
-    { slug: "n-queens", title: "N-Queens", duration: "30 min", description: "Place N queens without conflicts" },
-  ],
-  trees: [
-    { slug: "tree-traversals", title: "Tree Traversals", duration: "25 min", description: "Inorder, preorder, postorder, level-order" },
-    { slug: "tree-height", title: "Tree Height", duration: "12 min", description: "Calculate maximum depth" },
-    { slug: "bst-operations", title: "BST Operations", duration: "25 min", description: "Insert, search, find min/max" },
-    { slug: "lowest-common-ancestor", title: "Lowest Common Ancestor", duration: "20 min", description: "Find LCA of two nodes" },
-  ],
-  heaps: [
-    { slug: "max-heap", title: "Max Heap", duration: "20 min", description: "Insert, extract max, heapify" },
-    { slug: "min-heap", title: "Min Heap", duration: "18 min", description: "Insert, extract min operations" },
-    { slug: "build-heap", title: "Build Heap", duration: "15 min", description: "O(n) bottom-up heapification" },
-    { slug: "kth-largest", title: "K-th Largest Element", duration: "18 min", description: "Find k-th largest using min-heap" },
-    { slug: "median-of-stream", title: "Median of Stream", duration: "25 min", description: "Running median with two heaps" },
-  ],
-  hashing: [
-    { slug: "hash-functions", title: "Hash Functions", duration: "15 min", description: "Division and multiplication methods" },
-    { slug: "chaining", title: "Chaining Hash Table", duration: "18 min", description: "Collision handling with linked lists" },
-    { slug: "open-addressing", title: "Open Addressing", duration: "20 min", description: "Linear, quadratic, double hashing" },
-    { slug: "two-sum-hashmap", title: "Two Sum (HashMap)", duration: "15 min", description: "Find pair with given sum" },
-  ],
-  graphs: [
-    { slug: "graph-representation", title: "Graph Representations", duration: "18 min", description: "Adjacency matrix and list" },
-    { slug: "bfs", title: "Breadth-First Search", duration: "22 min", description: "Explore graph layer by layer" },
-    { slug: "dfs", title: "Depth-First Search", duration: "22 min", description: "Explore graph by going deep first" },
-    { slug: "dijkstra", title: "Dijkstra's Algorithm", duration: "30 min", description: "Shortest path with non-negative weights" },
-    { slug: "bellman-ford", title: "Bellman-Ford Algorithm", duration: "25 min", description: "Shortest path with negative weights" },
-  ],
-  "dynamic-programming": [
-    { slug: "fibonacci-dp", title: "Fibonacci (DP)", duration: "15 min", description: "Tabulation approach O(n)" },
-    { slug: "climbing-stairs", title: "Climbing Stairs", duration: "15 min", description: "Ways to climb n stairs" },
-    { slug: "coin-change", title: "Coin Change", duration: "25 min", description: "Minimum coins to make amount" },
-    { slug: "knapsack-01", title: "0/1 Knapsack", duration: "30 min", description: "Maximize value within weight limit" },
-    { slug: "lcs", title: "Longest Common Subsequence", duration: "28 min", description: "LCS of two strings" },
-    { slug: "edit-distance", title: "Edit Distance", duration: "30 min", description: "Min operations to transform string" },
-  ],
-  "greedy-algorithms": [
-    { slug: "activity-selection", title: "Activity Selection", duration: "20 min", description: "Select max non-overlapping activities" },
-    { slug: "fractional-knapsack", title: "Fractional Knapsack", duration: "18 min", description: "Maximum value with item fractions" },
-    { slug: "huffman-coding", title: "Huffman Coding", duration: "30 min", description: "Build optimal prefix-free codes" },
-    { slug: "merge-intervals", title: "Merge Intervals", duration: "18 min", description: "Merge overlapping intervals" },
-  ],
-};
 
 // Topic introductions with emoji, description, key concepts, and prerequisites
 const topicIntros: Record<string, {
@@ -239,11 +128,11 @@ export default async function LearnTopicPage({ params }: TopicPageProps) {
   const { locale, topic } = await params;
   setRequestLocale(locale);
 
-  if (!validTopics.includes(topic as typeof validTopics[number])) {
+  if (!isValidTopic(topic)) {
     notFound();
   }
 
-  const lessons = topicLessons[topic] || [];
+  const lessons = getLessonsByTopic(topic);
 
   return <TopicContent locale={locale} topic={topic} lessons={lessons} />;
 }
@@ -255,7 +144,7 @@ function TopicContent({
 }: {
   locale: string;
   topic: string;
-  lessons: { slug: string; title: string; duration: string; description: string }[];
+  lessons: Lesson[];
 }) {
   const t = useTranslations();
 
