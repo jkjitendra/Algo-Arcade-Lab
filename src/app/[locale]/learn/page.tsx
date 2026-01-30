@@ -21,6 +21,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { OverallProgressBar, ContinueLearning } from "@/ui/components/learn";
+import { getLessonCount } from "@/data/learnLessons";
 
 interface LearnPageProps {
   params: Promise<{ locale: string }>;
