@@ -89,6 +89,36 @@ const lessonContent: Record<string, {
     duration: "18 min",
     description: "Find the maximum sum subarray in O(n) time using dynamic programming.",
   },
+  "dutch-national-flag": {
+    title: "Dutch National Flag",
+    duration: "15 min",
+    description: "Three-way partitioning to sort an array of 0s, 1s, and 2s in a single pass.",
+  },
+  "moores-voting": {
+    title: "Moore's Voting Algorithm",
+    duration: "12 min",
+    description: "Find the majority element (appearing more than n/2 times) in linear time.",
+  },
+  "merge-sorted-arrays": {
+    title: "Merge Sorted Arrays",
+    duration: "15 min",
+    description: "Efficiently merge two sorted arrays into one sorted array.",
+  },
+  "rotate-array": {
+    title: "Rotate Array",
+    duration: "12 min",
+    description: "Rotate array elements by k positions using multiple techniques.",
+  },
+  "rearrangement": {
+    title: "Array Rearrangement",
+    duration: "15 min",
+    description: "Rearrange array elements in specific patterns like positive/negative alternating.",
+  },
+  "next-permutation": {
+    title: "Next Permutation",
+    duration: "18 min",
+    description: "Find the next lexicographically greater permutation of an array.",
+  },
   // Strings
   "string-operations": {
     title: "String Operations",
@@ -480,6 +510,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "sliding-window" && <SlidingWindowLesson locale={locale} />}
       {lesson === "prefix-sum" && <PrefixSumLesson locale={locale} />}
       {lesson === "kadanes" && <KadanesLesson locale={locale} />}
+      {lesson === "dutch-national-flag" && <DutchNationalFlagLesson locale={locale} />}
+      {lesson === "moores-voting" && <MooresVotingLesson locale={locale} />}
+      {lesson === "merge-sorted-arrays" && <MergeSortedArraysLesson locale={locale} />}
+      {lesson === "rotate-array" && <RotateArrayLesson locale={locale} />}
+      {lesson === "rearrangement" && <RearrangementLesson locale={locale} />}
+      {lesson === "next-permutation" && <NextPermutationLesson locale={locale} />}
       {lesson === "string-operations" && <StringOperationsLesson locale={locale} />}
       {lesson === "character-frequency" && <CharacterFrequencyLesson locale={locale} />}
       {lesson === "brute-force-search" && <BruteForceSearchLesson locale={locale} />}
@@ -8400,6 +8436,1033 @@ print(f"Scheduled: {scheduled}")
     </div>
   );
 }
+
+// ==================== PHASE 1: ARRAYS LESSONS ====================
+
+function DutchNationalFlagLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Dutch National Flag?" iconEmoji="🇳🇱" color="from-red-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The Dutch National Flag algorithm, proposed by Edsger Dijkstra, is a three-way partitioning
+          algorithm that sorts an array containing only three distinct values (commonly 0, 1, and 2)
+          in a single pass. It&apos;s named after the Dutch flag which has three horizontal stripes.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎨" title="Think of it like sorting colored balls">
+        Imagine you have a mixed bag of red, white, and blue balls. You want to arrange them so all
+        red balls are on the left, white in the middle, and blue on the right. Instead of multiple
+        passes, you can do it in one sweep using three pointers!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Initialize three pointers",
+              description: "low = 0 (end of 0s), mid = 0 (current element), high = n-1 (start of 2s)",
+            },
+            {
+              title: "Process current element",
+              description: "Look at arr[mid] and decide what to do based on its value.",
+            },
+            {
+              title: "If arr[mid] = 0",
+              description: "Swap arr[low] and arr[mid], increment both low and mid.",
+            },
+            {
+              title: "If arr[mid] = 1",
+              description: "It's already in the correct position, just increment mid.",
+            },
+            {
+              title: "If arr[mid] = 2",
+              description: "Swap arr[mid] and arr[high], decrement high (don't increment mid yet!).",
+            },
+            {
+              title: "Repeat until mid > high",
+              description: "Continue until all elements are processed.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Sort Array of 0s, 1s, and 2s"
+          input="[2, 0, 2, 1, 1, 0]"
+          output="[0, 0, 1, 1, 2, 2]"
+        >
+          <div className="space-y-3">
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">Initial: low=0, mid=0, high=5</p>
+              <ArrayDiagram values={[2, 0, 2, 1, 1, 0]} highlights={[0]} pointers={[{ index: 0, label: "mid" }, { index: 5, label: "high" }]} />
+            </div>
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">arr[mid]=2, swap with high, high--</p>
+              <ArrayDiagram values={[0, 0, 2, 1, 1, 2]} highlights={[5]} pointers={[{ index: 4, label: "high" }]} />
+            </div>
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="text-xs text-[var(--text-tertiary)] mb-2">Final sorted array:</p>
+              <ArrayDiagram values={[0, 0, 1, 1, 2, 2]} highlights={[0, 1, 2, 3, 4, 5]} />
+            </div>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n)", description: "Single pass through array" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only uses three pointer variables"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function dutchNationalFlag(arr) {
+  let low = 0, mid = 0, high = arr.length - 1;
+  
+  while (mid <= high) {
+    if (arr[mid] === 0) {
+      [arr[low], arr[mid]] = [arr[mid], arr[low]];
+      low++;
+      mid++;
+    } else if (arr[mid] === 1) {
+      mid++;
+    } else {
+      [arr[mid], arr[high]] = [arr[high], arr[mid]];
+      high--;
+    }
+  }
+  return arr;
+}
+
+// Example: dutchNationalFlag([2, 0, 2, 1, 1, 0])
+// Output: [0, 0, 1, 1, 2, 2]`}
+          python={`def dutch_national_flag(arr):
+    low, mid, high = 0, 0, len(arr) - 1
+    
+    while mid <= high:
+        if arr[mid] == 0:
+            arr[low], arr[mid] = arr[mid], arr[low]
+            low += 1
+            mid += 1
+        elif arr[mid] == 1:
+            mid += 1
+        else:
+            arr[mid], arr[high] = arr[high], arr[mid]
+            high -= 1
+    
+    return arr
+
+# Example: dutch_national_flag([2, 0, 2, 1, 1, 0])
+# Output: [0, 0, 1, 1, 2, 2]`}
+          java={`public static void dutchNationalFlag(int[] arr) {
+    int low = 0, mid = 0, high = arr.length - 1;
+    
+    while (mid <= high) {
+        if (arr[mid] == 0) {
+            int temp = arr[low];
+            arr[low] = arr[mid];
+            arr[mid] = temp;
+            low++;
+            mid++;
+        } else if (arr[mid] == 1) {
+            mid++;
+        } else {
+            int temp = arr[mid];
+            arr[mid] = arr[high];
+            arr[high] = temp;
+            high--;
+        }
+    }
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="warning" title="Why Not Increment mid After Swapping with high?">
+        When we swap with high, the element that comes to mid position hasn&apos;t been examined yet.
+        It could be 0, 1, or 2, so we need to process it in the next iteration.
+      </Callout>
+
+      <Callout type="tip" title="When to Use">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Sorting arrays with exactly 3 distinct values</li>
+          <li>Partitioning problems (like QuickSort&apos;s 3-way partition)</li>
+          <li>Segregating elements based on a pivot value</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="dutch-national-flag" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MooresVotingLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Moore's Voting Algorithm?" iconEmoji="🗳️" color="from-indigo-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Moore&apos;s Voting Algorithm finds the majority element in an array — an element that appears
+          more than n/2 times. It works in O(n) time and O(1) space by cleverly cancelling out
+          non-majority elements with the majority element.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="⚔️" title="Think of it like a battle">
+        Imagine elements are soldiers from different armies. Each soldier eliminates one enemy soldier
+        (both disappear). Since the majority army has more than half the soldiers, at least one soldier
+        from the majority will remain standing at the end!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Initialize candidate and count",
+              description: "Set candidate = first element, count = 1.",
+            },
+            {
+              title: "Iterate through array",
+              description: "For each element, update the candidate or count.",
+            },
+            {
+              title: "If element matches candidate",
+              description: "Increment count.",
+            },
+            {
+              title: "If element differs",
+              description: "Decrement count. If count becomes 0, pick new candidate.",
+            },
+            {
+              title: "Verify the candidate",
+              description: "Count occurrences of candidate to confirm it's majority.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Find Majority Element"
+          input="[2, 2, 1, 1, 1, 2, 2]"
+          output="2 (appears 4 times out of 7)"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Start: candidate=2, count=1</p>
+            <p>• Index 1: 2==2 → count=2</p>
+            <p>• Index 2: 1≠2 → count=1</p>
+            <p>• Index 3: 1≠2 → count=0, new candidate=1, count=1</p>
+            <p>• Index 4: 1==1 → count=2</p>
+            <p>• Index 5: 2≠1 → count=1</p>
+            <p>• Index 6: 2≠1 → count=0, new candidate=2</p>
+            <p>• Verify: 2 appears 4 times &gt; 7/2 ✓</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n)", description: "Two passes: find candidate + verify" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only stores candidate and count"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function majorityElement(nums) {
+  // Phase 1: Find candidate
+  let candidate = nums[0], count = 1;
+  
+  for (let i = 1; i < nums.length; i++) {
+    if (count === 0) {
+      candidate = nums[i];
+      count = 1;
+    } else if (nums[i] === candidate) {
+      count++;
+    } else {
+      count--;
+    }
+  }
+  
+  // Phase 2: Verify (optional if majority guaranteed)
+  count = 0;
+  for (const num of nums) {
+    if (num === candidate) count++;
+  }
+  
+  return count > nums.length / 2 ? candidate : -1;
+}`}
+          python={`def majority_element(nums):
+    # Phase 1: Find candidate
+    candidate, count = nums[0], 1
+    
+    for i in range(1, len(nums)):
+        if count == 0:
+            candidate = nums[i]
+            count = 1
+        elif nums[i] == candidate:
+            count += 1
+        else:
+            count -= 1
+    
+    # Phase 2: Verify
+    if nums.count(candidate) > len(nums) // 2:
+        return candidate
+    return -1`}
+          java={`public static int majorityElement(int[] nums) {
+    // Phase 1: Find candidate
+    int candidate = nums[0], count = 1;
+    
+    for (int i = 1; i < nums.length; i++) {
+        if (count == 0) {
+            candidate = nums[i];
+            count = 1;
+        } else if (nums[i] == candidate) {
+            count++;
+        } else {
+            count--;
+        }
+    }
+    
+    // Phase 2: Verify
+    count = 0;
+    for (int num : nums) {
+        if (num == candidate) count++;
+    }
+    
+    return count > nums.length / 2 ? candidate : -1;
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why Does This Work?">
+        If a majority element exists (count &gt; n/2), it will survive the cancellation process because
+        it has more occurrences than all other elements combined!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="moores-voting" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MergeSortedArraysLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Merge Sorted Arrays?" iconEmoji="🔗" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Merging sorted arrays combines two already-sorted arrays into a single sorted array.
+          This is the key operation in Merge Sort and appears frequently in interview questions.
+          The technique uses two pointers to efficiently traverse both arrays simultaneously.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🃏" title="Think of it like merging card decks">
+        Imagine two sorted stacks of cards face up. To merge them, you always pick the smaller
+        visible card from either stack and add it to your result. Since both stacks are sorted,
+        you&apos;re guaranteed to build a sorted merged deck!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Initialize pointers",
+              description: "Set i = 0 for arr1, j = 0 for arr2, create result array.",
+            },
+            {
+              title: "Compare elements",
+              description: "Compare arr1[i] with arr2[j].",
+            },
+            {
+              title: "Add smaller element",
+              description: "Push the smaller element to result and advance that pointer.",
+            },
+            {
+              title: "Repeat until one exhausted",
+              description: "Continue comparing until one array is fully traversed.",
+            },
+            {
+              title: "Copy remaining elements",
+              description: "Append any remaining elements from the non-empty array.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Merge Two Sorted Arrays"
+          input="arr1 = [1, 3, 5], arr2 = [2, 4, 6]"
+          output="[1, 2, 3, 4, 5, 6]"
+        >
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-2 text-sm text-[var(--text-secondary)]">
+              <p>• Compare 1 vs 2 → take 1</p>
+              <p>• Compare 3 vs 2 → take 2</p>
+              <p>• Compare 3 vs 4 → take 3</p>
+              <p>• Compare 5 vs 4 → take 4</p>
+              <p>• Compare 5 vs 6 → take 5</p>
+              <p>• Append remaining: 6</p>
+            </div>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n + m)", description: "Visit each element once" },
+        ]}
+        spaceComplexity="O(n + m)"
+        spaceDescription="New array for merged result"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function mergeSortedArrays(arr1, arr2) {
+  const result = [];
+  let i = 0, j = 0;
+  
+  // Compare and merge
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] <= arr2[j]) {
+      result.push(arr1[i]);
+      i++;
+    } else {
+      result.push(arr2[j]);
+      j++;
+    }
+  }
+  
+  // Append remaining elements
+  while (i < arr1.length) result.push(arr1[i++]);
+  while (j < arr2.length) result.push(arr2[j++]);
+  
+  return result;
+}
+
+// Example: mergeSortedArrays([1, 3, 5], [2, 4, 6])
+// Output: [1, 2, 3, 4, 5, 6]`}
+          python={`def merge_sorted_arrays(arr1, arr2):
+    result = []
+    i, j = 0, 0
+    
+    # Compare and merge
+    while i < len(arr1) and j < len(arr2):
+        if arr1[i] <= arr2[j]:
+            result.append(arr1[i])
+            i += 1
+        else:
+            result.append(arr2[j])
+            j += 1
+    
+    # Append remaining elements
+    result.extend(arr1[i:])
+    result.extend(arr2[j:])
+    
+    return result`}
+          java={`public static int[] mergeSortedArrays(int[] arr1, int[] arr2) {
+    int[] result = new int[arr1.length + arr2.length];
+    int i = 0, j = 0, k = 0;
+    
+    while (i < arr1.length && j < arr2.length) {
+        if (arr1[i] <= arr2[j]) {
+            result[k++] = arr1[i++];
+        } else {
+            result[k++] = arr2[j++];
+        }
+    }
+    
+    while (i < arr1.length) result[k++] = arr1[i++];
+    while (j < arr2.length) result[k++] = arr2[j++];
+    
+    return result;
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Variations">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li><strong>In-place merge:</strong> Merge arr2 into arr1 (when arr1 has extra space)</li>
+          <li><strong>K-way merge:</strong> Merge K sorted arrays using a min-heap</li>
+          <li><strong>Merge lists:</strong> Same concept works for linked lists</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="merge-sorted-arrays" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RotateArrayLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Array Rotation?" iconEmoji="🔄" color="from-orange-500 to-amber-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Array rotation shifts all elements by k positions. In right rotation, elements move right
+          and wrap around to the beginning. In left rotation, elements move left. There are multiple
+          approaches ranging from O(n) extra space to O(1) in-place solutions.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎠" title="Think of it like a carousel">
+        Imagine people sitting on a carousel. When it rotates 3 positions clockwise, everyone moves
+        3 seats to the right, and those at the end wrap around to the front!
+      </Analogy>
+
+      <LearnCard title="Three Approaches" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Using Extra Array</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Copy elements to new positions. Simple but uses O(n) space.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Rotate One by One</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Rotate by 1 position k times. O(n×k) time, O(1) space.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">3. Reversal Algorithm ⭐</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Reverse parts of array. O(n) time, O(1) space — the best approach!
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Reversal Algorithm Steps" iconEmoji="🔄" color="from-blue-500 to-indigo-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Normalize k",
+              description: "Set k = k % n (handle k > n cases).",
+            },
+            {
+              title: "Reverse entire array",
+              description: "[1, 2, 3, 4, 5] with k=2 → [5, 4, 3, 2, 1]",
+            },
+            {
+              title: "Reverse first k elements",
+              description: "[5, 4, 3, 2, 1] → [4, 5, 3, 2, 1]",
+            },
+            {
+              title: "Reverse remaining elements",
+              description: "[4, 5, 3, 2, 1] → [4, 5, 1, 2, 3]",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Rotate Right by 2"
+          input="[1, 2, 3, 4, 5], k = 2"
+          output="[4, 5, 1, 2, 3]"
+        >
+          <div className="space-y-2">
+            <ArrayDiagram values={[1, 2, 3, 4, 5]} highlights={[]} />
+            <p className="text-xs text-[var(--text-tertiary)]">After reverse all: [5, 4, 3, 2, 1]</p>
+            <p className="text-xs text-[var(--text-tertiary)]">After reverse first 2: [4, 5, 3, 2, 1]</p>
+            <p className="text-xs text-[var(--text-tertiary)]">After reverse last 3: [4, 5, 1, 2, 3]</p>
+            <ArrayDiagram values={[4, 5, 1, 2, 3]} highlights={[0, 1]} />
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Reversal Method", time: "O(n)", description: "Three reversals, each O(n)" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place rotation using reversal"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function rotateArray(arr, k) {
+  const n = arr.length;
+  k = k % n; // Handle k > n
+  
+  function reverse(start, end) {
+    while (start < end) {
+      [arr[start], arr[end]] = [arr[end], arr[start]];
+      start++;
+      end--;
+    }
+  }
+  
+  reverse(0, n - 1);      // Reverse all
+  reverse(0, k - 1);      // Reverse first k
+  reverse(k, n - 1);      // Reverse rest
+  
+  return arr;
+}
+
+// Right rotate: rotateArray([1,2,3,4,5], 2) → [4,5,1,2,3]`}
+          python={`def rotate_array(arr, k):
+    n = len(arr)
+    k = k % n  # Handle k > n
+    
+    def reverse(start, end):
+        while start < end:
+            arr[start], arr[end] = arr[end], arr[start]
+            start += 1
+            end -= 1
+    
+    reverse(0, n - 1)      # Reverse all
+    reverse(0, k - 1)      # Reverse first k
+    reverse(k, n - 1)      # Reverse rest
+    
+    return arr`}
+          java={`public static void rotateArray(int[] arr, int k) {
+    int n = arr.length;
+    k = k % n;
+    
+    reverse(arr, 0, n - 1);
+    reverse(arr, 0, k - 1);
+    reverse(arr, k, n - 1);
+}
+
+private static void reverse(int[] arr, int start, int end) {
+    while (start < end) {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Left Rotation">
+        For left rotation by k: reverse first k elements, reverse remaining elements, then reverse all!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="rotate-array" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RearrangementLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Array Rearrangement?" iconEmoji="🔀" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Array rearrangement involves reordering elements based on specific conditions — like
+          alternating positive/negative numbers, segregating odds/evens, or arranging elements
+          at their index positions. These patterns appear frequently in interviews.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎭" title="Think of it like organizing a dance line">
+        Imagine arranging dancers so boys and girls alternate. You can&apos;t just sort them —
+        you need to interleave them while maintaining some relative order.
+      </Analogy>
+
+      <LearnCard title="Common Rearrangement Patterns" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Positive/Negative Alternating</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Arrange as [+, -, +, -, ...] while maintaining relative order.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Even/Odd Segregation</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              All even numbers first, then all odd numbers.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">3. Rearrange arr[i] = i</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Place element i at index i if present, else -1.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Example: Positive/Negative Alternating" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Alternate Positive and Negative"
+          input="[1, 2, 3, -4, -1, 4]"
+          output="[1, -4, 2, -1, 3, 4] or similar valid arrangement"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Separate positives: [1, 2, 3, 4]</p>
+            <p>• Separate negatives: [-4, -1]</p>
+            <p>• Interleave: [1, -4, 2, -1, 3, 4]</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Most Rearrangements", time: "O(n)", description: "Single or two passes" },
+        ]}
+        spaceComplexity="O(1) to O(n)"
+        spaceDescription="Depends on whether stable order is required"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code: Positive/Negative Alternating" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function rearrangeAlternate(arr) {
+  // Separate positives and negatives
+  const pos = arr.filter(x => x >= 0);
+  const neg = arr.filter(x => x < 0);
+  
+  const result = [];
+  let i = 0, j = 0;
+  let usePositive = true;
+  
+  while (i < pos.length || j < neg.length) {
+    if (usePositive && i < pos.length) {
+      result.push(pos[i++]);
+    } else if (!usePositive && j < neg.length) {
+      result.push(neg[j++]);
+    } else if (i < pos.length) {
+      result.push(pos[i++]);
+    } else {
+      result.push(neg[j++]);
+    }
+    usePositive = !usePositive;
+  }
+  
+  return result;
+}`}
+          python={`def rearrange_alternate(arr):
+    pos = [x for x in arr if x >= 0]
+    neg = [x for x in arr if x < 0]
+    
+    result = []
+    i, j = 0, 0
+    use_positive = True
+    
+    while i < len(pos) or j < len(neg):
+        if use_positive and i < len(pos):
+            result.append(pos[i])
+            i += 1
+        elif not use_positive and j < len(neg):
+            result.append(neg[j])
+            j += 1
+        elif i < len(pos):
+            result.append(pos[i])
+            i += 1
+        else:
+            result.append(neg[j])
+            j += 1
+        use_positive = not use_positive
+    
+    return result`}
+          java={`public static int[] rearrangeAlternate(int[] arr) {
+    List<Integer> pos = new ArrayList<>();
+    List<Integer> neg = new ArrayList<>();
+    
+    for (int x : arr) {
+        if (x >= 0) pos.add(x);
+        else neg.add(x);
+    }
+    
+    int[] result = new int[arr.length];
+    int i = 0, j = 0, k = 0;
+    boolean usePositive = true;
+    
+    while (i < pos.size() || j < neg.size()) {
+        if (usePositive && i < pos.size()) {
+            result[k++] = pos.get(i++);
+        } else if (!usePositive && j < neg.size()) {
+            result[k++] = neg.get(j++);
+        } else if (i < pos.size()) {
+            result[k++] = pos.get(i++);
+        } else {
+            result[k++] = neg.get(j++);
+        }
+        usePositive = !usePositive;
+    }
+    return result;
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Interview Tip">
+        Always clarify: Should relative order be maintained? What if counts don&apos;t match?
+        Can we use extra space? These questions change the approach significantly!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="rearrangement" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NextPermutationLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Next Permutation?" iconEmoji="🔢" color="from-rose-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Given an array of numbers, find the next lexicographically greater permutation. If the
+          array is the largest permutation, return the smallest one. This algorithm is used in
+          C++&apos;s std::next_permutation and is a classic interview question.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📖" title="Think of it like dictionary ordering">
+        If you list all permutations of [1,2,3] in dictionary order: [1,2,3], [1,3,2], [2,1,3],
+        [2,3,1], [3,1,2], [3,2,1]. The &quot;next permutation&quot; of [1,2,3] is [1,3,2].
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Find the pivot",
+              description: "Scan from right to find first element smaller than its right neighbor.",
+            },
+            {
+              title: "If no pivot exists",
+              description: "Array is in descending order — reverse entire array.",
+            },
+            {
+              title: "Find successor",
+              description: "Find rightmost element greater than pivot.",
+            },
+            {
+              title: "Swap pivot and successor",
+              description: "Exchange these two elements.",
+            },
+            {
+              title: "Reverse suffix",
+              description: "Reverse elements after the original pivot position.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Find Next Permutation"
+          input="[1, 2, 3]"
+          output="[1, 3, 2]"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Find pivot: index 1 (value 2, since 2 &lt; 3)</p>
+            <p>• Find successor: index 2 (value 3, rightmost &gt; 2)</p>
+            <p>• Swap: [1, 3, 2]</p>
+            <p>• Reverse suffix after pivot: nothing to reverse</p>
+            <p>• Result: [1, 3, 2]</p>
+          </div>
+        </ExampleBox>
+
+        <ExampleBox
+          number={2}
+          title="Next Permutation of [1, 3, 2]"
+          input="[1, 3, 2]"
+          output="[2, 1, 3]"
+          defaultOpen={false}
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Find pivot: index 0 (value 1, since 1 &lt; 3)</p>
+            <p>• Find successor: index 2 (value 2, rightmost &gt; 1)</p>
+            <p>• Swap: [2, 3, 1]</p>
+            <p>• Reverse suffix [3, 1] → [1, 3]</p>
+            <p>• Result: [2, 1, 3]</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n)", description: "At most two passes through array" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place modification"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function nextPermutation(nums) {
+  const n = nums.length;
+  
+  // Step 1: Find pivot (first decreasing from right)
+  let pivot = -1;
+  for (let i = n - 2; i >= 0; i--) {
+    if (nums[i] < nums[i + 1]) {
+      pivot = i;
+      break;
+    }
+  }
+  
+  if (pivot === -1) {
+    // Already largest, return smallest
+    nums.reverse();
+    return nums;
+  }
+  
+  // Step 2: Find successor (smallest greater than pivot, from right)
+  for (let i = n - 1; i > pivot; i--) {
+    if (nums[i] > nums[pivot]) {
+      [nums[pivot], nums[i]] = [nums[i], nums[pivot]];
+      break;
+    }
+  }
+  
+  // Step 3: Reverse suffix after pivot
+  let left = pivot + 1, right = n - 1;
+  while (left < right) {
+    [nums[left], nums[right]] = [nums[right], nums[left]];
+    left++;
+    right--;
+  }
+  
+  return nums;
+}
+
+// nextPermutation([1, 2, 3]) → [1, 3, 2]`}
+          python={`def next_permutation(nums):
+    n = len(nums)
+    
+    # Step 1: Find pivot
+    pivot = -1
+    for i in range(n - 2, -1, -1):
+        if nums[i] < nums[i + 1]:
+            pivot = i
+            break
+    
+    if pivot == -1:
+        nums.reverse()
+        return nums
+    
+    # Step 2: Find successor and swap
+    for i in range(n - 1, pivot, -1):
+        if nums[i] > nums[pivot]:
+            nums[pivot], nums[i] = nums[i], nums[pivot]
+            break
+    
+    # Step 3: Reverse suffix
+    left, right = pivot + 1, n - 1
+    while left < right:
+        nums[left], nums[right] = nums[right], nums[left]
+        left += 1
+        right -= 1
+    
+    return nums`}
+          java={`public static void nextPermutation(int[] nums) {
+    int n = nums.length;
+    
+    // Step 1: Find pivot
+    int pivot = -1;
+    for (int i = n - 2; i >= 0; i--) {
+        if (nums[i] < nums[i + 1]) {
+            pivot = i;
+            break;
+        }
+    }
+    
+    if (pivot == -1) {
+        reverse(nums, 0, n - 1);
+        return;
+    }
+    
+    // Step 2: Find successor and swap
+    for (int i = n - 1; i > pivot; i--) {
+        if (nums[i] > nums[pivot]) {
+            int temp = nums[pivot];
+            nums[pivot] = nums[i];
+            nums[i] = temp;
+            break;
+        }
+    }
+    
+    // Step 3: Reverse suffix
+    reverse(nums, pivot + 1, n - 1);
+}
+
+private static void reverse(int[] nums, int l, int r) {
+    while (l < r) {
+        int temp = nums[l];
+        nums[l++] = nums[r];
+        nums[r--] = temp;
+    }
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="insight" title="Why This Works">
+        The suffix after the pivot is always in descending order. Swapping the pivot with the
+        smallest element greater than it, then reversing the suffix, gives us the lexicographically
+        next permutation.
+      </Callout>
+
+      <Callout type="warning" title="Edge Cases">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Single element array → same array</li>
+          <li>All same elements → same array</li>
+          <li>Descending order → reverse to get ascending</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="next-permutation" category="arrays" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
 
 
 
