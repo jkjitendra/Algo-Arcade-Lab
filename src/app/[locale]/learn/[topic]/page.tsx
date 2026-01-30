@@ -101,7 +101,7 @@ const topicLessons: Record<string, { slug: string; title: string; duration: stri
     { slug: "two-sum-hashmap", title: "Two Sum (HashMap)", duration: "15 min", description: "Find pair with given sum" },
   ],
   graphs: [
-    { slug: "graph-representations", title: "Graph Representations", duration: "18 min", description: "Adjacency matrix and list" },
+    { slug: "graph-representation", title: "Graph Representations", duration: "18 min", description: "Adjacency matrix and list" },
     { slug: "bfs", title: "Breadth-First Search", duration: "22 min", description: "Explore graph layer by layer" },
     { slug: "dfs", title: "Depth-First Search", duration: "22 min", description: "Explore graph by going deep first" },
     { slug: "dijkstra", title: "Dijkstra's Algorithm", duration: "30 min", description: "Shortest path with non-negative weights" },
