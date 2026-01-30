@@ -67,12 +67,12 @@ export const topicLessons: Record<TopicKey, Lesson[]> = {
     { slug: "sliding-window", title: "Sliding Window", duration: "20 min", description: "Find subarrays or substrings efficiently", hasContent: true },
     { slug: "prefix-sum", title: "Prefix Sum", duration: "15 min", description: "O(1) range sum queries with preprocessing", hasContent: true },
     { slug: "kadanes", title: "Kadane's Algorithm", duration: "18 min", description: "Find maximum subarray sum in linear time", hasContent: true },
-    { slug: "dutch-national-flag", title: "Dutch National Flag", duration: "15 min", description: "Three-way partitioning for sorting 0s, 1s, and 2s", hasContent: false },
-    { slug: "moores-voting", title: "Moore's Voting", duration: "12 min", description: "Find majority element in linear time", hasContent: false },
-    { slug: "merge-sorted-arrays", title: "Merge Sorted Arrays", duration: "15 min", description: "Merge two sorted arrays efficiently", hasContent: false },
-    { slug: "rotate-array", title: "Rotate Array", duration: "12 min", description: "Rotate array elements by k positions", hasContent: false },
-    { slug: "rearrangement", title: "Rearrangement", duration: "15 min", description: "Rearrange array elements in specific patterns", hasContent: false },
-    { slug: "next-permutation", title: "Next Permutation", duration: "18 min", description: "Find next lexicographically greater permutation", hasContent: false },
+    { slug: "dutch-national-flag", title: "Dutch National Flag", duration: "15 min", description: "Three-way partitioning for sorting 0s, 1s, and 2s", hasContent: true },
+    { slug: "moores-voting", title: "Moore's Voting", duration: "12 min", description: "Find majority element in linear time", hasContent: true },
+    { slug: "merge-sorted-arrays", title: "Merge Sorted Arrays", duration: "15 min", description: "Merge two sorted arrays efficiently", hasContent: true },
+    { slug: "rotate-array", title: "Rotate Array", duration: "12 min", description: "Rotate array elements by k positions", hasContent: true },
+    { slug: "rearrangement", title: "Rearrangement", duration: "15 min", description: "Rearrange array elements in specific patterns", hasContent: true },
+    { slug: "next-permutation", title: "Next Permutation", duration: "18 min", description: "Find next lexicographically greater permutation", hasContent: true },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
