@@ -52,6 +52,56 @@ const lessonContent: Record<string, {
     duration: "25 min",
     description: "An efficient in-place sorting algorithm that uses partitioning around a pivot element.",
   },
+  "cocktail-shaker": {
+    title: "Cocktail Shaker Sort",
+    duration: "15 min",
+    description: "Bidirectional bubble sort that sorts in both directions alternately.",
+  },
+  "shell-sort": {
+    title: "Shell Sort",
+    duration: "18 min",
+    description: "Generalized insertion sort with gap sequences for faster sorting.",
+  },
+  "cycle-sort": {
+    title: "Cycle Sort",
+    duration: "15 min",
+    description: "Optimal in-place sorting in terms of memory writes.",
+  },
+  "heap-sort": {
+    title: "Heap Sort",
+    duration: "20 min",
+    description: "O(n log n) in-place sorting using the heap data structure.",
+  },
+  "tim-sort": {
+    title: "Tim Sort",
+    duration: "25 min",
+    description: "Hybrid stable sorting algorithm used in Python and Java.",
+  },
+  "intro-sort": {
+    title: "Intro Sort",
+    duration: "22 min",
+    description: "Hybrid of quicksort, heapsort, and insertion sort.",
+  },
+  "counting-sort": {
+    title: "Counting Sort",
+    duration: "15 min",
+    description: "Non-comparison O(n+k) sorting for integers in known range.",
+  },
+  "radix-sort": {
+    title: "Radix Sort",
+    duration: "18 min",
+    description: "Sort integers digit by digit from least to most significant.",
+  },
+  "bucket-sort": {
+    title: "Bucket Sort",
+    duration: "15 min",
+    description: "Distribute elements into buckets, sort each, then concatenate.",
+  },
+  "pigeonhole-sort": {
+    title: "Pigeonhole Sort",
+    duration: "12 min",
+    description: "Sorting when the range of keys is approximately equal to number of elements.",
+  },
   // Searching
   "binary-search": {
     title: "Binary Search",
@@ -144,6 +194,41 @@ const lessonContent: Record<string, {
     title: "Anagram Detection",
     duration: "15 min",
     description: "Check if two strings are anagrams using sorting or frequency counting.",
+  },
+  "rabin-karp": {
+    title: "Rabin-Karp Algorithm",
+    duration: "20 min",
+    description: "Pattern matching using rolling hash for efficient substring search.",
+  },
+  "z-algorithm": {
+    title: "Z-Algorithm",
+    duration: "18 min",
+    description: "Linear time pattern matching using the Z-array.",
+  },
+  "boyer-moore": {
+    title: "Boyer-Moore Algorithm",
+    duration: "22 min",
+    description: "Efficient pattern matching with bad character and good suffix rules.",
+  },
+  "longest-palindrome": {
+    title: "Longest Palindromic Substring",
+    duration: "20 min",
+    description: "Find the longest palindrome within a string.",
+  },
+  "longest-common-substr": {
+    title: "Longest Common Substring",
+    duration: "18 min",
+    description: "Find the longest common substring between two strings.",
+  },
+  "string-rotation": {
+    title: "String Rotation",
+    duration: "10 min",
+    description: "Check if one string is a rotation of another.",
+  },
+  "remove-duplicates": {
+    title: "Remove Duplicate Characters",
+    duration: "12 min",
+    description: "Remove duplicate characters from a string while preserving order.",
   },
   // Searching (additional)
   "lower-bound": {
@@ -276,11 +361,6 @@ const lessonContent: Record<string, {
     title: "Heapify Operation",
     duration: "18 min",
     description: "Convert an array into a heap in O(n) time.",
-  },
-  "heap-sort": {
-    title: "Heap Sort",
-    duration: "20 min",
-    description: "O(n log n) in-place sorting using a max-heap.",
   },
   "kth-largest": {
     title: "K-th Largest Element",
@@ -504,6 +584,16 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "insertion-sort" && <InsertionSortLesson locale={locale} />}
       {lesson === "merge-sort" && <MergeSortLesson locale={locale} />}
       {lesson === "quick-sort" && <QuickSortLesson locale={locale} />}
+      {lesson === "cocktail-shaker" && <CocktailShakerLesson locale={locale} />}
+      {lesson === "shell-sort" && <ShellSortLesson locale={locale} />}
+      {lesson === "cycle-sort" && <CycleSortLesson locale={locale} />}
+      {lesson === "heap-sort" && <HeapSortLesson locale={locale} />}
+      {lesson === "tim-sort" && <TimSortLesson locale={locale} />}
+      {lesson === "intro-sort" && <IntroSortLesson locale={locale} />}
+      {lesson === "counting-sort" && <CountingSortLesson locale={locale} />}
+      {lesson === "radix-sort" && <RadixSortLesson locale={locale} />}
+      {lesson === "bucket-sort" && <BucketSortLesson locale={locale} />}
+      {lesson === "pigeonhole-sort" && <PigeonholeSortLesson locale={locale} />}
       {lesson === "binary-search" && <BinarySearchLesson locale={locale} />}
       {lesson === "two-pointers" && <TwoPointersLesson locale={locale} />}
       {lesson === "array-operations" && <ArrayOperationsLesson locale={locale} />}
@@ -521,6 +611,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "brute-force-search" && <BruteForceSearchLesson locale={locale} />}
       {lesson === "kmp-algorithm" && <KMPAlgorithmLesson locale={locale} />}
       {lesson === "anagram-detection" && <AnagramDetectionLesson locale={locale} />}
+      {lesson === "rabin-karp" && <RabinKarpLesson locale={locale} />}
+      {lesson === "z-algorithm" && <ZAlgorithmLesson locale={locale} />}
+      {lesson === "boyer-moore" && <BoyerMooreLesson locale={locale} />}
+      {lesson === "longest-palindrome" && <LongestPalindromeLesson locale={locale} />}
+      {lesson === "longest-common-substr" && <LongestCommonSubstrLesson locale={locale} />}
+      {lesson === "string-rotation" && <StringRotationLesson locale={locale} />}
+      {lesson === "remove-duplicates" && <RemoveDuplicatesLesson locale={locale} />}
       {lesson === "linear-search" && <LinearSearchLesson locale={locale} />}
       {lesson === "lower-bound" && <LowerBoundLesson locale={locale} />}
       {lesson === "upper-bound" && <UpperBoundLesson locale={locale} />}
@@ -4897,81 +4994,6 @@ def build_max_heap(arr):
         <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
         <div className="flex flex-wrap gap-3">
           <VisualizeLink algorithm="heapify" category="heaps" locale={locale} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Heap Sort lesson
-function HeapSortLesson({ locale }: { locale: string }) {
-  return (
-    <div className="space-y-8">
-      <LearnCard title="How Heap Sort Works" iconEmoji="📌" color="from-blue-500 to-indigo-500">
-        <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
-          <strong className="text-[var(--text-primary)]">Heap Sort</strong> uses a max-heap to
-          sort in ascending order. It&apos;s in-place and guarantees O(n log n).
-        </p>
-      </LearnCard>
-
-      <LearnCard title="Algorithm" iconEmoji="📖" color="from-purple-500 to-pink-500">
-        <StepByStep
-          steps={[
-            { title: "Build max-heap", description: "Heapify the array — O(n)." },
-            { title: "Swap root with last", description: "Largest element goes to end." },
-            { title: "Reduce heap size", description: "Exclude sorted element." },
-            { title: "Heapify root", description: "Restore heap property — O(log n)." },
-            { title: "Repeat", description: "Until heap size is 1." },
-          ]}
-        />
-      </LearnCard>
-
-      <ComplexityTable
-        timeComplexity={[
-          { case: "All Cases", time: "O(n log n)", description: "Build O(n) + n × heapify O(log n)" },
-        ]}
-        spaceComplexity="O(1)"
-        spaceDescription="In-place"
-      />
-
-      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
-        <CodeTabs
-          javascript={`function heapSort(arr) {
-  const n = arr.length;
-  
-  // Build max-heap
-  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-    heapify(arr, n, i);
-  }
-  
-  // Extract elements one by one
-  for (let i = n - 1; i > 0; i--) {
-    [arr[0], arr[i]] = [arr[i], arr[0]];  // Swap
-    heapify(arr, i, 0);  // Heapify reduced heap
-  }
-  
-  return arr;
-}`}
-          python={`def heap_sort(arr):
-    n = len(arr)
-    
-    # Build max-heap
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(arr, n, i)
-    
-    # Extract elements one by one
-    for i in range(n - 1, 0, -1):
-        arr[0], arr[i] = arr[i], arr[0]  # Swap
-        heapify(arr, i, 0)  # Heapify reduced heap
-    
-    return arr`}
-        />
-      </LearnCard>
-
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
-        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
-        <div className="flex flex-wrap gap-3">
-          <VisualizeLink algorithm="heap-sort" category="heaps" locale={locale} />
         </div>
       </div>
     </div>
@@ -9458,6 +9480,2473 @@ private static void reverse(int[] nums, int l, int r) {
     </div>
   );
 }
+
+// ==================== PHASE 2: STRINGS LESSONS ====================
+
+function RabinKarpLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Rabin-Karp Algorithm?" iconEmoji="🔍" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Rabin-Karp is a pattern matching algorithm that uses hashing to find patterns in text.
+          Instead of comparing characters one by one, it computes a hash of the pattern and compares
+          it with hashes of substrings in the text. When hashes match, it verifies with character comparison.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔐" title="Think of it like comparing fingerprints">
+        Instead of comparing every detail of two documents, you compare their fingerprints (hashes) first.
+        If fingerprints match, then you do a detailed comparison. This saves time when most comparisons fail!
+      </Analogy>
+
+      <LearnCard title="Rolling Hash - The Key Insight" iconEmoji="🎲" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] mb-4">
+          The genius of Rabin-Karp is the <strong>rolling hash</strong>. Instead of recalculating
+          the hash from scratch for each window, we update it in O(1):
+        </p>
+        <div className="p-4 rounded-lg bg-[var(--bg-tertiary)] font-mono text-sm">
+          <p>new_hash = (old_hash - first_char × d^(m-1)) × d + new_char</p>
+        </div>
+        <p className="text-sm text-[var(--text-tertiary)] mt-2">
+          Where d is the alphabet size and m is pattern length.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-blue-500 to-indigo-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Calculate pattern hash",
+              description: "Compute hash value of the pattern.",
+            },
+            {
+              title: "Calculate first window hash",
+              description: "Compute hash of first m characters of text.",
+            },
+            {
+              title: "Compare hashes",
+              description: "If hashes match, verify by comparing characters.",
+            },
+            {
+              title: "Slide the window",
+              description: "Use rolling hash to compute next window's hash in O(1).",
+            },
+            {
+              title: "Repeat until end",
+              description: "Continue until all windows are checked.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Find Pattern in Text"
+          input='text = "AABAACAADAABAAABAA", pattern = "AABA"'
+          output="Pattern found at indices: 0, 9, 13"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Compute hash of &quot;AABA&quot;</p>
+            <p>• Slide through text, using rolling hash</p>
+            <p>• Hash matches at positions 0, 9, 13</p>
+            <p>• Verify each match with character comparison</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best/Average", time: "O(n + m)", description: "Few hash collisions" },
+          { case: "Worst Case", time: "O(n × m)", description: "Many spurious hash matches" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only stores hash values"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function rabinKarp(text, pattern) {
+  const d = 256;  // Number of characters
+  const q = 101;  // A prime number
+  const m = pattern.length;
+  const n = text.length;
+  const results = [];
+  
+  let patternHash = 0, textHash = 0, h = 1;
+  
+  // h = d^(m-1) % q
+  for (let i = 0; i < m - 1; i++) {
+    h = (h * d) % q;
+  }
+  
+  // Calculate initial hashes
+  for (let i = 0; i < m; i++) {
+    patternHash = (d * patternHash + pattern.charCodeAt(i)) % q;
+    textHash = (d * textHash + text.charCodeAt(i)) % q;
+  }
+  
+  // Slide pattern over text
+  for (let i = 0; i <= n - m; i++) {
+    if (patternHash === textHash) {
+      // Verify character by character
+      if (text.substring(i, i + m) === pattern) {
+        results.push(i);
+      }
+    }
+    
+    // Calculate hash for next window
+    if (i < n - m) {
+      textHash = (d * (textHash - text.charCodeAt(i) * h) 
+                  + text.charCodeAt(i + m)) % q;
+      if (textHash < 0) textHash += q;
+    }
+  }
+  
+  return results;
+}`}
+          python={`def rabin_karp(text, pattern):
+    d = 256  # Number of characters
+    q = 101  # A prime number
+    m, n = len(pattern), len(text)
+    results = []
+    
+    pattern_hash = text_hash = 0
+    h = pow(d, m - 1) % q
+    
+    # Calculate initial hashes
+    for i in range(m):
+        pattern_hash = (d * pattern_hash + ord(pattern[i])) % q
+        text_hash = (d * text_hash + ord(text[i])) % q
+    
+    # Slide pattern over text
+    for i in range(n - m + 1):
+        if pattern_hash == text_hash:
+            if text[i:i + m] == pattern:
+                results.append(i)
+        
+        if i < n - m:
+            text_hash = (d * (text_hash - ord(text[i]) * h) 
+                        + ord(text[i + m])) % q
+            if text_hash < 0:
+                text_hash += q
+    
+    return results`}
+          java={`public static List<Integer> rabinKarp(String text, String pattern) {
+    int d = 256, q = 101;
+    int m = pattern.length(), n = text.length();
+    List<Integer> results = new ArrayList<>();
+    
+    int patternHash = 0, textHash = 0, h = 1;
+    
+    for (int i = 0; i < m - 1; i++) h = (h * d) % q;
+    
+    for (int i = 0; i < m; i++) {
+        patternHash = (d * patternHash + pattern.charAt(i)) % q;
+        textHash = (d * textHash + text.charAt(i)) % q;
+    }
+    
+    for (int i = 0; i <= n - m; i++) {
+        if (patternHash == textHash) {
+            if (text.substring(i, i + m).equals(pattern)) {
+                results.add(i);
+            }
+        }
+        if (i < n - m) {
+            textHash = (d * (textHash - text.charAt(i) * h) 
+                       + text.charAt(i + m)) % q;
+            if (textHash < 0) textHash += q;
+        }
+    }
+    return results;
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use Rabin-Karp">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Multiple pattern searching (same hash for all patterns)</li>
+          <li>Plagiarism detection</li>
+          <li>Finding repeated substrings</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="rabin-karp" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ZAlgorithmLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Z-Algorithm?" iconEmoji="📏" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The Z-Algorithm builds a Z-array where Z[i] represents the length of the longest substring
+          starting at position i that matches a prefix of the string. It&apos;s used for pattern matching
+          by concatenating pattern + &quot;$&quot; + text and finding Z-values equal to pattern length.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📐" title="Think of it like measuring prefix matches">
+        At each position, you measure how many characters match the beginning of the string.
+        It&apos;s like asking: &quot;How much of this suffix looks like the prefix?&quot;
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Create combined string",
+              description: "Concatenate: pattern + '$' + text",
+            },
+            {
+              title: "Initialize Z-array",
+              description: "Z[0] is undefined (or length), Z[i] = longest match from i with prefix.",
+            },
+            {
+              title: "Use Z-box optimization",
+              description: "Track [L, R] window of rightmost Z-box to reuse comparisons.",
+            },
+            {
+              title: "Find pattern matches",
+              description: "Any Z[i] == pattern.length means pattern found at i - m - 1.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Z-Array Construction"
+          input='"aabxaab"'
+          output="Z = [-, 1, 0, 0, 3, 1, 0]"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Z[1]: &quot;a&quot; matches prefix &quot;a&quot; → 1</p>
+            <p>• Z[2]: &quot;b&quot; ≠ &quot;a&quot; → 0</p>
+            <p>• Z[4]: &quot;aab&quot; matches prefix &quot;aab&quot; → 3</p>
+            <p>• Z[5]: &quot;a&quot; matches prefix &quot;a&quot; → 1</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n + m)", description: "Linear time guaranteed" },
+        ]}
+        spaceComplexity="O(n + m)"
+        spaceDescription="Z-array storage"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function zAlgorithm(pattern, text) {
+  const concat = pattern + "$" + text;
+  const n = concat.length;
+  const z = new Array(n).fill(0);
+  
+  let l = 0, r = 0;
+  for (let i = 1; i < n; i++) {
+    if (i < r) {
+      z[i] = Math.min(r - i, z[i - l]);
+    }
+    while (i + z[i] < n && concat[z[i]] === concat[i + z[i]]) {
+      z[i]++;
+    }
+    if (i + z[i] > r) {
+      l = i;
+      r = i + z[i];
+    }
+  }
+  
+  // Find matches
+  const results = [];
+  const m = pattern.length;
+  for (let i = m + 1; i < n; i++) {
+    if (z[i] === m) results.push(i - m - 1);
+  }
+  return results;
+}`}
+          python={`def z_algorithm(pattern, text):
+    concat = pattern + "$" + text
+    n = len(concat)
+    z = [0] * n
+    
+    l, r = 0, 0
+    for i in range(1, n):
+        if i < r:
+            z[i] = min(r - i, z[i - l])
+        while i + z[i] < n and concat[z[i]] == concat[i + z[i]]:
+            z[i] += 1
+        if i + z[i] > r:
+            l, r = i, i + z[i]
+    
+    # Find matches
+    m = len(pattern)
+    return [i - m - 1 for i in range(m + 1, n) if z[i] == m]`}
+          java={`public static List<Integer> zAlgorithm(String pattern, String text) {
+    String concat = pattern + "$" + text;
+    int n = concat.length();
+    int[] z = new int[n];
+    
+    int l = 0, r = 0;
+    for (int i = 1; i < n; i++) {
+        if (i < r) z[i] = Math.min(r - i, z[i - l]);
+        while (i + z[i] < n && 
+               concat.charAt(z[i]) == concat.charAt(i + z[i])) {
+            z[i]++;
+        }
+        if (i + z[i] > r) { l = i; r = i + z[i]; }
+    }
+    
+    List<Integer> results = new ArrayList<>();
+    int m = pattern.length();
+    for (int i = m + 1; i < n; i++) {
+        if (z[i] == m) results.add(i - m - 1);
+    }
+    return results;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="z-algorithm" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BoyerMooreLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Boyer-Moore Algorithm?" iconEmoji="⚡" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Boyer-Moore is one of the most efficient string matching algorithms for large alphabets.
+          It scans the pattern from right to left and uses two heuristics — Bad Character Rule and
+          Good Suffix Rule — to skip large portions of the text after a mismatch.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔙" title="Think of it like reading backwards">
+        By comparing from the end of the pattern first, you can detect mismatches faster and
+        skip more characters. If the last character doesn&apos;t match, why check the first?
+      </Analogy>
+
+      <LearnCard title="Two Key Heuristics" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Bad Character Rule</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              When mismatch occurs, shift pattern so the mismatched text character aligns with its
+              rightmost occurrence in pattern. If not present, shift past it entirely.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Good Suffix Rule</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              When a suffix matches but next character doesn&apos;t, shift pattern to align another
+              occurrence of that suffix, or align a matching prefix.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Example: Bad Character Rule" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Pattern Shift on Mismatch"
+          input='text = "GCAATGCCTATGTGACC", pattern = "TATGTG"'
+          output="Pattern found at index 6"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Compare from right: G matches G ✓</p>
+            <p>• Continue: T matches T ✓, then mismatch</p>
+            <p>• Use bad character rule to shift efficiently</p>
+            <p>• Pattern found after fewer comparisons than brute force</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(n/m)", description: "Sublinear when alphabet is large" },
+          { case: "Average", time: "O(n)", description: "Linear with good heuristics" },
+          { case: "Worst Case", time: "O(n × m)", description: "Rare with both rules applied" },
+        ]}
+        spaceComplexity="O(m + σ)"
+        spaceDescription="Pattern length + alphabet size for tables"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code: Bad Character Rule Only" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function boyerMoore(text, pattern) {
+  const m = pattern.length, n = text.length;
+  const results = [];
+  
+  // Build bad character table
+  const badChar = {};
+  for (let i = 0; i < m; i++) {
+    badChar[pattern[i]] = i;
+  }
+  
+  let s = 0; // Shift
+  while (s <= n - m) {
+    let j = m - 1;
+    
+    // Compare from right to left
+    while (j >= 0 && pattern[j] === text[s + j]) {
+      j--;
+    }
+    
+    if (j < 0) {
+      results.push(s);
+      s += (s + m < n) ? m - (badChar[text[s + m]] ?? -1) : 1;
+    } else {
+      const bc = badChar[text[s + j]] ?? -1;
+      s += Math.max(1, j - bc);
+    }
+  }
+  
+  return results;
+}`}
+          python={`def boyer_moore(text, pattern):
+    m, n = len(pattern), len(text)
+    results = []
+    
+    # Build bad character table
+    bad_char = {c: i for i, c in enumerate(pattern)}
+    
+    s = 0
+    while s <= n - m:
+        j = m - 1
+        
+        while j >= 0 and pattern[j] == text[s + j]:
+            j -= 1
+        
+        if j < 0:
+            results.append(s)
+            s += m - bad_char.get(text[s + m], -1) if s + m < n else 1
+        else:
+            bc = bad_char.get(text[s + j], -1)
+            s += max(1, j - bc)
+    
+    return results`}
+          java={`public static List<Integer> boyerMoore(String text, String pattern) {
+    int m = pattern.length(), n = text.length();
+    List<Integer> results = new ArrayList<>();
+    
+    int[] badChar = new int[256];
+    Arrays.fill(badChar, -1);
+    for (int i = 0; i < m; i++) {
+        badChar[pattern.charAt(i)] = i;
+    }
+    
+    int s = 0;
+    while (s <= n - m) {
+        int j = m - 1;
+        while (j >= 0 && pattern.charAt(j) == text.charAt(s + j)) j--;
+        
+        if (j < 0) {
+            results.add(s);
+            s += (s + m < n) ? m - badChar[text.charAt(s + m)] : 1;
+        } else {
+            s += Math.max(1, j - badChar[text.charAt(s + j)]);
+        }
+    }
+    return results;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="boyer-moore" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LongestPalindromeLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Longest Palindromic Substring?" iconEmoji="🔄" color="from-pink-500 to-rose-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A palindrome reads the same forwards and backwards. The longest palindromic substring
+          problem asks you to find the longest such substring in a given string. Common approaches
+          include expanding around centers (O(n²)) and Manacher&apos;s algorithm (O(n)).
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🪞" title="Think of it like a mirror">
+        At each position, imagine placing a mirror. Characters on both sides should match
+        for it to be a palindrome. The further the match extends, the longer the palindrome!
+      </Analogy>
+
+      <LearnCard title="Expand Around Center Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Consider each position as center",
+              description: "There are 2n-1 possible centers (characters + gaps between them).",
+            },
+            {
+              title: "Expand outwards",
+              description: "From each center, expand left and right while characters match.",
+            },
+            {
+              title: "Track maximum",
+              description: "Keep track of the longest palindrome found.",
+            },
+            {
+              title: "Handle odd and even lengths",
+              description: "Expand around single char (odd) and between chars (even).",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Find Longest Palindrome"
+          input='"babad"'
+          output='"bab" or "aba" (length 3)'
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Center at &apos;b&apos;(0): &quot;b&quot; (length 1)</p>
+            <p>• Center at &apos;a&apos;(1): expand → &quot;bab&quot; (length 3)</p>
+            <p>• Center at &apos;b&apos;(2): expand → &quot;aba&quot; (length 3)</p>
+            <p>• Center at &apos;a&apos;(3): &quot;a&quot; (length 1)</p>
+            <p>• Center at &apos;d&apos;(4): &quot;d&quot; (length 1)</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Expand Around Center", time: "O(n²)", description: "n centers, O(n) expansion each" },
+          { case: "Manacher's Algorithm", time: "O(n)", description: "Advanced linear solution" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only track start and length"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function longestPalindrome(s) {
+  if (s.length < 2) return s;
+  
+  let start = 0, maxLen = 1;
+  
+  function expandFromCenter(left, right) {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      if (right - left + 1 > maxLen) {
+        start = left;
+        maxLen = right - left + 1;
+      }
+      left--;
+      right++;
+    }
+  }
+  
+  for (let i = 0; i < s.length; i++) {
+    expandFromCenter(i, i);     // Odd length
+    expandFromCenter(i, i + 1); // Even length
+  }
+  
+  return s.substring(start, start + maxLen);
+}
+
+// longestPalindrome("babad") → "bab"`}
+          python={`def longest_palindrome(s):
+    if len(s) < 2:
+        return s
+    
+    start, max_len = 0, 1
+    
+    def expand(left, right):
+        nonlocal start, max_len
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            if right - left + 1 > max_len:
+                start = left
+                max_len = right - left + 1
+            left -= 1
+            right += 1
+    
+    for i in range(len(s)):
+        expand(i, i)      # Odd length
+        expand(i, i + 1)  # Even length
+    
+    return s[start:start + max_len]`}
+          java={`public static String longestPalindrome(String s) {
+    if (s.length() < 2) return s;
+    
+    int start = 0, maxLen = 1;
+    
+    for (int i = 0; i < s.length(); i++) {
+        int len1 = expand(s, i, i);
+        int len2 = expand(s, i, i + 1);
+        int len = Math.max(len1, len2);
+        if (len > maxLen) {
+            start = i - (len - 1) / 2;
+            maxLen = len;
+        }
+    }
+    return s.substring(start, start + maxLen);
+}
+
+private static int expand(String s, int l, int r) {
+    while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+        l--; r++;
+    }
+    return r - l - 1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="longest-palindrome" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LongestCommonSubstrLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Longest Common Substring?" iconEmoji="🔗" color="from-teal-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The longest common substring is the longest contiguous sequence of characters that appears
+          in both strings. Unlike subsequence, characters must be consecutive. This is solved using
+          dynamic programming with a 2D table.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🧬" title="Think of it like finding matching DNA sequences">
+        Given two DNA strands, find the longest continuous matching segment. The sequences must
+        be contiguous — no gaps allowed!
+      </Analogy>
+
+      <LearnCard title="DP Approach" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Create DP table",
+              description: "dp[i][j] = length of common substring ending at s1[i-1] and s2[j-1].",
+            },
+            {
+              title: "Fill the table",
+              description: "If s1[i-1] == s2[j-1], dp[i][j] = dp[i-1][j-1] + 1, else 0.",
+            },
+            {
+              title: "Track maximum",
+              description: "Keep track of max value and its position.",
+            },
+            {
+              title: "Extract substring",
+              description: "Use the position to extract the actual substring.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Find Longest Common Substring"
+          input='s1 = "ABABC", s2 = "BABCA"'
+          output='"BABC" (length 4)'
+        >
+          <div className="p-3 rounded-lg bg-[var(--bg-tertiary)] font-mono text-sm overflow-x-auto">
+            <pre>{`    ""  B  A  B  C  A
+""   0  0  0  0  0  0
+A    0  0  1  0  0  1
+B    0  1  0  2  0  0
+A    0  0  2  0  0  1
+B    0  1  0  3  0  0
+C    0  0  0  0  4  0`}</pre>
+          </div>
+          <p className="text-sm text-[var(--text-secondary)] mt-2">Maximum is 4, giving &quot;BABC&quot;</p>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "DP Solution", time: "O(n × m)", description: "Fill n×m table" },
+        ]}
+        spaceComplexity="O(n × m) or O(min(n,m))"
+        spaceDescription="Full table or space-optimized"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function longestCommonSubstring(s1, s2) {
+  const m = s1.length, n = s2.length;
+  const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+  
+  let maxLen = 0, endIndex = 0;
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (s1[i - 1] === s2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+        if (dp[i][j] > maxLen) {
+          maxLen = dp[i][j];
+          endIndex = i;
+        }
+      }
+    }
+  }
+  
+  return s1.substring(endIndex - maxLen, endIndex);
+}
+
+// longestCommonSubstring("ABABC", "BABCA") → "BABC"`}
+          python={`def longest_common_substring(s1, s2):
+    m, n = len(s1), len(s2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    max_len, end_index = 0, 0
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+                if dp[i][j] > max_len:
+                    max_len = dp[i][j]
+                    end_index = i
+    
+    return s1[end_index - max_len:end_index]`}
+          java={`public static String longestCommonSubstring(String s1, String s2) {
+    int m = s1.length(), n = s2.length();
+    int[][] dp = new int[m + 1][n + 1];
+    
+    int maxLen = 0, endIndex = 0;
+    
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                if (dp[i][j] > maxLen) {
+                    maxLen = dp[i][j];
+                    endIndex = i;
+                }
+            }
+        }
+    }
+    
+    return s1.substring(endIndex - maxLen, endIndex);
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="longest-common-substring" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StringRotationLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is String Rotation?" iconEmoji="🔃" color="from-emerald-500 to-green-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A string s2 is a rotation of s1 if you can obtain s2 by moving some characters from
+          the beginning of s1 to the end. For example, &quot;erbottlewat&quot; is a rotation of &quot;waterbottle&quot;.
+          The trick is that s2 will always be a substring of s1 + s1!
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎡" title="Think of it like a circular arrangement">
+        If you arrange the string in a circle and read starting from any point, you get a rotation.
+        &quot;waterbottle&quot; in a circle can be read as &quot;erbottlewat&quot; starting from a different point!
+      </Analogy>
+
+      <LearnCard title="The Key Insight" iconEmoji="💡" color="from-yellow-500 to-amber-500">
+        <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+          <p className="text-[var(--text-secondary)]">
+            If s2 is a rotation of s1, then s2 must be a <strong>substring</strong> of s1 + s1.
+          </p>
+          <p className="text-sm text-[var(--text-tertiary)] mt-2">
+            Example: &quot;waterbottle&quot; + &quot;waterbottle&quot; = &quot;waterbottle<strong>waterbottle</strong>&quot;
+            contains &quot;erbottlewat&quot;!
+          </p>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Check if Rotation"
+          input='s1 = "waterbottle", s2 = "erbottlewat"'
+          output="true"
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• Check length: both are 11 ✓</p>
+            <p>• Concatenate s1: &quot;waterbottlewaterbottle&quot;</p>
+            <p>• Check if s2 is substring: &quot;erbottlewat&quot; found ✓</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Contains Check", time: "O(n)", description: "Using efficient substring search" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="For the concatenated string"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function isRotation(s1, s2) {
+  // Must be same length and non-empty
+  if (s1.length !== s2.length || s1.length === 0) {
+    return false;
+  }
+  
+  // Check if s2 is substring of s1 + s1
+  const doubled = s1 + s1;
+  return doubled.includes(s2);
+}
+
+// isRotation("waterbottle", "erbottlewat") → true
+// isRotation("hello", "lohel") → true
+// isRotation("hello", "world") → false`}
+          python={`def is_rotation(s1, s2):
+    # Must be same length and non-empty
+    if len(s1) != len(s2) or len(s1) == 0:
+        return False
+    
+    # Check if s2 is substring of s1 + s1
+    return s2 in (s1 + s1)
+
+# is_rotation("waterbottle", "erbottlewat") → True`}
+          java={`public static boolean isRotation(String s1, String s2) {
+    if (s1.length() != s2.length() || s1.isEmpty()) {
+        return false;
+    }
+    
+    String doubled = s1 + s1;
+    return doubled.contains(s2);
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Interview Tip">
+        This is a popular interview question! The elegant solution using concatenation is often
+        what interviewers are looking for. Remember: same length check is crucial!
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="string-rotation" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RemoveDuplicatesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Remove Duplicates?" iconEmoji="🧹" color="from-slate-500 to-zinc-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Removing duplicate characters from a string means keeping only the first occurrence of
+          each character. This can be done while preserving the original order or sorting first.
+          Common approaches use a Set/HashSet for O(n) time.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📋" title="Think of it like a guest list">
+        As guests arrive at a party, you only write their name once. If someone&apos;s name is
+        already on the list, you skip them. The order they arrived is preserved!
+      </Analogy>
+
+      <LearnCard title="Two Approaches" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">1. Using Set (Order Preserved)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Iterate through characters, add to result only if not seen before.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">2. Sorting First (Lexicographic Order)</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Sort the string, then keep only characters different from previous.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <LearnCard title="Example" iconEmoji="📝" color="from-green-500 to-emerald-500">
+        <ExampleBox
+          number={1}
+          title="Remove Duplicates (Preserve Order)"
+          input='"programming"'
+          output='"progamin"'
+        >
+          <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <p>• &apos;p&apos; - first time, add</p>
+            <p>• &apos;r&apos; - first time, add</p>
+            <p>• &apos;o&apos; - first time, add</p>
+            <p>• &apos;g&apos; - first time, add</p>
+            <p>• &apos;r&apos; - seen before, skip</p>
+            <p>• &apos;a&apos; - first time, add</p>
+            <p>• &apos;m&apos; - first time, add</p>
+            <p>• &apos;m&apos; - seen before, skip</p>
+            <p>• &apos;i&apos; - first time, add</p>
+            <p>• &apos;n&apos; - first time, add</p>
+            <p>• &apos;g&apos; - seen before, skip</p>
+          </div>
+        </ExampleBox>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Using Set", time: "O(n)", description: "Single pass through string" },
+        ]}
+        spaceComplexity="O(k)"
+        spaceDescription="Where k is number of unique characters"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function removeDuplicates(str) {
+  const seen = new Set();
+  let result = '';
+  
+  for (const char of str) {
+    if (!seen.has(char)) {
+      seen.add(char);
+      result += char;
+    }
+  }
+  
+  return result;
+}
+
+// removeDuplicates("programming") → "progamin"
+// removeDuplicates("hello") → "helo"`}
+          python={`def remove_duplicates(s):
+    seen = set()
+    result = []
+    
+    for char in s:
+        if char not in seen:
+            seen.add(char)
+            result.append(char)
+    
+    return ''.join(result)
+
+# Or more Pythonic:
+def remove_duplicates_v2(s):
+    return ''.join(dict.fromkeys(s))`}
+          java={`public static String removeDuplicates(String str) {
+    Set<Character> seen = new LinkedHashSet<>();
+    StringBuilder result = new StringBuilder();
+    
+    for (char c : str.toCharArray()) {
+        if (!seen.contains(c)) {
+            seen.add(c);
+            result.append(c);
+        }
+    }
+    
+    return result.toString();
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Variations">
+        <ul className="list-disc list-inside space-y-1 mt-2">
+          <li>Remove only adjacent duplicates (stack-based)</li>
+          <li>Remove duplicates and sort the result</li>
+          <li>Keep only characters that appear once</li>
+        </ul>
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="remove-duplicates" category="strings" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== PHASE 3: SORTING LESSONS ====================
+
+function CocktailShakerLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Cocktail Shaker Sort?" iconEmoji="🍸" color="from-pink-500 to-rose-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Cocktail Shaker Sort (also known as Bidirectional Bubble Sort or Shaker Sort) is a variation
+          of Bubble Sort. Instead of only going left to right, it alternates between going left to right
+          and right to left through the array. This helps move both small and large elements to their
+          correct positions faster.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎢" title="Think of it like a pendulum">
+        Imagine a pendulum swinging through your array. On the forward swing, it pushes large elements
+        to the right. On the backward swing, it pushes small elements to the left. Each complete swing
+        reduces the unsorted portion from both ends!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Forward pass (left → right)",
+              description: "Bubble the largest unsorted element to the end.",
+            },
+            {
+              title: "Shrink right boundary",
+              description: "The last element is now sorted.",
+            },
+            {
+              title: "Backward pass (right → left)",
+              description: "Bubble the smallest unsorted element to the beginning.",
+            },
+            {
+              title: "Shrink left boundary",
+              description: "The first element is now sorted.",
+            },
+            {
+              title: "Repeat until sorted",
+              description: "Continue until left and right boundaries meet.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(n)", description: "Already sorted (with early termination)" },
+          { case: "Average/Worst", time: "O(n²)", description: "Similar to Bubble Sort" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place sorting"
+        isStable={true}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function cocktailShakerSort(arr) {
+  let left = 0, right = arr.length - 1;
+  let swapped = true;
+  
+  while (swapped) {
+    swapped = false;
+    
+    // Forward pass
+    for (let i = left; i < right; i++) {
+      if (arr[i] > arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        swapped = true;
+      }
+    }
+    right--;
+    
+    if (!swapped) break;
+    swapped = false;
+    
+    // Backward pass
+    for (let i = right; i > left; i--) {
+      if (arr[i] < arr[i - 1]) {
+        [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
+        swapped = true;
+      }
+    }
+    left++;
+  }
+  
+  return arr;
+}`}
+          python={`def cocktail_shaker_sort(arr):
+    left, right = 0, len(arr) - 1
+    swapped = True
+    
+    while swapped:
+        swapped = False
+        
+        # Forward pass
+        for i in range(left, right):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+        right -= 1
+        
+        if not swapped:
+            break
+        swapped = False
+        
+        # Backward pass
+        for i in range(right, left, -1):
+            if arr[i] < arr[i - 1]:
+                arr[i], arr[i - 1] = arr[i - 1], arr[i]
+                swapped = True
+        left += 1
+    
+    return arr`}
+          java={`public static void cocktailShakerSort(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    boolean swapped = true;
+    
+    while (swapped) {
+        swapped = false;
+        
+        for (int i = left; i < right; i++) {
+            if (arr[i] > arr[i + 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;
+            }
+        }
+        right--;
+        
+        if (!swapped) break;
+        swapped = false;
+        
+        for (int i = right; i > left; i--) {
+            if (arr[i] < arr[i - 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i - 1];
+                arr[i - 1] = temp;
+                swapped = true;
+            }
+        }
+        left++;
+    }
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="cocktail-shaker" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShellSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Shell Sort?" iconEmoji="🐚" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Shell Sort is a generalized version of Insertion Sort. It starts by sorting elements far
+          apart (using a &quot;gap&quot;), then progressively reduces the gap. This allows elements to move
+          long distances quickly, making the final insertion sort much faster.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📊" title="Think of it like organizing at different scales">
+        Imagine organizing a library. First, you roughly sort books by century (large gap). Then by
+        decade. Then by year. Finally, you fine-tune by exact date. Each pass makes the next one easier!
+      </Analogy>
+
+      <LearnCard title="Gap Sequences" iconEmoji="📐" color="from-purple-500 to-pink-500">
+        <div className="space-y-3">
+          <p className="text-[var(--text-secondary)]">Common gap sequences:</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="font-semibold text-[var(--text-primary)]">Shell&apos;s original</p>
+              <p className="text-sm text-[var(--text-secondary)]">n/2, n/4, ..., 1</p>
+            </div>
+            <div className="p-3 rounded-lg bg-[var(--bg-tertiary)]">
+              <p className="font-semibold text-[var(--text-primary)]">Knuth&apos;s</p>
+              <p className="text-sm text-[var(--text-secondary)]">(3ᵏ - 1)/2: 1, 4, 13, 40, ...</p>
+            </div>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(n log n)", description: "With good gap sequence" },
+          { case: "Average", time: "O(n^1.25)", description: "Empirically observed" },
+          { case: "Worst Case", time: "O(n²)", description: "With Shell's original sequence" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place sorting"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function shellSort(arr) {
+  const n = arr.length;
+  
+  // Start with large gap, reduce by half
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    // Do gapped insertion sort
+    for (let i = gap; i < n; i++) {
+      const temp = arr[i];
+      let j = i;
+      
+      while (j >= gap && arr[j - gap] > temp) {
+        arr[j] = arr[j - gap];
+        j -= gap;
+      }
+      arr[j] = temp;
+    }
+  }
+  
+  return arr;
+}`}
+          python={`def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+    
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            arr[j] = temp
+        
+        gap //= 2
+    
+    return arr`}
+          java={`public static void shellSort(int[] arr) {
+    int n = arr.length;
+    
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];
+            int j = i;
+            
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            arr[j] = temp;
+        }
+    }
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="shell-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CycleSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Cycle Sort?" iconEmoji="🔄" color="from-green-500 to-emerald-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Cycle Sort is an in-place, unstable sorting algorithm that is optimal in terms of the number
+          of memory writes. It minimizes writes by placing each element at its correct position in a
+          single cycle of rotations.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎯" title="Think of it like musical chairs">
+        Each element knows exactly where it should sit. You pick up an element, put it in its correct
+        spot, pick up whatever was there, and continue until you complete a cycle back to the start.
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Pick an element",
+              description: "Start from the beginning of the array.",
+            },
+            {
+              title: "Find its correct position",
+              description: "Count how many elements are smaller than it.",
+            },
+            {
+              title: "Place and continue",
+              description: "Swap it to correct position, then place the displaced element.",
+            },
+            {
+              title: "Complete the cycle",
+              description: "Continue until you return to the starting position.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n²)", description: "Must check all elements for each cycle" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place with minimal writes"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function cycleSort(arr) {
+  const n = arr.length;
+  
+  for (let cycleStart = 0; cycleStart < n - 1; cycleStart++) {
+    let item = arr[cycleStart];
+    let pos = cycleStart;
+    
+    // Find position to place item
+    for (let i = cycleStart + 1; i < n; i++) {
+      if (arr[i] < item) pos++;
+    }
+    
+    if (pos === cycleStart) continue; // Already in place
+    
+    // Skip duplicates
+    while (item === arr[pos]) pos++;
+    
+    // Put item in correct position
+    [arr[pos], item] = [item, arr[pos]];
+    
+    // Rotate rest of cycle
+    while (pos !== cycleStart) {
+      pos = cycleStart;
+      for (let i = cycleStart + 1; i < n; i++) {
+        if (arr[i] < item) pos++;
+      }
+      while (item === arr[pos]) pos++;
+      [arr[pos], item] = [item, arr[pos]];
+    }
+  }
+  
+  return arr;
+}`}
+          python={`def cycle_sort(arr):
+    n = len(arr)
+    
+    for cycle_start in range(n - 1):
+        item = arr[cycle_start]
+        pos = cycle_start
+        
+        for i in range(cycle_start + 1, n):
+            if arr[i] < item:
+                pos += 1
+        
+        if pos == cycle_start:
+            continue
+        
+        while item == arr[pos]:
+            pos += 1
+        
+        arr[pos], item = item, arr[pos]
+        
+        while pos != cycle_start:
+            pos = cycle_start
+            for i in range(cycle_start + 1, n):
+                if arr[i] < item:
+                    pos += 1
+            while item == arr[pos]:
+                pos += 1
+            arr[pos], item = item, arr[pos]
+    
+    return arr`}
+          java={`public static void cycleSort(int[] arr) {
+    int n = arr.length;
+    
+    for (int cycleStart = 0; cycleStart < n - 1; cycleStart++) {
+        int item = arr[cycleStart];
+        int pos = cycleStart;
+        
+        for (int i = cycleStart + 1; i < n; i++) {
+            if (arr[i] < item) pos++;
+        }
+        
+        if (pos == cycleStart) continue;
+        
+        while (item == arr[pos]) pos++;
+        int temp = arr[pos];
+        arr[pos] = item;
+        item = temp;
+        
+        while (pos != cycleStart) {
+            pos = cycleStart;
+            for (int i = cycleStart + 1; i < n; i++) {
+                if (arr[i] < item) pos++;
+            }
+            while (item == arr[pos]) pos++;
+            temp = arr[pos];
+            arr[pos] = item;
+            item = temp;
+        }
+    }
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use Cycle Sort">
+        Cycle Sort is ideal when memory writes are expensive (e.g., flash memory) since it minimizes
+        the number of writes to O(n).
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="cycle-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeapSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Heap Sort?" iconEmoji="🏔️" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Heap Sort uses a binary heap data structure to sort elements. It first builds a max-heap
+          from the array, then repeatedly extracts the maximum element and places it at the end.
+          This gives guaranteed O(n log n) performance with O(1) extra space.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏆" title="Think of it like a tournament">
+        Build a tournament bracket (heap) where winners rise to the top. The champion (max) goes to
+        the end of results. Remove them, determine new champion, repeat until all are ranked!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Build Max Heap",
+              description: "Convert array into a max-heap using heapify from bottom-up.",
+            },
+            {
+              title: "Extract Maximum",
+              description: "Swap root (max) with last element of heap.",
+            },
+            {
+              title: "Reduce Heap Size",
+              description: "Decrease heap size by 1 (max is now in correct position).",
+            },
+            {
+              title: "Heapify Root",
+              description: "Restore heap property for remaining elements.",
+            },
+            {
+              title: "Repeat",
+              description: "Continue until heap size is 1.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n log n)", description: "Building heap + n extractions" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place sorting"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function heapSort(arr) {
+  const n = arr.length;
+  
+  // Build max heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+  
+  // Extract elements from heap
+  for (let i = n - 1; i > 0; i--) {
+    [arr[0], arr[i]] = [arr[i], arr[0]]; // Move max to end
+    heapify(arr, i, 0); // Heapify reduced heap
+  }
+  
+  return arr;
+}
+
+function heapify(arr, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  
+  if (left < n && arr[left] > arr[largest]) largest = left;
+  if (right < n && arr[right] > arr[largest]) largest = right;
+  
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    heapify(arr, n, largest);
+  }
+}`}
+          python={`def heap_sort(arr):
+    n = len(arr)
+    
+    # Build max heap
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+    
+    # Extract elements
+    for i in range(n - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, i, 0)
+    
+    return arr
+
+def heapify(arr, n, i):
+    largest = i
+    left, right = 2 * i + 1, 2 * i + 2
+    
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)`}
+          java={`public static void heapSort(int[] arr) {
+    int n = arr.length;
+    
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+    
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+        heapify(arr, i, 0);
+    }
+}
+
+private static void heapify(int[] arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1, right = 2 * i + 2;
+    
+    if (left < n && arr[left] > arr[largest]) largest = left;
+    if (right < n && arr[right] > arr[largest]) largest = right;
+    
+    if (largest != i) {
+        int swap = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = swap;
+        heapify(arr, n, largest);
+    }
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="heap-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TimSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Tim Sort?" iconEmoji="⚡" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Tim Sort is a hybrid sorting algorithm derived from Merge Sort and Insertion Sort. It was
+          designed by Tim Peters in 2002 for Python. It exploits runs (already sorted subsequences)
+          in the data and is the default sorting algorithm in Python, Java, and Android.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🧩" title="Think of it like assembling a puzzle">
+        Instead of sorting from scratch, Tim Sort finds pieces that are already in order (runs),
+        then cleverly merges them together. It&apos;s like finding pre-assembled sections of a puzzle!
+      </Analogy>
+
+      <LearnCard title="Key Concepts" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Runs</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Sequences that are already sorted (ascending or descending). Min run size is typically 32-64.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Insertion Sort for Small Runs</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Small runs are extended using binary insertion sort for efficiency.
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-[var(--bg-tertiary)]">
+            <h4 className="font-semibold text-[var(--text-primary)] mb-2">Merge Strategy</h4>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Uses a stack to track runs and merges them following specific rules for optimal performance.
+            </p>
+          </div>
+        </div>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(n)", description: "Already sorted data" },
+          { case: "Average/Worst", time: "O(n log n)", description: "Guaranteed performance" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="For merging runs"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Simplified Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`const MIN_RUN = 32;
+
+function timSort(arr) {
+  const n = arr.length;
+  
+  // Sort individual runs using insertion sort
+  for (let i = 0; i < n; i += MIN_RUN) {
+    insertionSort(arr, i, Math.min(i + MIN_RUN - 1, n - 1));
+  }
+  
+  // Merge runs
+  for (let size = MIN_RUN; size < n; size *= 2) {
+    for (let left = 0; left < n; left += 2 * size) {
+      const mid = Math.min(left + size - 1, n - 1);
+      const right = Math.min(left + 2 * size - 1, n - 1);
+      if (mid < right) {
+        merge(arr, left, mid, right);
+      }
+    }
+  }
+  return arr;
+}
+
+function insertionSort(arr, left, right) {
+  for (let i = left + 1; i <= right; i++) {
+    const key = arr[i];
+    let j = i - 1;
+    while (j >= left && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
+}`}
+          python={`MIN_RUN = 32
+
+def tim_sort(arr):
+    n = len(arr)
+    
+    # Sort runs with insertion sort
+    for i in range(0, n, MIN_RUN):
+        insertion_sort(arr, i, min(i + MIN_RUN - 1, n - 1))
+    
+    # Merge runs
+    size = MIN_RUN
+    while size < n:
+        for left in range(0, n, 2 * size):
+            mid = min(left + size - 1, n - 1)
+            right = min(left + 2 * size - 1, n - 1)
+            if mid < right:
+                merge(arr, left, mid, right)
+        size *= 2
+    
+    return arr`}
+          java={`static final int MIN_RUN = 32;
+
+public static void timSort(int[] arr) {
+    int n = arr.length;
+    
+    for (int i = 0; i < n; i += MIN_RUN) {
+        insertionSort(arr, i, Math.min(i + MIN_RUN - 1, n - 1));
+    }
+    
+    for (int size = MIN_RUN; size < n; size *= 2) {
+        for (int left = 0; left < n; left += 2 * size) {
+            int mid = Math.min(left + size - 1, n - 1);
+            int right = Math.min(left + 2 * size - 1, n - 1);
+            if (mid < right) merge(arr, left, mid, right);
+        }
+    }
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="tim-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IntroSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Intro Sort?" iconEmoji="🔀" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Introsort (Introspective Sort) begins with Quick Sort and switches to Heap Sort when the
+          recursion depth exceeds a threshold (usually 2 × log n). For small partitions, it uses
+          Insertion Sort. This combines the best of all three algorithms.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🛡️" title="Think of it like having backup plans">
+        Quick Sort is your main strategy — fast but can fail badly. When things get too deep,
+        you switch to the reliable Heap Sort. For tiny problems, simple Insertion Sort is fastest.
+      </Analogy>
+
+      <LearnCard title="The Three Phases" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Quick Sort Phase",
+              description: "Use standard Quick Sort partitioning for most of the work.",
+            },
+            {
+              title: "Depth Check",
+              description: "If recursion exceeds 2×log(n), switch to Heap Sort.",
+            },
+            {
+              title: "Size Check",
+              description: "If partition size ≤ 16, use Insertion Sort.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n log n)", description: "Guaranteed by Heap Sort fallback" },
+        ]}
+        spaceComplexity="O(log n)"
+        spaceDescription="Recursion stack"
+        isStable={false}
+        isInPlace={true}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function introSort(arr) {
+  const maxDepth = Math.floor(2 * Math.log2(arr.length));
+  introSortHelper(arr, 0, arr.length - 1, maxDepth);
+  return arr;
+}
+
+function introSortHelper(arr, left, right, depthLimit) {
+  const size = right - left + 1;
+  
+  if (size <= 16) {
+    insertionSort(arr, left, right);
+    return;
+  }
+  
+  if (depthLimit === 0) {
+    heapSort(arr, left, right);
+    return;
+  }
+  
+  const pivot = partition(arr, left, right);
+  introSortHelper(arr, left, pivot - 1, depthLimit - 1);
+  introSortHelper(arr, pivot + 1, right, depthLimit - 1);
+}`}
+          python={`def intro_sort(arr):
+    max_depth = 2 * int(math.log2(len(arr)))
+    intro_sort_helper(arr, 0, len(arr) - 1, max_depth)
+    return arr
+
+def intro_sort_helper(arr, left, right, depth_limit):
+    size = right - left + 1
+    
+    if size <= 16:
+        insertion_sort(arr, left, right)
+        return
+    
+    if depth_limit == 0:
+        heap_sort(arr, left, right)
+        return
+    
+    pivot = partition(arr, left, right)
+    intro_sort_helper(arr, left, pivot - 1, depth_limit - 1)
+    intro_sort_helper(arr, pivot + 1, right, depth_limit - 1)`}
+          java={`public static void introSort(int[] arr) {
+    int maxDepth = (int)(2 * Math.floor(Math.log(arr.length) / Math.log(2)));
+    introSortHelper(arr, 0, arr.length - 1, maxDepth);
+}
+
+private static void introSortHelper(int[] arr, int left, int right, int depthLimit) {
+    int size = right - left + 1;
+    
+    if (size <= 16) {
+        insertionSort(arr, left, right);
+        return;
+    }
+    
+    if (depthLimit == 0) {
+        heapSort(arr, left, right);
+        return;
+    }
+    
+    int pivot = partition(arr, left, right);
+    introSortHelper(arr, left, pivot - 1, depthLimit - 1);
+    introSortHelper(arr, pivot + 1, right, depthLimit - 1);
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="Real-World Usage">
+        Introsort is used in C++ STL&apos;s std::sort and .NET&apos;s Array.Sort implementations.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="intro-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CountingSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Counting Sort?" iconEmoji="🔢" color="from-teal-500 to-cyan-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Counting Sort is a non-comparison sorting algorithm that works by counting the occurrences
+          of each unique element. It&apos;s extremely fast when the range of input values (k) is not
+          significantly greater than the number of elements (n).
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📊" title="Think of it like vote counting">
+        Imagine counting votes in an election. You have ballot boxes for each candidate (value).
+        You go through each vote, drop it in the right box, then count each box to get the final order.
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Find range",
+              description: "Find minimum and maximum values in the array.",
+            },
+            {
+              title: "Count occurrences",
+              description: "Create count array and count each element.",
+            },
+            {
+              title: "Cumulative sum",
+              description: "Transform count array to cumulative positions.",
+            },
+            {
+              title: "Build output",
+              description: "Place each element at its correct position.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n + k)", description: "Where k is the range of input" },
+        ]}
+        spaceComplexity="O(n + k)"
+        spaceDescription="Count array + output array"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function countingSort(arr) {
+  if (arr.length === 0) return arr;
+  
+  const max = Math.max(...arr);
+  const min = Math.min(...arr);
+  const range = max - min + 1;
+  
+  const count = new Array(range).fill(0);
+  const output = new Array(arr.length);
+  
+  // Count occurrences
+  for (const num of arr) {
+    count[num - min]++;
+  }
+  
+  // Cumulative sum for positions
+  for (let i = 1; i < range; i++) {
+    count[i] += count[i - 1];
+  }
+  
+  // Build output (traverse backwards for stability)
+  for (let i = arr.length - 1; i >= 0; i--) {
+    output[count[arr[i] - min] - 1] = arr[i];
+    count[arr[i] - min]--;
+  }
+  
+  return output;
+}`}
+          python={`def counting_sort(arr):
+    if not arr:
+        return arr
+    
+    min_val, max_val = min(arr), max(arr)
+    range_val = max_val - min_val + 1
+    
+    count = [0] * range_val
+    output = [0] * len(arr)
+    
+    # Count occurrences
+    for num in arr:
+        count[num - min_val] += 1
+    
+    # Cumulative sum
+    for i in range(1, range_val):
+        count[i] += count[i - 1]
+    
+    # Build output
+    for i in range(len(arr) - 1, -1, -1):
+        output[count[arr[i] - min_val] - 1] = arr[i]
+        count[arr[i] - min_val] -= 1
+    
+    return output`}
+          java={`public static int[] countingSort(int[] arr) {
+    if (arr.length == 0) return arr;
+    
+    int max = Arrays.stream(arr).max().getAsInt();
+    int min = Arrays.stream(arr).min().getAsInt();
+    int range = max - min + 1;
+    
+    int[] count = new int[range];
+    int[] output = new int[arr.length];
+    
+    for (int num : arr) count[num - min]++;
+    for (int i = 1; i < range; i++) count[i] += count[i - 1];
+    
+    for (int i = arr.length - 1; i >= 0; i--) {
+        output[count[arr[i] - min] - 1] = arr[i];
+        count[arr[i] - min]--;
+    }
+    
+    return output;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="counting-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RadixSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Radix Sort?" iconEmoji="🔟" color="from-orange-500 to-amber-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Radix Sort sorts integers by processing individual digits. It processes from least
+          significant digit (LSD) to most significant digit (MSD), using a stable sort (typically
+          counting sort) as a subroutine for each digit position.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📚" title="Think of it like sorting library cards">
+        Sort cards first by the last letter, then the second-to-last, and so on. After sorting by
+        all positions, the cards are in perfect alphabetical order!
+      </Analogy>
+
+      <LearnCard title="How It Works (LSD)" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Find maximum number",
+              description: "Determine the number of digits to process.",
+            },
+            {
+              title: "Process each digit",
+              description: "Starting from the rightmost (least significant) digit.",
+            },
+            {
+              title: "Stable sort by digit",
+              description: "Use Counting Sort to sort by current digit.",
+            },
+            {
+              title: "Repeat for all digits",
+              description: "Move to next digit until all are processed.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(d × (n + k))", description: "d digits, k is base (usually 10)" },
+        ]}
+        spaceComplexity="O(n + k)"
+        spaceDescription="For counting sort subroutine"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function radixSort(arr) {
+  if (arr.length === 0) return arr;
+  
+  const max = Math.max(...arr);
+  
+  // Process each digit
+  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+    countingSortByDigit(arr, exp);
+  }
+  
+  return arr;
+}
+
+function countingSortByDigit(arr, exp) {
+  const n = arr.length;
+  const output = new Array(n);
+  const count = new Array(10).fill(0);
+  
+  // Count occurrences of each digit
+  for (let i = 0; i < n; i++) {
+    const digit = Math.floor(arr[i] / exp) % 10;
+    count[digit]++;
+  }
+  
+  // Cumulative count
+  for (let i = 1; i < 10; i++) {
+    count[i] += count[i - 1];
+  }
+  
+  // Build output
+  for (let i = n - 1; i >= 0; i--) {
+    const digit = Math.floor(arr[i] / exp) % 10;
+    output[count[digit] - 1] = arr[i];
+    count[digit]--;
+  }
+  
+  // Copy back
+  for (let i = 0; i < n; i++) {
+    arr[i] = output[i];
+  }
+}`}
+          python={`def radix_sort(arr):
+    if not arr:
+        return arr
+    
+    max_val = max(arr)
+    exp = 1
+    
+    while max_val // exp > 0:
+        counting_sort_by_digit(arr, exp)
+        exp *= 10
+    
+    return arr
+
+def counting_sort_by_digit(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    
+    for num in arr:
+        digit = (num // exp) % 10
+        count[digit] += 1
+    
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    
+    for i in range(n - 1, -1, -1):
+        digit = (arr[i] // exp) % 10
+        output[count[digit] - 1] = arr[i]
+        count[digit] -= 1
+    
+    for i in range(n):
+        arr[i] = output[i]`}
+          java={`public static void radixSort(int[] arr) {
+    if (arr.length == 0) return;
+    
+    int max = Arrays.stream(arr).max().getAsInt();
+    
+    for (int exp = 1; max / exp > 0; exp *= 10) {
+        countingSortByDigit(arr, exp);
+    }
+}
+
+private static void countingSortByDigit(int[] arr, int exp) {
+    int n = arr.length;
+    int[] output = new int[n];
+    int[] count = new int[10];
+    
+    for (int num : arr) count[(num / exp) % 10]++;
+    for (int i = 1; i < 10; i++) count[i] += count[i - 1];
+    
+    for (int i = n - 1; i >= 0; i--) {
+        int digit = (arr[i] / exp) % 10;
+        output[count[digit] - 1] = arr[i];
+        count[digit]--;
+    }
+    
+    System.arraycopy(output, 0, arr, 0, n);
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="radix-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BucketSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Bucket Sort?" iconEmoji="🪣" color="from-sky-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Bucket Sort distributes elements into a number of buckets, sorts each bucket individually
+          (often with another algorithm), then concatenates the results. It works best when input
+          is uniformly distributed over a range.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📬" title="Think of it like sorting mail">
+        Sort letters into bins by zip code prefix. Then sort within each bin by the full address.
+        Finally, collect all bins in order. The initial distribution makes the final sorting faster!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Create buckets",
+              description: "Create n empty buckets (typically equal to array size).",
+            },
+            {
+              title: "Distribute elements",
+              description: "Put each element into its appropriate bucket.",
+            },
+            {
+              title: "Sort individual buckets",
+              description: "Sort each bucket using insertion sort or another algorithm.",
+            },
+            {
+              title: "Concatenate buckets",
+              description: "Gather elements from all buckets in order.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best/Average", time: "O(n + k)", description: "Uniform distribution" },
+          { case: "Worst Case", time: "O(n²)", description: "All elements in one bucket" },
+        ]}
+        spaceComplexity="O(n + k)"
+        spaceDescription="For the buckets"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function bucketSort(arr) {
+  if (arr.length === 0) return arr;
+  
+  const n = arr.length;
+  const min = Math.min(...arr);
+  const max = Math.max(...arr);
+  const range = (max - min) / n;
+  
+  // Create buckets
+  const buckets = Array.from({ length: n }, () => []);
+  
+  // Distribute elements into buckets
+  for (const num of arr) {
+    const index = Math.min(
+      Math.floor((num - min) / range),
+      n - 1
+    );
+    buckets[index].push(num);
+  }
+  
+  // Sort individual buckets and concatenate
+  let result = [];
+  for (const bucket of buckets) {
+    bucket.sort((a, b) => a - b);
+    result = result.concat(bucket);
+  }
+  
+  return result;
+}`}
+          python={`def bucket_sort(arr):
+    if not arr:
+        return arr
+    
+    n = len(arr)
+    min_val, max_val = min(arr), max(arr)
+    bucket_range = (max_val - min_val) / n or 1
+    
+    # Create buckets
+    buckets = [[] for _ in range(n)]
+    
+    # Distribute elements
+    for num in arr:
+        index = min(int((num - min_val) / bucket_range), n - 1)
+        buckets[index].append(num)
+    
+    # Sort and concatenate
+    result = []
+    for bucket in buckets:
+        bucket.sort()  # Insertion sort is often used
+        result.extend(bucket)
+    
+    return result`}
+          java={`public static double[] bucketSort(double[] arr) {
+    int n = arr.length;
+    if (n == 0) return arr;
+    
+    double min = Arrays.stream(arr).min().getAsDouble();
+    double max = Arrays.stream(arr).max().getAsDouble();
+    double range = (max - min) / n;
+    
+    List<List<Double>> buckets = new ArrayList<>();
+    for (int i = 0; i < n; i++) buckets.add(new ArrayList<>());
+    
+    for (double num : arr) {
+        int index = Math.min((int)((num - min) / range), n - 1);
+        buckets.get(index).add(num);
+    }
+    
+    int idx = 0;
+    for (List<Double> bucket : buckets) {
+        Collections.sort(bucket);
+        for (double num : bucket) arr[idx++] = num;
+    }
+    return arr;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="bucket-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PigeonholeSortLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Pigeonhole Sort?" iconEmoji="🕊️" color="from-slate-500 to-zinc-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Pigeonhole Sort is a sorting algorithm that works when the range of keys (max - min) is
+          approximately equal to the number of elements. It places each element into a &quot;hole&quot;
+          corresponding to its value, then collects them in order.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📮" title="Think of it like mailbox sorting">
+        Each person has a numbered mailbox. Drop each letter directly into its destination mailbox.
+        Then collect from all mailboxes in numerical order. No comparisons needed!
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Find range",
+              description: "Calculate min, max, and range = max - min + 1.",
+            },
+            {
+              title: "Create holes",
+              description: "Create an array of empty lists (one per possible value).",
+            },
+            {
+              title: "Place elements",
+              description: "Put each element in its corresponding hole.",
+            },
+            {
+              title: "Collect elements",
+              description: "Gather elements from holes in order.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(n + range)", description: "Where range = max - min" },
+        ]}
+        spaceComplexity="O(n + range)"
+        spaceDescription="For the pigeonholes"
+        isStable={true}
+        isInPlace={false}
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function pigeonholeSort(arr) {
+  if (arr.length === 0) return arr;
+  
+  const min = Math.min(...arr);
+  const max = Math.max(...arr);
+  const range = max - min + 1;
+  
+  // Create pigeonholes
+  const holes = Array.from({ length: range }, () => []);
+  
+  // Place elements in holes
+  for (const num of arr) {
+    holes[num - min].push(num);
+  }
+  
+  // Collect from holes
+  let index = 0;
+  for (const hole of holes) {
+    for (const num of hole) {
+      arr[index++] = num;
+    }
+  }
+  
+  return arr;
+}`}
+          python={`def pigeonhole_sort(arr):
+    if not arr:
+        return arr
+    
+    min_val = min(arr)
+    max_val = max(arr)
+    range_val = max_val - min_val + 1
+    
+    # Create pigeonholes
+    holes = [[] for _ in range(range_val)]
+    
+    # Place elements
+    for num in arr:
+        holes[num - min_val].append(num)
+    
+    # Collect elements
+    index = 0
+    for hole in holes:
+        for num in hole:
+            arr[index] = num
+            index += 1
+    
+    return arr`}
+          java={`public static void pigeonholeSort(int[] arr) {
+    if (arr.length == 0) return;
+    
+    int min = Arrays.stream(arr).min().getAsInt();
+    int max = Arrays.stream(arr).max().getAsInt();
+    int range = max - min + 1;
+    
+    List<List<Integer>> holes = new ArrayList<>();
+    for (int i = 0; i < range; i++) holes.add(new ArrayList<>());
+    
+    for (int num : arr) {
+        holes.get(num - min).add(num);
+    }
+    
+    int index = 0;
+    for (List<Integer> hole : holes) {
+        for (int num : hole) {
+            arr[index++] = num;
+        }
+    }
+}`}
+        />
+      </LearnCard>
+
+      <Callout type="tip" title="When to Use">
+        Pigeonhole Sort is ideal when the range of values is small and close to the number of
+        elements. It&apos;s essentially a simplified version of Counting Sort.
+      </Callout>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="pigeonhole-sort" category="sorting" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
