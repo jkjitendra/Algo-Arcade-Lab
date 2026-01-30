@@ -246,6 +246,61 @@ const lessonContent: Record<string, {
     duration: "15 min",
     description: "Find a local maximum in an array using binary search in O(log n) time.",
   },
+  "sentinel-linear-search": {
+    title: "Sentinel Linear Search",
+    duration: "10 min",
+    description: "Optimized linear search by eliminating boundary checks.",
+  },
+  "bidirectional-search": {
+    title: "Bidirectional Search",
+    duration: "15 min",
+    description: "Search from both ends simultaneously for improved performance.",
+  },
+  "search-insert-position": {
+    title: "Search Insert Position",
+    duration: "12 min",
+    description: "Find position to insert a value in a sorted array.",
+  },
+  "rotated-array-search": {
+    title: "Rotated Array Search",
+    duration: "18 min",
+    description: "Binary search in a rotated sorted array.",
+  },
+  "rotated-array-minimum": {
+    title: "Rotated Array Minimum",
+    duration: "15 min",
+    description: "Find minimum element in a rotated sorted array.",
+  },
+  "ternary-search": {
+    title: "Ternary Search",
+    duration: "15 min",
+    description: "Find maximum or minimum of a unimodal function.",
+  },
+  "jump-search": {
+    title: "Jump Search",
+    duration: "12 min",
+    description: "Block-based searching for O(√n) performance.",
+  },
+  "interpolation-search": {
+    title: "Interpolation Search",
+    duration: "15 min",
+    description: "Improved binary search for uniformly distributed data.",
+  },
+  "exponential-search": {
+    title: "Exponential Search",
+    duration: "15 min",
+    description: "Find range first, then apply binary search.",
+  },
+  "fibonacci-search": {
+    title: "Fibonacci Search",
+    duration: "18 min",
+    description: "Divide array using Fibonacci numbers.",
+  },
+  "matrix-binary-search": {
+    title: "Matrix Binary Search",
+    duration: "18 min",
+    description: "Search in row and column sorted matrix.",
+  },
   // Stacks
   "stack-operations": {
     title: "Stack Operations",
@@ -622,6 +677,17 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "lower-bound" && <LowerBoundLesson locale={locale} />}
       {lesson === "upper-bound" && <UpperBoundLesson locale={locale} />}
       {lesson === "peak-element" && <PeakElementLesson locale={locale} />}
+      {lesson === "sentinel-linear-search" && <SentinelLinearSearchLesson locale={locale} />}
+      {lesson === "bidirectional-search" && <BidirectionalSearchLesson locale={locale} />}
+      {lesson === "search-insert-position" && <SearchInsertPositionLesson locale={locale} />}
+      {lesson === "rotated-array-search" && <RotatedArraySearchLesson locale={locale} />}
+      {lesson === "rotated-array-minimum" && <RotatedArrayMinimumLesson locale={locale} />}
+      {lesson === "ternary-search" && <TernarySearchLesson locale={locale} />}
+      {lesson === "jump-search" && <JumpSearchLesson locale={locale} />}
+      {lesson === "interpolation-search" && <InterpolationSearchLesson locale={locale} />}
+      {lesson === "exponential-search" && <ExponentialSearchLesson locale={locale} />}
+      {lesson === "fibonacci-search" && <FibonacciSearchLesson locale={locale} />}
+      {lesson === "matrix-binary-search" && <MatrixBinarySearchLesson locale={locale} />}
       {lesson === "stack-operations" && <StackOperationsLesson locale={locale} />}
       {lesson === "balanced-parentheses" && <BalancedParenthesesLesson locale={locale} />}
       {lesson === "infix-to-postfix" && <InfixToPostfixLesson locale={locale} />}
@@ -11937,6 +12003,1175 @@ function PigeonholeSortLesson({ locale }: { locale: string }) {
     </div>
   );
 }
+
+// ==================== PHASE 4: SEARCHING LESSONS ====================
+
+function SentinelLinearSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Sentinel Linear Search?" iconEmoji="🛡️" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Sentinel Linear Search is an optimization of linear search that eliminates the need for
+          boundary checking in the loop. By placing the target value at the end of the array (sentinel),
+          we guarantee the search will always find something, reducing comparisons by half.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🚪" title="Think of it like a guaranteed exit">
+        Instead of checking &quot;am I still inside?&quot; at every step, you put a sign at the exit that
+        says exactly what you&apos;re looking for. You know you&apos;ll definitely stop — either at the real
+        item or at your sign at the end.
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Save the last element",
+              description: "Store arr[n-1] temporarily.",
+            },
+            {
+              title: "Place sentinel",
+              description: "Set arr[n-1] = target.",
+            },
+            {
+              title: "Search without bounds check",
+              description: "Loop until element found (guaranteed to stop).",
+            },
+            {
+              title: "Restore & verify",
+              description: "Restore original value and check if index < n-1 or last element matched.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(1)", description: "First element matches" },
+          { case: "Worst Case", time: "O(n)", description: "Element not found or at end" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Only stores one temporary value"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function sentinelLinearSearch(arr, target) {
+  const n = arr.length;
+  if (n === 0) return -1;
+  
+  const last = arr[n - 1];  // Save last element
+  arr[n - 1] = target;      // Place sentinel
+  
+  let i = 0;
+  while (arr[i] !== target) {
+    i++;  // No bounds check needed!
+  }
+  
+  arr[n - 1] = last;  // Restore
+  
+  if (i < n - 1 || last === target) {
+    return i;
+  }
+  return -1;
+}`}
+          python={`def sentinel_linear_search(arr, target):
+    n = len(arr)
+    if n == 0:
+        return -1
+    
+    last = arr[n - 1]  # Save last
+    arr[n - 1] = target  # Place sentinel
+    
+    i = 0
+    while arr[i] != target:
+        i += 1  # No bounds check!
+    
+    arr[n - 1] = last  # Restore
+    
+    if i < n - 1 or last == target:
+        return i
+    return -1`}
+          java={`public static int sentinelLinearSearch(int[] arr, int target) {
+    int n = arr.length;
+    if (n == 0) return -1;
+    
+    int last = arr[n - 1];
+    arr[n - 1] = target;
+    
+    int i = 0;
+    while (arr[i] != target) {
+        i++;
+    }
+    
+    arr[n - 1] = last;
+    
+    if (i < n - 1 || last == target) {
+        return i;
+    }
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="linear-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BidirectionalSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Bidirectional Search?" iconEmoji="↔️" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Bidirectional Search starts searching from both ends of the array simultaneously.
+          This can find elements faster, especially when the target is near the beginning or end.
+          Average comparisons are reduced, though worst case remains O(n).
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🚂" title="Think of two trains on a track">
+        Instead of one person walking through a train looking for a seat, two people start from
+        opposite ends. They meet in the middle — finding the seat roughly twice as fast on average!
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best Case", time: "O(1)", description: "Target at either end" },
+          { case: "Average", time: "O(n/2)", description: "Meet in middle" },
+          { case: "Worst Case", time: "O(n)", description: "Target in middle" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function bidirectionalSearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+  
+  while (left <= right) {
+    if (arr[left] === target) return left;
+    if (arr[right] === target) return right;
+    left++;
+    right--;
+  }
+  
+  return -1;
+}`}
+          python={`def bidirectional_search(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        if arr[left] == target:
+            return left
+        if arr[right] == target:
+            return right
+        left += 1
+        right -= 1
+    
+    return -1`}
+          java={`public static int bidirectionalSearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left <= right) {
+        if (arr[left] == target) return left;
+        if (arr[right] == target) return right;
+        left++;
+        right--;
+    }
+    
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="linear-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SearchInsertPositionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Search Insert Position?" iconEmoji="📍" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Given a sorted array and a target, find the index where target exists or would be inserted
+          to keep the array sorted. This is essentially finding the lower bound — the first position
+          where element ≥ target.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📚" title="Think of inserting a book on a shelf">
+        Books are alphabetically sorted. You need to find where your new book belongs — either it&apos;s
+        already there, or you find the exact spot to slide it in between others.
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Binary search" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function searchInsertPosition(arr, target) {
+  let left = 0, right = arr.length;
+  
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    
+    if (arr[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid;
+    }
+  }
+  
+  return left;  // Insert position
+}`}
+          python={`def search_insert_position(arr, target):
+    left, right = 0, len(arr)
+    
+    while left < right:
+        mid = (left + right) // 2
+        
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    
+    return left  # Insert position`}
+          java={`public static int searchInsertPosition(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    
+    while (left < right) {
+        int mid = (left + right) / 2;
+        
+        if (arr[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    
+    return left;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RotatedArraySearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Rotated Array Search?" iconEmoji="🔄" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A rotated sorted array is a sorted array that has been &quot;rotated&quot; at some pivot.
+          For example, [4,5,6,7,0,1,2] is [0,1,2,4,5,6,7] rotated. We can still achieve O(log n)
+          search by determining which half is sorted and searching accordingly.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🎠" title="Think of a carousel">
+        Imagine seats numbered 1-10, but entry starts at seat 7. The numbering still increases
+        in one direction, wraps around, then continues. You can still find seat 3 quickly by
+        figuring out which half is in order.
+      </Analogy>
+
+      <LearnCard title="How It Works" iconEmoji="📖" color="from-purple-500 to-pink-500">
+        <StepByStep
+          steps={[
+            {
+              title: "Find middle",
+              description: "Check if left or right half is sorted.",
+            },
+            {
+              title: "Identify sorted half",
+              description: "If arr[left] <= arr[mid], left half is sorted, else right is sorted.",
+            },
+            {
+              title: "Search in appropriate half",
+              description: "If target is in sorted half's range, search there. Otherwise, search the other half.",
+            },
+          ]}
+        />
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Modified binary search" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function searchRotatedArray(arr, target) {
+  let left = 0, right = arr.length - 1;
+  
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    
+    if (arr[mid] === target) return mid;
+    
+    // Left half is sorted
+    if (arr[left] <= arr[mid]) {
+      if (target >= arr[left] && target < arr[mid]) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    } 
+    // Right half is sorted
+    else {
+      if (target > arr[mid] && target <= arr[right]) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+  }
+  
+  return -1;
+}`}
+          python={`def search_rotated_array(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return mid
+        
+        # Left half is sorted
+        if arr[left] <= arr[mid]:
+            if arr[left] <= target < arr[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        # Right half is sorted
+        else:
+            if arr[mid] < target <= arr[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    
+    return -1`}
+          java={`public static int searchRotatedArray(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        
+        if (arr[mid] == target) return mid;
+        
+        if (arr[left] <= arr[mid]) {
+            if (target >= arr[left] && target < arr[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else {
+            if (target > arr[mid] && target <= arr[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+    
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RotatedArrayMinimumLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Find Minimum in Rotated Array" iconEmoji="📉" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          In a rotated sorted array, the minimum element is the &quot;pivot point&quot; where the rotation
+          occurred. We can find it in O(log n) by comparing elements with the rightmost element
+          to determine which half contains the minimum.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏔️" title="Think of finding a valley">
+        You&apos;re on a mountain that goes up then suddenly drops to a valley before climbing again.
+        The minimum is at the bottom of that drop. You can find it by checking which direction
+        goes &quot;downhill.&quot;
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Binary search variant" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function findMinInRotated(arr) {
+  let left = 0, right = arr.length - 1;
+  
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    
+    // If mid > right, minimum is in right half
+    if (arr[mid] > arr[right]) {
+      left = mid + 1;
+    } 
+    // Minimum is in left half (including mid)
+    else {
+      right = mid;
+    }
+  }
+  
+  return arr[left];
+}`}
+          python={`def find_min_in_rotated(arr):
+    left, right = 0, len(arr) - 1
+    
+    while left < right:
+        mid = (left + right) // 2
+        
+        if arr[mid] > arr[right]:
+            left = mid + 1
+        else:
+            right = mid
+    
+    return arr[left]`}
+          java={`public static int findMinInRotated(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    
+    while (left < right) {
+        int mid = (left + right) / 2;
+        
+        if (arr[mid] > arr[right]) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    
+    return arr[left];
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TernarySearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Ternary Search?" iconEmoji="🔺" color="from-emerald-500 to-green-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Ternary Search is used to find the maximum or minimum of a unimodal function (increases
+          then decreases, or vice versa). It divides the range into three parts and eliminates
+          one-third each iteration, achieving O(log₃ n) complexity.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="⛰️" title="Think of finding a mountain peak">
+        You&apos;re blindfolded on a mountain with one peak. You sample two points — if left point
+        is higher, the peak is on the left side. If right is higher, peak is on right. Keep
+        narrowing until you find the summit!
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log₃ n)", description: "Three-way division" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// Find maximum of unimodal function
+function ternarySearchMax(arr) {
+  let left = 0, right = arr.length - 1;
+  
+  while (right - left > 2) {
+    const mid1 = left + Math.floor((right - left) / 3);
+    const mid2 = right - Math.floor((right - left) / 3);
+    
+    if (arr[mid1] < arr[mid2]) {
+      left = mid1;  // Max is in right 2/3
+    } else {
+      right = mid2;  // Max is in left 2/3
+    }
+  }
+  
+  // Linear search in remaining small range
+  let maxIdx = left;
+  for (let i = left + 1; i <= right; i++) {
+    if (arr[i] > arr[maxIdx]) maxIdx = i;
+  }
+  return maxIdx;
+}`}
+          python={`def ternary_search_max(arr):
+    left, right = 0, len(arr) - 1
+    
+    while right - left > 2:
+        mid1 = left + (right - left) // 3
+        mid2 = right - (right - left) // 3
+        
+        if arr[mid1] < arr[mid2]:
+            left = mid1
+        else:
+            right = mid2
+    
+    # Linear search in remaining
+    max_idx = left
+    for i in range(left + 1, right + 1):
+        if arr[i] > arr[max_idx]:
+            max_idx = i
+    return max_idx`}
+          java={`public static int ternarySearchMax(int[] arr) {
+    int left = 0, right = arr.length - 1;
+    
+    while (right - left > 2) {
+        int mid1 = left + (right - left) / 3;
+        int mid2 = right - (right - left) / 3;
+        
+        if (arr[mid1] < arr[mid2]) {
+            left = mid1;
+        } else {
+            right = mid2;
+        }
+    }
+    
+    int maxIdx = left;
+    for (int i = left + 1; i <= right; i++) {
+        if (arr[i] > arr[maxIdx]) maxIdx = i;
+    }
+    return maxIdx;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function JumpSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Jump Search?" iconEmoji="🦘" color="from-orange-500 to-amber-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Jump Search works on sorted arrays by jumping ahead in blocks of size √n, then doing
+          linear search in the block where target might exist. It&apos;s faster than linear search
+          and useful when binary search&apos;s random access is expensive.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📖" title="Think of searching a phone book">
+        Instead of checking page by page, you flip ahead multiple pages until you overshoot.
+        Then you go back and check page by page in that section. Much faster than checking every page!
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(√n)", description: "Jump + linear in block" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function jumpSearch(arr, target) {
+  const n = arr.length;
+  const step = Math.floor(Math.sqrt(n));
+  
+  let prev = 0;
+  let curr = step;
+  
+  // Jump forward until we overshoot
+  while (curr < n && arr[curr] < target) {
+    prev = curr;
+    curr += step;
+  }
+  
+  // Linear search in the block
+  for (let i = prev; i < Math.min(curr, n); i++) {
+    if (arr[i] === target) return i;
+  }
+  
+  return -1;
+}`}
+          python={`import math
+
+def jump_search(arr, target):
+    n = len(arr)
+    step = int(math.sqrt(n))
+    
+    prev = 0
+    curr = step
+    
+    while curr < n and arr[curr] < target:
+        prev = curr
+        curr += step
+    
+    for i in range(prev, min(curr, n)):
+        if arr[i] == target:
+            return i
+    
+    return -1`}
+          java={`public static int jumpSearch(int[] arr, int target) {
+    int n = arr.length;
+    int step = (int) Math.sqrt(n);
+    
+    int prev = 0, curr = step;
+    
+    while (curr < n && arr[curr] < target) {
+        prev = curr;
+        curr += step;
+    }
+    
+    for (int i = prev; i < Math.min(curr, n); i++) {
+        if (arr[i] == target) return i;
+    }
+    
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InterpolationSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Interpolation Search?" iconEmoji="📈" color="from-sky-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Interpolation Search improves on binary search when data is uniformly distributed.
+          Instead of always checking the middle, it estimates where the target might be based
+          on its value, similar to how you&apos;d search a dictionary.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="📖" title="Think of looking up a word in a dictionary">
+        Looking for &quot;zebra&quot;? You don&apos;t start in the middle — you open near the end!
+        Interpolation search does the same: it guesses position based on the value.
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Best/Average", time: "O(log log n)", description: "Uniform distribution" },
+          { case: "Worst Case", time: "O(n)", description: "Non-uniform distribution" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function interpolationSearch(arr, target) {
+  let low = 0, high = arr.length - 1;
+  
+  while (low <= high && target >= arr[low] && target <= arr[high]) {
+    // Estimate position
+    const pos = low + Math.floor(
+      ((target - arr[low]) * (high - low)) / (arr[high] - arr[low])
+    );
+    
+    if (arr[pos] === target) return pos;
+    
+    if (arr[pos] < target) {
+      low = pos + 1;
+    } else {
+      high = pos - 1;
+    }
+  }
+  
+  return -1;
+}`}
+          python={`def interpolation_search(arr, target):
+    low, high = 0, len(arr) - 1
+    
+    while low <= high and target >= arr[low] and target <= arr[high]:
+        if arr[high] == arr[low]:
+            return low if arr[low] == target else -1
+        
+        pos = low + ((target - arr[low]) * (high - low)) // (arr[high] - arr[low])
+        
+        if arr[pos] == target:
+            return pos
+        elif arr[pos] < target:
+            low = pos + 1
+        else:
+            high = pos - 1
+    
+    return -1`}
+          java={`public static int interpolationSearch(int[] arr, int target) {
+    int low = 0, high = arr.length - 1;
+    
+    while (low <= high && target >= arr[low] && target <= arr[high]) {
+        int pos = low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+        
+        if (arr[pos] == target) return pos;
+        
+        if (arr[pos] < target) {
+            low = pos + 1;
+        } else {
+            high = pos - 1;
+        }
+    }
+    
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExponentialSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Exponential Search?" iconEmoji="📐" color="from-indigo-500 to-violet-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Exponential Search finds the range where target might exist by doubling the index
+          (1, 2, 4, 8, 16...) until we overshoot, then applies binary search in that range.
+          It&apos;s especially useful for unbounded/infinite arrays.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🔭" title="Think of telescope focusing">
+        You start with a wide view, then zoom in by doubling magnification until you see past
+        your target. Then you zoom back to the perfect level. Fast for finding needles in huge haystacks!
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Exponential bounds + binary search" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function exponentialSearch(arr, target) {
+  const n = arr.length;
+  if (n === 0) return -1;
+  if (arr[0] === target) return 0;
+  
+  // Find range by doubling
+  let bound = 1;
+  while (bound < n && arr[bound] < target) {
+    bound *= 2;
+  }
+  
+  // Binary search in range [bound/2, min(bound, n-1)]
+  let left = Math.floor(bound / 2);
+  let right = Math.min(bound, n - 1);
+  
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return mid;
+    if (arr[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  
+  return -1;
+}`}
+          python={`def exponential_search(arr, target):
+    n = len(arr)
+    if n == 0:
+        return -1
+    if arr[0] == target:
+        return 0
+    
+    bound = 1
+    while bound < n and arr[bound] < target:
+        bound *= 2
+    
+    left, right = bound // 2, min(bound, n - 1)
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1`}
+          java={`public static int exponentialSearch(int[] arr, int target) {
+    int n = arr.length;
+    if (n == 0) return -1;
+    if (arr[0] == target) return 0;
+    
+    int bound = 1;
+    while (bound < n && arr[bound] < target) {
+        bound *= 2;
+    }
+    
+    int left = bound / 2, right = Math.min(bound, n - 1);
+    
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FibonacciSearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Fibonacci Search?" iconEmoji="🐚" color="from-pink-500 to-rose-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Fibonacci Search divides the array using Fibonacci numbers instead of halving.
+          It only uses addition and subtraction (no division), which can be advantageous
+          on systems where division is expensive.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🌀" title="Think of the golden ratio spiral">
+        Fibonacci numbers appear in nature&apos;s spirals. This search mimics that pattern —
+        splitting arrays into golden-ratio proportions rather than exact halves.
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "All Cases", time: "O(log n)", description: "Fibonacci division" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just Fibonacci variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function fibonacciSearch(arr, target) {
+  const n = arr.length;
+  
+  // Find smallest Fib >= n
+  let fib2 = 0, fib1 = 1, fib = 1;
+  while (fib < n) {
+    fib2 = fib1;
+    fib1 = fib;
+    fib = fib1 + fib2;
+  }
+  
+  let offset = -1;
+  
+  while (fib > 1) {
+    const i = Math.min(offset + fib2, n - 1);
+    
+    if (arr[i] < target) {
+      fib = fib1;
+      fib1 = fib2;
+      fib2 = fib - fib1;
+      offset = i;
+    } else if (arr[i] > target) {
+      fib = fib2;
+      fib1 = fib1 - fib2;
+      fib2 = fib - fib1;
+    } else {
+      return i;
+    }
+  }
+  
+  if (fib1 && offset + 1 < n && arr[offset + 1] === target) {
+    return offset + 1;
+  }
+  
+  return -1;
+}`}
+          python={`def fibonacci_search(arr, target):
+    n = len(arr)
+    
+    fib2, fib1, fib = 0, 1, 1
+    while fib < n:
+        fib2, fib1 = fib1, fib
+        fib = fib1 + fib2
+    
+    offset = -1
+    
+    while fib > 1:
+        i = min(offset + fib2, n - 1)
+        
+        if arr[i] < target:
+            fib, fib1 = fib1, fib2
+            fib2 = fib - fib1
+            offset = i
+        elif arr[i] > target:
+            fib = fib2
+            fib1 = fib1 - fib2
+            fib2 = fib - fib1
+        else:
+            return i
+    
+    if fib1 and offset + 1 < n and arr[offset + 1] == target:
+        return offset + 1
+    
+    return -1`}
+          java={`public static int fibonacciSearch(int[] arr, int target) {
+    int n = arr.length;
+    int fib2 = 0, fib1 = 1, fib = 1;
+    
+    while (fib < n) {
+        fib2 = fib1;
+        fib1 = fib;
+        fib = fib1 + fib2;
+    }
+    
+    int offset = -1;
+    
+    while (fib > 1) {
+        int i = Math.min(offset + fib2, n - 1);
+        
+        if (arr[i] < target) {
+            fib = fib1; fib1 = fib2; fib2 = fib - fib1;
+            offset = i;
+        } else if (arr[i] > target) {
+            fib = fib2; fib1 = fib1 - fib2; fib2 = fib - fib1;
+        } else {
+            return i;
+        }
+    }
+    
+    if (fib1 == 1 && offset + 1 < n && arr[offset + 1] == target) {
+        return offset + 1;
+    }
+    return -1;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MatrixBinarySearchLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Matrix Binary Search?" iconEmoji="📊" color="from-slate-500 to-zinc-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Search in a matrix where each row is sorted and first element of each row is greater
+          than last element of previous row. Treat it as a flattened sorted array and use binary
+          search, or use staircase search for row/column sorted matrices.
+        </p>
+      </LearnCard>
+
+      <Analogy emoji="🏢" title="Think of a building with floors">
+        Each floor has rooms numbered in order, and floor 2 starts after floor 1 ends.
+        You can quickly find any room by first finding the floor, then the room on that floor.
+      </Analogy>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Row-sorted matrix", time: "O(log(m×n))", description: "Treat as 1D array" },
+          { case: "Row+Col sorted", time: "O(m+n)", description: "Staircase search" },
+        ]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`// For fully sorted matrix (each row continues from previous)
+function matrixBinarySearch(matrix, target) {
+  if (!matrix.length || !matrix[0].length) return false;
+  
+  const m = matrix.length, n = matrix[0].length;
+  let left = 0, right = m * n - 1;
+  
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const row = Math.floor(mid / n);
+    const col = mid % n;
+    const val = matrix[row][col];
+    
+    if (val === target) return true;
+    if (val < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  
+  return false;
+}
+
+// Staircase search for row+col sorted
+function staircaseSearch(matrix, target) {
+  if (!matrix.length) return false;
+  let row = 0, col = matrix[0].length - 1;
+  
+  while (row < matrix.length && col >= 0) {
+    if (matrix[row][col] === target) return true;
+    if (matrix[row][col] > target) col--;
+    else row++;
+  }
+  return false;
+}`}
+          python={`def matrix_binary_search(matrix, target):
+    if not matrix or not matrix[0]:
+        return False
+    
+    m, n = len(matrix), len(matrix[0])
+    left, right = 0, m * n - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        row, col = mid // n, mid % n
+        val = matrix[row][col]
+        
+        if val == target:
+            return True
+        elif val < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return False
+
+def staircase_search(matrix, target):
+    if not matrix:
+        return False
+    row, col = 0, len(matrix[0]) - 1
+    
+    while row < len(matrix) and col >= 0:
+        if matrix[row][col] == target:
+            return True
+        elif matrix[row][col] > target:
+            col -= 1
+        else:
+            row += 1
+    return False`}
+          java={`public static boolean matrixBinarySearch(int[][] matrix, int target) {
+    if (matrix.length == 0) return false;
+    
+    int m = matrix.length, n = matrix[0].length;
+    int left = 0, right = m * n - 1;
+    
+    while (left <= right) {
+        int mid = (left + right) / 2;
+        int row = mid / n, col = mid % n;
+        int val = matrix[row][col];
+        
+        if (val == target) return true;
+        if (val < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return false;
+}
+
+public static boolean staircaseSearch(int[][] matrix, int target) {
+    if (matrix.length == 0) return false;
+    int row = 0, col = matrix[0].length - 1;
+    
+    while (row < matrix.length && col >= 0) {
+        if (matrix[row][col] == target) return true;
+        if (matrix[row][col] > target) col--;
+        else row++;
+    }
+    return false;
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="binary-search" category="searching" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
 
 
 
