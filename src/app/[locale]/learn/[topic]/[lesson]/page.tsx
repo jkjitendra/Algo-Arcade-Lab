@@ -322,6 +322,41 @@ const lessonContent: Record<string, {
     duration: "18 min",
     description: "Find the next larger element using a monotonic stack.",
   },
+  "postfix-evaluation": {
+    title: "Postfix Evaluation",
+    duration: "15 min",
+    description: "Evaluate postfix (RPN) expressions using a stack.",
+  },
+  "prefix-evaluation": {
+    title: "Prefix Evaluation",
+    duration: "15 min",
+    description: "Evaluate prefix (Polish notation) expressions using a stack.",
+  },
+  "infix-to-prefix": {
+    title: "Infix to Prefix",
+    duration: "18 min",
+    description: "Convert infix expressions to prefix notation.",
+  },
+  "next-smaller-element": {
+    title: "Next Smaller Element",
+    duration: "15 min",
+    description: "Find the next smaller element using monotonic stack.",
+  },
+  "stock-span": {
+    title: "Stock Span",
+    duration: "18 min",
+    description: "Calculate stock span problem using stack.",
+  },
+  "largest-rectangle": {
+    title: "Largest Rectangle in Histogram",
+    duration: "22 min",
+    description: "Find largest rectangle area using monotonic stack.",
+  },
+  "valid-stack-sequences": {
+    title: "Valid Stack Sequences",
+    duration: "15 min",
+    description: "Validate push and pop sequences.",
+  },
   // Queues
   "queue-operations": {
     title: "Queue Operations",
@@ -343,6 +378,41 @@ const lessonContent: Record<string, {
     duration: "22 min",
     description: "Least Recently Used cache using a hash map and doubly linked list.",
   },
+  "deque": {
+    title: "Deque",
+    duration: "15 min",
+    description: "Double-ended queue with push/pop at both ends.",
+  },
+  "queue-using-two-stacks": {
+    title: "Queue using Two Stacks",
+    duration: "15 min",
+    description: "Implement queue using two stacks.",
+  },
+  "stack-using-two-queues": {
+    title: "Stack using Two Queues",
+    duration: "15 min",
+    description: "Implement stack using two queues.",
+  },
+  "sliding-window-maximum": {
+    title: "Sliding Window Maximum",
+    duration: "20 min",
+    description: "Find maximum in each sliding window using deque.",
+  },
+  "first-non-repeating-char": {
+    title: "First Non-Repeating Character",
+    duration: "15 min",
+    description: "Find first non-repeating char in a stream.",
+  },
+  "generate-binary-numbers": {
+    title: "Generate Binary Numbers",
+    duration: "12 min",
+    description: "Generate binary numbers 1 to n using queue.",
+  },
+  "circular-tour": {
+    title: "Circular Tour",
+    duration: "18 min",
+    description: "Find starting point for circular tour.",
+  },
   // Linked Lists
   "singly-linked-list": {
     title: "Singly Linked List",
@@ -363,6 +433,56 @@ const lessonContent: Record<string, {
     title: "Find Middle Element",
     duration: "10 min",
     description: "Use the slow and fast pointer technique.",
+  },
+  "doubly-linked-list": {
+    title: "Doubly Linked List",
+    duration: "20 min",
+    description: "Linked list with bidirectional traversal.",
+  },
+  "circular-linked-list": {
+    title: "Circular Linked List",
+    duration: "15 min",
+    description: "Linked list where tail points to head.",
+  },
+  "circular-doubly-linked-list": {
+    title: "Circular Doubly Linked List",
+    duration: "18 min",
+    description: "Circular list with bidirectional links.",
+  },
+  "merge-sorted-lists": {
+    title: "Merge Sorted Lists",
+    duration: "15 min",
+    description: "Merge two sorted linked lists.",
+  },
+  "find-cycle-start": {
+    title: "Find Cycle Start",
+    duration: "15 min",
+    description: "Find starting node of cycle in linked list.",
+  },
+  "remove-nth-from-end": {
+    title: "Remove N-th from End",
+    duration: "12 min",
+    description: "Remove nth node from end in one pass.",
+  },
+  "palindrome-check": {
+    title: "Palindrome Check",
+    duration: "15 min",
+    description: "Check if linked list is a palindrome.",
+  },
+  "intersection-point": {
+    title: "Intersection Point",
+    duration: "15 min",
+    description: "Find intersection of two linked lists.",
+  },
+  "rotate-list": {
+    title: "Rotate List",
+    duration: "12 min",
+    description: "Rotate linked list by k positions.",
+  },
+  "flatten-multilevel-list": {
+    title: "Flatten Multilevel List",
+    duration: "20 min",
+    description: "Flatten a multilevel doubly linked list.",
   },
   // Recursion
   "factorial": {
@@ -692,14 +812,38 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "balanced-parentheses" && <BalancedParenthesesLesson locale={locale} />}
       {lesson === "infix-to-postfix" && <InfixToPostfixLesson locale={locale} />}
       {lesson === "next-greater-element" && <NextGreaterElementLesson locale={locale} />}
+      {lesson === "postfix-evaluation" && <PostfixEvaluationLesson locale={locale} />}
+      {lesson === "prefix-evaluation" && <PrefixEvaluationLesson locale={locale} />}
+      {lesson === "infix-to-prefix" && <InfixToPrefixLesson locale={locale} />}
+      {lesson === "next-smaller-element" && <NextSmallerElementLesson locale={locale} />}
+      {lesson === "stock-span" && <StockSpanLesson locale={locale} />}
+      {lesson === "largest-rectangle" && <LargestRectangleLesson locale={locale} />}
+      {lesson === "valid-stack-sequences" && <ValidStackSequencesLesson locale={locale} />}
       {lesson === "queue-operations" && <QueueOperationsLesson locale={locale} />}
       {lesson === "circular-queue" && <CircularQueueLesson locale={locale} />}
       {lesson === "priority-queue" && <PriorityQueueLesson locale={locale} />}
       {lesson === "lru-cache" && <LRUCacheLesson locale={locale} />}
+      {lesson === "deque" && <DequeLesson locale={locale} />}
+      {lesson === "queue-using-two-stacks" && <QueueUsingTwoStacksLesson locale={locale} />}
+      {lesson === "stack-using-two-queues" && <StackUsingTwoQueuesLesson locale={locale} />}
+      {lesson === "sliding-window-maximum" && <SlidingWindowMaximumLesson locale={locale} />}
+      {lesson === "first-non-repeating-char" && <FirstNonRepeatingCharLesson locale={locale} />}
+      {lesson === "generate-binary-numbers" && <GenerateBinaryNumbersLesson locale={locale} />}
+      {lesson === "circular-tour" && <CircularTourLesson locale={locale} />}
       {lesson === "singly-linked-list" && <SinglyLinkedListLesson locale={locale} />}
       {lesson === "reverse-linked-list" && <ReverseLinkedListLesson locale={locale} />}
       {lesson === "detect-cycle" && <DetectCycleLesson locale={locale} />}
       {lesson === "find-middle" && <FindMiddleLesson locale={locale} />}
+      {lesson === "doubly-linked-list" && <DoublyLinkedListLesson locale={locale} />}
+      {lesson === "circular-linked-list" && <CircularLinkedListLesson locale={locale} />}
+      {lesson === "circular-doubly-linked-list" && <CircularDoublyLinkedListLesson locale={locale} />}
+      {lesson === "merge-sorted-lists" && <MergeSortedListsLesson locale={locale} />}
+      {lesson === "find-cycle-start" && <FindCycleStartLesson locale={locale} />}
+      {lesson === "remove-nth-from-end" && <RemoveNthFromEndLesson locale={locale} />}
+      {lesson === "palindrome-check" && <PalindromeCheckLesson locale={locale} />}
+      {lesson === "intersection-point" && <IntersectionPointLesson locale={locale} />}
+      {lesson === "rotate-list" && <RotateListLesson locale={locale} />}
+      {lesson === "flatten-multilevel-list" && <FlattenMultilevelListLesson locale={locale} />}
       {lesson === "factorial" && <FactorialLesson locale={locale} />}
       {lesson === "fibonacci" && <FibonacciLesson locale={locale} />}
       {lesson === "tower-of-hanoi" && <TowerOfHanoiLesson locale={locale} />}
@@ -13168,7 +13312,1619 @@ public static boolean staircaseSearch(int[][] matrix, int target) {
   );
 }
 
+// ==================== PHASE 5: STACKS LESSONS ====================
 
+function PostfixEvaluationLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Postfix Evaluation?" iconEmoji="📊" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Postfix notation (Reverse Polish Notation) places operators after operands: <code>3 4 +</code> means 3 + 4.
+          Evaluation is simple with a stack: push operands, pop two when you see an operator, push result.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack for operands"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function evaluatePostfix(expr) {
+  const stack = [];
+  const tokens = expr.split(' ');
+  
+  for (const token of tokens) {
+    if (!isNaN(token)) {
+      stack.push(Number(token));
+    } else {
+      const b = stack.pop(), a = stack.pop();
+      switch (token) {
+        case '+': stack.push(a + b); break;
+        case '-': stack.push(a - b); break;
+        case '*': stack.push(a * b); break;
+        case '/': stack.push(Math.trunc(a / b)); break;
+      }
+    }
+  }
+  return stack.pop();
+}`}
+          python={`def evaluate_postfix(expr):
+    stack = []
+    for token in expr.split():
+        if token.lstrip('-').isdigit():
+            stack.append(int(token))
+        else:
+            b, a = stack.pop(), stack.pop()
+            if token == '+': stack.append(a + b)
+            elif token == '-': stack.append(a - b)
+            elif token == '*': stack.append(a * b)
+            elif token == '/': stack.append(int(a / b))
+    return stack.pop()`}
+          java={`public static int evaluatePostfix(String expr) {
+    Stack<Integer> stack = new Stack<>();
+    for (String token : expr.split(" ")) {
+        if (token.matches("-?\\d+")) {
+            stack.push(Integer.parseInt(token));
+        } else {
+            int b = stack.pop(), a = stack.pop();
+            switch (token) {
+                case "+": stack.push(a + b); break;
+                case "-": stack.push(a - b); break;
+                case "*": stack.push(a * b); break;
+                case "/": stack.push(a / b); break;
+            }
+        }
+    }
+    return stack.pop();
+}`}
+        />
+      </LearnCard>
+
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[var(--color-primary-500)]/10 to-[var(--color-secondary-500)]/10 border border-[var(--color-primary-500)]/20">
+        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">🚀 Try It Yourself</h3>
+        <div className="flex flex-wrap gap-3">
+          <VisualizeLink algorithm="stack-operations" category="stacks" locale={locale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PrefixEvaluationLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is Prefix Evaluation?" iconEmoji="📊" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Prefix notation (Polish Notation) places operators before operands: <code>+ 3 4</code> means 3 + 4.
+          Evaluate by scanning right-to-left, pushing operands, and applying operators.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack for operands"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function evaluatePrefix(expr) {
+  const stack = [];
+  const tokens = expr.split(' ').reverse();
+  
+  for (const token of tokens) {
+    if (!isNaN(token)) {
+      stack.push(Number(token));
+    } else {
+      const a = stack.pop(), b = stack.pop();
+      switch (token) {
+        case '+': stack.push(a + b); break;
+        case '-': stack.push(a - b); break;
+        case '*': stack.push(a * b); break;
+        case '/': stack.push(Math.trunc(a / b)); break;
+      }
+    }
+  }
+  return stack.pop();
+}`}
+          python={`def evaluate_prefix(expr):
+    stack = []
+    for token in expr.split()[::-1]:
+        if token.lstrip('-').isdigit():
+            stack.append(int(token))
+        else:
+            a, b = stack.pop(), stack.pop()
+            if token == '+': stack.append(a + b)
+            elif token == '-': stack.append(a - b)
+            elif token == '*': stack.append(a * b)
+            elif token == '/': stack.append(int(a / b))
+    return stack.pop()`}
+          java={`public static int evaluatePrefix(String expr) {
+    Stack<Integer> stack = new Stack<>();
+    String[] tokens = expr.split(" ");
+    for (int i = tokens.length - 1; i >= 0; i--) {
+        if (tokens[i].matches("-?\\d+")) {
+            stack.push(Integer.parseInt(tokens[i]));
+        } else {
+            int a = stack.pop(), b = stack.pop();
+            switch (tokens[i]) {
+                case "+": stack.push(a + b); break;
+                case "-": stack.push(a - b); break;
+                case "*": stack.push(a * b); break;
+                case "/": stack.push(a / b); break;
+            }
+        }
+    }
+    return stack.pop();
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function InfixToPrefixLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Infix to Prefix Conversion" iconEmoji="🔄" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          To convert infix to prefix: reverse the expression, swap parentheses, apply infix-to-postfix algorithm,
+          then reverse the result. For example: <code>(A+B)*C</code> → <code>*+ABC</code>
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function infixToPrefix(expr) {
+  const precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3};
+  const stack = [], result = [];
+  
+  // Reverse and swap parentheses
+  const reversed = expr.split('').reverse()
+    .map(c => c === '(' ? ')' : c === ')' ? '(' : c);
+  
+  for (const c of reversed) {
+    if (/[a-zA-Z0-9]/.test(c)) {
+      result.push(c);
+    } else if (c === '(') {
+      stack.push(c);
+    } else if (c === ')') {
+      while (stack.length && stack.at(-1) !== '(') {
+        result.push(stack.pop());
+      }
+      stack.pop();
+    } else {
+      while (stack.length && precedence[stack.at(-1)] > precedence[c]) {
+        result.push(stack.pop());
+      }
+      stack.push(c);
+    }
+  }
+  while (stack.length) result.push(stack.pop());
+  return result.reverse().join('');
+}`}
+          python={`def infix_to_prefix(expr):
+    precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
+    stack, result = [], []
+    
+    # Reverse and swap parentheses
+    reversed_expr = expr[::-1].replace('(', 'TEMP').replace(')', '(').replace('TEMP', ')')
+    
+    for c in reversed_expr:
+        if c.isalnum():
+            result.append(c)
+        elif c == '(':
+            stack.append(c)
+        elif c == ')':
+            while stack and stack[-1] != '(':
+                result.append(stack.pop())
+            stack.pop()
+        else:
+            while stack and stack[-1] != '(' and precedence.get(stack[-1], 0) > precedence.get(c, 0):
+                result.append(stack.pop())
+            stack.append(c)
+    
+    while stack:
+        result.append(stack.pop())
+    return ''.join(result[::-1])`}
+          java={`// Similar approach: reverse, swap parens, apply postfix algo, reverse result`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function NextSmallerElementLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Next Smaller Element" iconEmoji="📉" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          For each element, find the first smaller element to its right. Use a monotonic increasing stack.
+          Elements in the stack are candidates waiting for their &quot;next smaller.&quot;
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each element pushed/popped once" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack + result array"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function nextSmallerElement(arr) {
+  const n = arr.length;
+  const result = new Array(n).fill(-1);
+  const stack = []; // Store indices
+  
+  for (let i = 0; i < n; i++) {
+    while (stack.length && arr[stack.at(-1)] > arr[i]) {
+      result[stack.pop()] = arr[i];
+    }
+    stack.push(i);
+  }
+  return result;
+}`}
+          python={`def next_smaller_element(arr):
+    n = len(arr)
+    result = [-1] * n
+    stack = []  # Store indices
+    
+    for i in range(n):
+        while stack and arr[stack[-1]] > arr[i]:
+            result[stack.pop()] = arr[i]
+        stack.append(i)
+    return result`}
+          java={`public static int[] nextSmallerElement(int[] arr) {
+    int n = arr.length;
+    int[] result = new int[n];
+    Arrays.fill(result, -1);
+    Stack<Integer> stack = new Stack<>();
+    
+    for (int i = 0; i < n; i++) {
+        while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+            result[stack.pop()] = arr[i];
+        }
+        stack.push(i);
+    }
+    return result;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function StockSpanLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Stock Span Problem" iconEmoji="📈" color="from-green-500 to-emerald-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The span of a stock price on day i is the count of consecutive days before (and including) day i
+          where the price was ≤ price[i]. Use a monotonic decreasing stack storing pairs of (price, span).
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each element pushed/popped once" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack storage"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function stockSpan(prices) {
+  const spans = [];
+  const stack = []; // [index, price]
+  
+  for (let i = 0; i < prices.length; i++) {
+    let span = 1;
+    while (stack.length && stack.at(-1)[1] <= prices[i]) {
+      span += i - stack.pop()[0];
+    }
+    spans.push(span);
+    stack.push([i, prices[i]]);
+  }
+  return spans;
+}`}
+          python={`def stock_span(prices):
+    spans = []
+    stack = []  # (index, price)
+    
+    for i, price in enumerate(prices):
+        span = 1
+        while stack and stack[-1][1] <= price:
+            idx, _ = stack.pop()
+            span = i - idx + (span if not spans else spans[idx])
+        spans.append(span)
+        stack.append((i, price))
+    return spans`}
+          java={`public static int[] stockSpan(int[] prices) {
+    int[] spans = new int[prices.length];
+    Stack<int[]> stack = new Stack<>();
+    
+    for (int i = 0; i < prices.length; i++) {
+        int span = 1;
+        while (!stack.isEmpty() && stack.peek()[1] <= prices[i]) {
+            span += i - stack.pop()[0];
+        }
+        spans[i] = span;
+        stack.push(new int[]{i, prices[i]});
+    }
+    return spans;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function LargestRectangleLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Largest Rectangle in Histogram" iconEmoji="📊" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find the largest rectangular area in a histogram. For each bar, find the first smaller bar
+          on left and right. Area = height × (right - left - 1). Use monotonic stack for O(n) solution.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Two passes with stack" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Stack storage"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function largestRectangle(heights) {
+  const stack = [];
+  let maxArea = 0;
+  heights.push(0); // Sentinel
+  
+  for (let i = 0; i < heights.length; i++) {
+    while (stack.length && heights[stack.at(-1)] > heights[i]) {
+      const h = heights[stack.pop()];
+      const w = stack.length ? i - stack.at(-1) - 1 : i;
+      maxArea = Math.max(maxArea, h * w);
+    }
+    stack.push(i);
+  }
+  return maxArea;
+}`}
+          python={`def largest_rectangle(heights):
+    stack = []
+    max_area = 0
+    heights.append(0)  # Sentinel
+    
+    for i, h in enumerate(heights):
+        while stack and heights[stack[-1]] > h:
+            height = heights[stack.pop()]
+            width = i if not stack else i - stack[-1] - 1
+            max_area = max(max_area, height * width)
+        stack.append(i)
+    
+    heights.pop()  # Remove sentinel
+    return max_area`}
+          java={`public static int largestRectangle(int[] heights) {
+    Stack<Integer> stack = new Stack<>();
+    int maxArea = 0;
+    
+    for (int i = 0; i <= heights.length; i++) {
+        int h = (i == heights.length) ? 0 : heights[i];
+        while (!stack.isEmpty() && heights[stack.peek()] > h) {
+            int height = heights[stack.pop()];
+            int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+            maxArea = Math.max(maxArea, height * width);
+        }
+        stack.push(i);
+    }
+    return maxArea;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function ValidStackSequencesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Valid Stack Sequences" iconEmoji="✅" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Given pushed and popped arrays, determine if this could be a valid sequence of push/pop operations.
+          Simulate the process: push elements, and whenever top matches next pop target, pop it.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass simulation" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Simulation stack"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function validateStackSequences(pushed, popped) {
+  const stack = [];
+  let j = 0;
+  
+  for (const x of pushed) {
+    stack.push(x);
+    while (stack.length && stack.at(-1) === popped[j]) {
+      stack.pop();
+      j++;
+    }
+  }
+  return stack.length === 0;
+}`}
+          python={`def validate_stack_sequences(pushed, popped):
+    stack = []
+    j = 0
+    
+    for x in pushed:
+        stack.append(x)
+        while stack and stack[-1] == popped[j]:
+            stack.pop()
+            j += 1
+    
+    return len(stack) == 0`}
+          java={`public static boolean validateStackSequences(int[] pushed, int[] popped) {
+    Stack<Integer> stack = new Stack<>();
+    int j = 0;
+    
+    for (int x : pushed) {
+        stack.push(x);
+        while (!stack.isEmpty() && stack.peek() == popped[j]) {
+            stack.pop();
+            j++;
+        }
+    }
+    return stack.isEmpty();
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+// ==================== PHASE 5: QUEUES LESSONS ====================
+
+function DequeLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Deque?" iconEmoji="↔️" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A Deque (Double-Ended Queue) allows insertion and deletion at both front and rear.
+          It combines stack and queue functionality. Operations: addFront, addRear, removeFront, removeRear.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Operations", time: "O(1)", description: "Using doubly linked list" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Storage for n elements"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class Deque {
+  constructor() { this.items = []; }
+  
+  addFront(item) { this.items.unshift(item); }
+  addRear(item) { this.items.push(item); }
+  removeFront() { return this.items.shift(); }
+  removeRear() { return this.items.pop(); }
+  peekFront() { return this.items[0]; }
+  peekRear() { return this.items.at(-1); }
+  isEmpty() { return this.items.length === 0; }
+}`}
+          python={`from collections import deque
+
+dq = deque()
+dq.appendleft(1)  # Add front
+dq.append(2)      # Add rear
+dq.popleft()      # Remove front
+dq.pop()          # Remove rear`}
+          java={`Deque<Integer> deque = new ArrayDeque<>();
+deque.addFirst(1);  // Add front
+deque.addLast(2);   // Add rear
+deque.removeFirst(); // Remove front
+deque.removeLast();  // Remove rear`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function QueueUsingTwoStacksLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Queue using Two Stacks" iconEmoji="📚" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Implement a queue using two stacks. Push to stack1 (enqueue). For dequeue, if stack2 is empty,
+          transfer all elements from stack1 to stack2, then pop from stack2. This reverses the order!
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Enqueue", time: "O(1)", description: "Push to stack1" },
+          { case: "Dequeue (amortized)", time: "O(1)", description: "Each element moved once" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="Two stacks"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class QueueTwoStacks {
+  constructor() {
+    this.stack1 = []; // For enqueue
+    this.stack2 = []; // For dequeue
+  }
+  
+  enqueue(x) { this.stack1.push(x); }
+  
+  dequeue() {
+    if (!this.stack2.length) {
+      while (this.stack1.length) {
+        this.stack2.push(this.stack1.pop());
+      }
+    }
+    return this.stack2.pop();
+  }
+}`}
+          python={`class QueueTwoStacks:
+    def __init__(self):
+        self.stack1 = []  # Enqueue
+        self.stack2 = []  # Dequeue
+    
+    def enqueue(self, x):
+        self.stack1.append(x)
+    
+    def dequeue(self):
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()`}
+          java={`class QueueTwoStacks {
+    Stack<Integer> s1 = new Stack<>();
+    Stack<Integer> s2 = new Stack<>();
+    
+    void enqueue(int x) { s1.push(x); }
+    
+    int dequeue() {
+        if (s2.isEmpty()) {
+            while (!s1.isEmpty()) s2.push(s1.pop());
+        }
+        return s2.pop();
+    }
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function StackUsingTwoQueuesLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Stack using Two Queues" iconEmoji="📚" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Implement stack using two queues. For push: add to q1. For pop: move all but last element to q2,
+          dequeue last element from q1, then swap q1 and q2.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Push", time: "O(1)", description: "Enqueue to q1" },
+          { case: "Pop", time: "O(n)", description: "Transfer n-1 elements" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="Two queues"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class StackTwoQueues {
+  constructor() {
+    this.q1 = [];
+    this.q2 = [];
+  }
+  
+  push(x) { this.q1.push(x); }
+  
+  pop() {
+    while (this.q1.length > 1) {
+      this.q2.push(this.q1.shift());
+    }
+    const result = this.q1.shift();
+    [this.q1, this.q2] = [this.q2, this.q1];
+    return result;
+  }
+}`}
+          python={`from collections import deque
+
+class StackTwoQueues:
+    def __init__(self):
+        self.q1, self.q2 = deque(), deque()
+    
+    def push(self, x):
+        self.q1.append(x)
+    
+    def pop(self):
+        while len(self.q1) > 1:
+            self.q2.append(self.q1.popleft())
+        result = self.q1.popleft()
+        self.q1, self.q2 = self.q2, self.q1
+        return result`}
+          java={`class StackTwoQueues {
+    Queue<Integer> q1 = new LinkedList<>();
+    Queue<Integer> q2 = new LinkedList<>();
+    
+    void push(int x) { q1.offer(x); }
+    
+    int pop() {
+        while (q1.size() > 1) q2.offer(q1.poll());
+        int result = q1.poll();
+        Queue<Integer> temp = q1; q1 = q2; q2 = temp;
+        return result;
+    }
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function SlidingWindowMaximumLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Sliding Window Maximum" iconEmoji="📊" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find maximum element in every sliding window of size k. Use a deque storing indices in
+          decreasing order of values. Front of deque is always the maximum.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each element added/removed once" }]}
+        spaceComplexity="O(k)"
+        spaceDescription="Deque of size k"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function maxSlidingWindow(nums, k) {
+  const result = [];
+  const deque = []; // Indices in decreasing order of values
+  
+  for (let i = 0; i < nums.length; i++) {
+    // Remove elements outside window
+    while (deque.length && deque[0] < i - k + 1) {
+      deque.shift();
+    }
+    // Remove smaller elements
+    while (deque.length && nums[deque.at(-1)] < nums[i]) {
+      deque.pop();
+    }
+    deque.push(i);
+    
+    if (i >= k - 1) result.push(nums[deque[0]]);
+  }
+  return result;
+}`}
+          python={`from collections import deque
+
+def max_sliding_window(nums, k):
+    result = []
+    dq = deque()  # Indices
+    
+    for i, num in enumerate(nums):
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
+        while dq and nums[dq[-1]] < num:
+            dq.pop()
+        dq.append(i)
+        
+        if i >= k - 1:
+            result.append(nums[dq[0]])
+    return result`}
+          java={`public int[] maxSlidingWindow(int[] nums, int k) {
+    Deque<Integer> dq = new ArrayDeque<>();
+    int[] result = new int[nums.length - k + 1];
+    
+    for (int i = 0; i < nums.length; i++) {
+        while (!dq.isEmpty() && dq.peekFirst() < i - k + 1)
+            dq.pollFirst();
+        while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i])
+            dq.pollLast();
+        dq.offerLast(i);
+        if (i >= k - 1) result[i - k + 1] = nums[dq.peekFirst()];
+    }
+    return result;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function FirstNonRepeatingCharLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="First Non-Repeating Character" iconEmoji="🔤" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          In a stream of characters, find the first non-repeating character at each point.
+          Use a queue to track order and a map to count occurrences.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function firstNonRepeating(stream) {
+  const result = [];
+  const queue = [];
+  const count = {};
+  
+  for (const c of stream) {
+    count[c] = (count[c] || 0) + 1;
+    queue.push(c);
+    
+    while (queue.length && count[queue[0]] > 1) {
+      queue.shift();
+    }
+    result.push(queue.length ? queue[0] : '#');
+  }
+  return result;
+}`}
+          python={`from collections import deque
+
+def first_non_repeating(stream):
+    result = []
+    queue = deque()
+    count = {}
+    
+    for c in stream:
+        count[c] = count.get(c, 0) + 1
+        queue.append(c)
+        
+        while queue and count[queue[0]] > 1:
+            queue.popleft()
+        result.append(queue[0] if queue else '#')
+    return result`}
+          java={`// Use Queue + HashMap for O(1) access`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function GenerateBinaryNumbersLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Generate Binary Numbers" iconEmoji="🔢" color="from-emerald-500 to-green-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Generate binary representations from 1 to n using a queue. Start with &quot;1&quot;,
+          dequeue front, enqueue front+&quot;0&quot; and front+&quot;1&quot;.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function generateBinaryNumbers(n) {
+  const result = [];
+  const queue = ['1'];
+  
+  for (let i = 0; i < n; i++) {
+    const front = queue.shift();
+    result.push(front);
+    queue.push(front + '0');
+    queue.push(front + '1');
+  }
+  return result;
+}
+// generateBinaryNumbers(5) → ["1", "10", "11", "100", "101"]`}
+          python={`from collections import deque
+
+def generate_binary_numbers(n):
+    result = []
+    queue = deque(['1'])
+    
+    for _ in range(n):
+        front = queue.popleft()
+        result.append(front)
+        queue.append(front + '0')
+        queue.append(front + '1')
+    return result`}
+          java={`public static List<String> generateBinaryNumbers(int n) {
+    List<String> result = new ArrayList<>();
+    Queue<String> queue = new LinkedList<>();
+    queue.offer("1");
+    
+    for (int i = 0; i < n; i++) {
+        String front = queue.poll();
+        result.add(front);
+        queue.offer(front + "0");
+        queue.offer(front + "1");
+    }
+    return result;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function CircularTourLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Circular Tour Problem" iconEmoji="⛽" color="from-sky-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Given petrol pumps in a circle with petrol[i] and distance[i] to next pump,
+          find starting point to complete the circle. If total petrol ≥ total distance, solution exists.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just variables"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function circularTour(petrol, distance) {
+  let totalSurplus = 0, currentSurplus = 0, start = 0;
+  
+  for (let i = 0; i < petrol.length; i++) {
+    const surplus = petrol[i] - distance[i];
+    totalSurplus += surplus;
+    currentSurplus += surplus;
+    
+    if (currentSurplus < 0) {
+      start = i + 1;
+      currentSurplus = 0;
+    }
+  }
+  return totalSurplus >= 0 ? start : -1;
+}`}
+          python={`def circular_tour(petrol, distance):
+    total_surplus = current_surplus = 0
+    start = 0
+    
+    for i in range(len(petrol)):
+        surplus = petrol[i] - distance[i]
+        total_surplus += surplus
+        current_surplus += surplus
+        
+        if current_surplus < 0:
+            start = i + 1
+            current_surplus = 0
+    
+    return start if total_surplus >= 0 else -1`}
+          java={`public static int circularTour(int[] petrol, int[] distance) {
+    int totalSurplus = 0, currentSurplus = 0, start = 0;
+    
+    for (int i = 0; i < petrol.length; i++) {
+        int surplus = petrol[i] - distance[i];
+        totalSurplus += surplus;
+        currentSurplus += surplus;
+        
+        if (currentSurplus < 0) {
+            start = i + 1;
+            currentSurplus = 0;
+        }
+    }
+    return totalSurplus >= 0 ? start : -1;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+// ==================== PHASE 5: LINKED LISTS LESSONS ====================
+
+function DoublyLinkedListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Doubly Linked List?" iconEmoji="↔️" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A Doubly Linked List has nodes with both next and prev pointers, allowing bidirectional traversal.
+          This enables O(1) deletion if you have a pointer to the node, unlike singly linked lists.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[
+          { case: "Insert/Delete at known position", time: "O(1)", description: "With pointer to node" },
+          { case: "Search", time: "O(n)", description: "Linear traversal" },
+        ]}
+        spaceComplexity="O(n)"
+        spaceDescription="Node storage + extra prev pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class Node {
+  constructor(val) {
+    this.val = val;
+    this.prev = null;
+    this.next = null;
+  }
+}
+
+class DoublyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+  
+  insertAfter(node, newNode) {
+    newNode.prev = node;
+    newNode.next = node.next;
+    if (node.next) node.next.prev = newNode;
+    else this.tail = newNode;
+    node.next = newNode;
+  }
+  
+  delete(node) {
+    if (node.prev) node.prev.next = node.next;
+    else this.head = node.next;
+    if (node.next) node.next.prev = node.prev;
+    else this.tail = node.prev;
+  }
+}`}
+          python={`class Node:
+    def __init__(self, val):
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    
+    def insert_after(self, node, new_node):
+        new_node.prev = node
+        new_node.next = node.next
+        if node.next:
+            node.next.prev = new_node
+        else:
+            self.tail = new_node
+        node.next = new_node
+    
+    def delete(self, node):
+        if node.prev:
+            node.prev.next = node.next
+        else:
+            self.head = node.next
+        if node.next:
+            node.next.prev = node.prev
+        else:
+            self.tail = node.prev`}
+          java={`class DoublyLinkedList {
+    Node head, tail;
+    
+    void insertAfter(Node node, Node newNode) {
+        newNode.prev = node;
+        newNode.next = node.next;
+        if (node.next != null) node.next.prev = newNode;
+        else tail = newNode;
+        node.next = newNode;
+    }
+    
+    void delete(Node node) {
+        if (node.prev != null) node.prev.next = node.next;
+        else head = node.next;
+        if (node.next != null) node.next.prev = node.prev;
+        else tail = node.prev;
+    }
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function CircularLinkedListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="What is a Circular Linked List?" iconEmoji="🔁" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A Circular Linked List is a singly linked list where the last node points back to the head.
+          Useful for round-robin scheduling, circular buffers, and representing cyclic structures.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class CircularLinkedList {
+  constructor() { this.head = null; }
+  
+  append(val) {
+    const node = { val, next: null };
+    if (!this.head) {
+      this.head = node;
+      node.next = this.head;
+    } else {
+      let curr = this.head;
+      while (curr.next !== this.head) curr = curr.next;
+      curr.next = node;
+      node.next = this.head;
+    }
+  }
+  
+  traverse() {
+    if (!this.head) return [];
+    const result = [this.head.val];
+    let curr = this.head.next;
+    while (curr !== this.head) {
+      result.push(curr.val);
+      curr = curr.next;
+    }
+    return result;
+  }
+}`}
+          python={`class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def append(self, val):
+        node = ListNode(val)
+        if not self.head:
+            self.head = node
+            node.next = self.head
+        else:
+            curr = self.head
+            while curr.next != self.head:
+                curr = curr.next
+            curr.next = node
+            node.next = self.head`}
+          java={`// Similar structure with last.next = head`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function CircularDoublyLinkedListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Circular Doubly Linked List" iconEmoji="🔄" color="from-purple-500 to-pink-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Combines features of circular and doubly linked lists. Both head.prev = tail and tail.next = head.
+          Allows O(1) access to both ends and bidirectional circular traversal.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class CircularDoublyList {
+  constructor() {
+    // Use sentinel node for simplicity
+    this.sentinel = { val: null };
+    this.sentinel.next = this.sentinel;
+    this.sentinel.prev = this.sentinel;
+  }
+  
+  insertEnd(val) {
+    const node = { val, prev: this.sentinel.prev, next: this.sentinel };
+    this.sentinel.prev.next = node;
+    this.sentinel.prev = node;
+  }
+  
+  insertFront(val) {
+    const node = { val, prev: this.sentinel, next: this.sentinel.next };
+    this.sentinel.next.prev = node;
+    this.sentinel.next = node;
+  }
+}`}
+          python={`class CircularDoublyList:
+    def __init__(self):
+        self.sentinel = ListNode(None)
+        self.sentinel.next = self.sentinel
+        self.sentinel.prev = self.sentinel
+    
+    def insert_end(self, val):
+        node = ListNode(val)
+        node.prev = self.sentinel.prev
+        node.next = self.sentinel
+        self.sentinel.prev.next = node
+        self.sentinel.prev = node`}
+          java={`// Sentinel-based implementation for cleaner code`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function MergeSortedListsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Merge Two Sorted Lists" iconEmoji="🔗" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Merge two sorted linked lists into one sorted list. Use a dummy head and compare nodes one by one,
+          linking the smaller node to the result.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(m + n)", description: "Each node visited once" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just pointers (reusing existing nodes)"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function mergeTwoLists(l1, l2) {
+  const dummy = { next: null };
+  let curr = dummy;
+  
+  while (l1 && l2) {
+    if (l1.val <= l2.val) {
+      curr.next = l1;
+      l1 = l1.next;
+    } else {
+      curr.next = l2;
+      l2 = l2.next;
+    }
+    curr = curr.next;
+  }
+  
+  curr.next = l1 || l2;
+  return dummy.next;
+}`}
+          python={`def merge_two_lists(l1, l2):
+    dummy = ListNode(0)
+    curr = dummy
+    
+    while l1 and l2:
+        if l1.val <= l2.val:
+            curr.next = l1
+            l1 = l1.next
+        else:
+            curr.next = l2
+            l2 = l2.next
+        curr = curr.next
+    
+    curr.next = l1 or l2
+    return dummy.next`}
+          java={`public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    ListNode dummy = new ListNode(0), curr = dummy;
+    while (l1 != null && l2 != null) {
+        if (l1.val <= l2.val) {
+            curr.next = l1; l1 = l1.next;
+        } else {
+            curr.next = l2; l2 = l2.next;
+        }
+        curr = curr.next;
+    }
+    curr.next = (l1 != null) ? l1 : l2;
+    return dummy.next;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function FindCycleStartLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Find Cycle Start Node" iconEmoji="🎯" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          After detecting a cycle with Floyd&apos;s algorithm, reset one pointer to head. Move both pointers
+          one step at a time — they meet at the cycle&apos;s start node. This works due to the math of the algorithm!
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Linear detection" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function findCycleStart(head) {
+  let slow = head, fast = head;
+  
+  // Detect cycle
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) break;
+  }
+  
+  if (!fast || !fast.next) return null; // No cycle
+  
+  // Find start
+  slow = head;
+  while (slow !== fast) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  return slow;
+}`}
+          python={`def find_cycle_start(head):
+    slow = fast = head
+    
+    # Detect cycle
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+    else:
+        return None  # No cycle
+    
+    # Find start
+    slow = head
+    while slow != fast:
+        slow = slow.next
+        fast = fast.next
+    return slow`}
+          java={`public ListNode findCycleStart(ListNode head) {
+    ListNode slow = head, fast = head;
+    
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast) break;
+    }
+    if (fast == null || fast.next == null) return null;
+    
+    slow = head;
+    while (slow != fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    return slow;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function RemoveNthFromEndLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Remove N-th Node from End" iconEmoji="✂️" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Use two pointers with a gap of n nodes. When fast reaches the end, slow is at the (n+1)-th node
+          from end — the node just before the one to remove.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(L)", description: "Single pass, L = list length" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function removeNthFromEnd(head, n) {
+  const dummy = { next: head };
+  let slow = dummy, fast = dummy;
+  
+  // Move fast n+1 steps ahead
+  for (let i = 0; i <= n; i++) {
+    fast = fast.next;
+  }
+  
+  // Move both until fast reaches end
+  while (fast) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  
+  slow.next = slow.next.next;
+  return dummy.next;
+}`}
+          python={`def remove_nth_from_end(head, n):
+    dummy = ListNode(0, head)
+    slow = fast = dummy
+    
+    for _ in range(n + 1):
+        fast = fast.next
+    
+    while fast:
+        slow = slow.next
+        fast = fast.next
+    
+    slow.next = slow.next.next
+    return dummy.next`}
+          java={`public ListNode removeNthFromEnd(ListNode head, int n) {
+    ListNode dummy = new ListNode(0);
+    dummy.next = head;
+    ListNode slow = dummy, fast = dummy;
+    
+    for (int i = 0; i <= n; i++) fast = fast.next;
+    while (fast != null) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    
+    slow.next = slow.next.next;
+    return dummy.next;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function PalindromeCheckLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Palindrome Linked List" iconEmoji="🔄" color="from-emerald-500 to-green-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Check if a linked list is a palindrome in O(1) space: find the middle, reverse the second half,
+          compare with the first half, optionally restore the list.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Find middle + reverse + compare" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="In-place reversal"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function isPalindrome(head) {
+  // Find middle
+  let slow = head, fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  
+  // Reverse second half
+  let prev = null;
+  while (slow) {
+    const next = slow.next;
+    slow.next = prev;
+    prev = slow;
+    slow = next;
+  }
+  
+  // Compare
+  let left = head, right = prev;
+  while (right) {
+    if (left.val !== right.val) return false;
+    left = left.next;
+    right = right.next;
+  }
+  return true;
+}`}
+          python={`def is_palindrome(head):
+    # Find middle
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    # Reverse second half
+    prev = None
+    while slow:
+        slow.next, prev, slow = prev, slow, slow.next
+    
+    # Compare
+    left, right = head, prev
+    while right:
+        if left.val != right.val:
+            return False
+        left, right = left.next, right.next
+    return True`}
+          java={`// Same approach: find middle, reverse, compare`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function IntersectionPointLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Intersection of Two Lists" iconEmoji="🔀" color="from-sky-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Two linked lists intersect if they share a common node. Traverse both lists simultaneously;
+          when one ends, continue from the other&apos;s head. They meet at the intersection or both become null.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(m + n)", description: "Each pointer traverses both lists" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Two pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function getIntersectionNode(headA, headB) {
+  if (!headA || !headB) return null;
+  
+  let pA = headA, pB = headB;
+  
+  while (pA !== pB) {
+    pA = pA ? pA.next : headB;
+    pB = pB ? pB.next : headA;
+  }
+  
+  return pA; // Either intersection or null
+}`}
+          python={`def get_intersection_node(headA, headB):
+    if not headA or not headB:
+        return None
+    
+    pA, pB = headA, headB
+    
+    while pA != pB:
+        pA = pA.next if pA else headB
+        pB = pB.next if pB else headA
+    
+    return pA`}
+          java={`public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    ListNode pA = headA, pB = headB;
+    while (pA != pB) {
+        pA = (pA != null) ? pA.next : headB;
+        pB = (pB != null) ? pB.next : headA;
+    }
+    return pA;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function RotateListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Rotate Linked List" iconEmoji="🔄" color="from-indigo-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Rotate a linked list right by k places. Make it circular, find the new tail at position (length - k % length - 1),
+          break the circle there.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Find length + traverse to break point" }]}
+        spaceComplexity="O(1)"
+        spaceDescription="Just pointers"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function rotateRight(head, k) {
+  if (!head || !head.next || k === 0) return head;
+  
+  // Find length and make circular
+  let len = 1, tail = head;
+  while (tail.next) {
+    len++;
+    tail = tail.next;
+  }
+  tail.next = head; // Make circular
+  
+  // Find new tail
+  k = k % len;
+  for (let i = 0; i < len - k; i++) {
+    tail = tail.next;
+  }
+  
+  head = tail.next;
+  tail.next = null;
+  return head;
+}`}
+          python={`def rotate_right(head, k):
+    if not head or not head.next or k == 0:
+        return head
+    
+    # Find length and make circular
+    length, tail = 1, head
+    while tail.next:
+        length += 1
+        tail = tail.next
+    tail.next = head
+    
+    # Find new tail
+    k = k % length
+    for _ in range(length - k):
+        tail = tail.next
+    
+    head = tail.next
+    tail.next = None
+    return head`}
+          java={`// Make circular, find break point at len - k % len`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function FlattenMultilevelListLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Flatten Multilevel Doubly Linked List" iconEmoji="📋" color="from-pink-500 to-rose-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Nodes may have a child pointer to another doubly linked list. Flatten all levels into a single list
+          using DFS or an iterative approach with a stack.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Visit each node once" }]}
+        spaceComplexity="O(depth)"
+        spaceDescription="Stack/recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function flatten(head) {
+  if (!head) return null;
+  
+  const stack = [];
+  let curr = head;
+  
+  while (curr) {
+    if (curr.child) {
+      if (curr.next) stack.push(curr.next);
+      curr.next = curr.child;
+      curr.child.prev = curr;
+      curr.child = null;
+    }
+    
+    if (!curr.next && stack.length) {
+      const next = stack.pop();
+      curr.next = next;
+      next.prev = curr;
+    }
+    
+    curr = curr.next;
+  }
+  return head;
+}`}
+          python={`def flatten(head):
+    if not head:
+        return None
+    
+    stack = []
+    curr = head
+    
+    while curr:
+        if curr.child:
+            if curr.next:
+                stack.append(curr.next)
+            curr.next = curr.child
+            curr.child.prev = curr
+            curr.child = None
+        
+        if not curr.next and stack:
+            next_node = stack.pop()
+            curr.next = next_node
+            next_node.prev = curr
+        
+        curr = curr.next
+    
+    return head`}
+          java={`// Use stack to track saved next pointers`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
 
 
 
