@@ -505,6 +505,41 @@ const lessonContent: Record<string, {
     duration: "25 min",
     description: "Place N queens on an N×N board using backtracking.",
   },
+  "sum-of-digits": {
+    title: "Sum of Digits",
+    duration: "10 min",
+    description: "Calculate sum of digits recursively.",
+  },
+  "power-function": {
+    title: "Power Function",
+    duration: "12 min",
+    description: "Calculate power using fast exponentiation.",
+  },
+  "gcd-euclidean": {
+    title: "GCD (Euclidean)",
+    duration: "12 min",
+    description: "Find GCD using Euclidean algorithm.",
+  },
+  "binary-search-recursive": {
+    title: "Binary Search (Recursive)",
+    duration: "15 min",
+    description: "Recursive binary search implementation.",
+  },
+  "sudoku-solver": {
+    title: "Sudoku Solver",
+    duration: "30 min",
+    description: "Solve Sudoku using backtracking.",
+  },
+  "rat-in-maze": {
+    title: "Rat in a Maze",
+    duration: "25 min",
+    description: "Find path in maze using backtracking.",
+  },
+  "generate-permutations": {
+    title: "Generate Permutations",
+    duration: "20 min",
+    description: "Generate all permutations using recursion.",
+  },
   // Trees
   "binary-tree": {
     title: "Binary Tree Basics",
@@ -526,6 +561,16 @@ const lessonContent: Record<string, {
     duration: "12 min",
     description: "Calculate tree height and node depth recursively.",
   },
+  "is-balanced": {
+    title: "Is Balanced Tree",
+    duration: "15 min",
+    description: "Check if tree is height-balanced.",
+  },
+  "is-valid-bst": {
+    title: "Validate BST",
+    duration: "15 min",
+    description: "Check if tree is a valid binary search tree.",
+  },
   // Heaps
   "heap-structure": {
     title: "Heap Structure",
@@ -541,6 +586,21 @@ const lessonContent: Record<string, {
     title: "K-th Largest Element",
     duration: "15 min",
     description: "Find the k-th largest element efficiently using a min-heap.",
+  },
+  "kth-smallest": {
+    title: "K-th Smallest Element",
+    duration: "18 min",
+    description: "Find the k-th smallest element using a max-heap.",
+  },
+  "merge-k-sorted-lists": {
+    title: "Merge K Sorted Lists",
+    duration: "22 min",
+    description: "Merge k sorted lists using a min-heap.",
+  },
+  "top-k-frequent": {
+    title: "Top K Frequent Elements",
+    duration: "20 min",
+    description: "Find k most frequent elements using heap.",
   },
   // Hashing Lessons
   "hash-functions": {
@@ -562,6 +622,31 @@ const lessonContent: Record<string, {
     title: "Two Sum Problem",
     duration: "10 min",
     description: "Solve the classic Two Sum problem using hash tables for optimal efficiency.",
+  },
+  "rehashing": {
+    title: "Rehashing",
+    duration: "15 min",
+    description: "Dynamic resizing of hash tables.",
+  },
+  "group-anagrams": {
+    title: "Group Anagrams",
+    duration: "18 min",
+    description: "Group strings that are anagrams using hash maps.",
+  },
+  "longest-consecutive": {
+    title: "Longest Consecutive Sequence",
+    duration: "18 min",
+    description: "Find longest consecutive sequence using hash sets.",
+  },
+  "subarray-zero-sum": {
+    title: "Subarray with Zero Sum",
+    duration: "15 min",
+    description: "Find subarray with zero sum using prefix sums.",
+  },
+  "count-distinct-window": {
+    title: "Count Distinct in Window",
+    duration: "18 min",
+    description: "Count distinct elements in sliding window.",
   },
   // Graphs Lessons
   "graph-representation": {
@@ -860,6 +945,23 @@ export default async function LessonPage({ params }: LessonPageProps) {
       {lesson === "hash-tables" && <HashTablesLesson locale={locale} />}
       {lesson === "collision-resolution" && <CollisionResolutionLesson locale={locale} />}
       {lesson === "two-sum" && <TwoSumLesson locale={locale} />}
+      {lesson === "sum-of-digits" && <SumOfDigitsLesson locale={locale} />}
+      {lesson === "power-function" && <PowerFunctionLesson locale={locale} />}
+      {lesson === "gcd-euclidean" && <GCDEuclideanLesson locale={locale} />}
+      {lesson === "binary-search-recursive" && <BinarySearchRecursiveLesson locale={locale} />}
+      {lesson === "sudoku-solver" && <SudokuSolverLesson locale={locale} />}
+      {lesson === "rat-in-maze" && <RatInMazeLesson locale={locale} />}
+      {lesson === "generate-permutations" && <GeneratePermutationsLesson locale={locale} />}
+      {lesson === "is-balanced" && <IsBalancedLesson locale={locale} />}
+      {lesson === "is-valid-bst" && <IsValidBSTLesson locale={locale} />}
+      {lesson === "kth-smallest" && <KthSmallestLesson locale={locale} />}
+      {lesson === "merge-k-sorted-lists" && <MergeKSortedListsLesson locale={locale} />}
+      {lesson === "top-k-frequent" && <TopKFrequentLesson locale={locale} />}
+      {lesson === "rehashing" && <RehashingLesson locale={locale} />}
+      {lesson === "group-anagrams" && <GroupAnagramsLesson locale={locale} />}
+      {lesson === "longest-consecutive" && <LongestConsecutiveLesson locale={locale} />}
+      {lesson === "subarray-zero-sum" && <SubarrayZeroSumLesson locale={locale} />}
+      {lesson === "count-distinct-window" && <CountDistinctWindowLesson locale={locale} />}
       {lesson === "graph-representation" && <GraphRepresentationLesson locale={locale} />}
       {lesson === "bfs" && <BFSLesson locale={locale} />}
       {lesson === "dfs" && <DFSLesson locale={locale} />}
@@ -14919,14 +15021,1097 @@ function FlattenMultilevelListLesson({ locale }: { locale: string }) {
         curr = curr.next
     
     return head`}
-          java={`// Use stack to track saved next pointers`}
         />
       </LearnCard>
     </div>
   );
 }
 
+// ==================== PHASE 6: RECURSION LESSONS ====================
 
+function SumOfDigitsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Sum of Digits" iconEmoji="🔢" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The sum of digits problem calculates the sum of all digits in a number recursively.
+          Base case: single digit. Recursive case: last digit + sum of remaining digits.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(log n)", description: "Number of digits" }]}
+        spaceComplexity="O(log n)"
+        spaceDescription="Recursion stack depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function sumOfDigits(n) {
+  if (n < 0) n = -n;  // Handle negative
+  if (n < 10) return n;  // Base case
+  return (n % 10) + sumOfDigits(Math.floor(n / 10));
+}
+// sumOfDigits(1234) → 1+2+3+4 = 10`}
+          python={`def sum_of_digits(n):
+    n = abs(n)  # Handle negative
+    if n < 10:
+        return n  # Base case
+    return (n % 10) + sum_of_digits(n // 10)
+# sum_of_digits(1234) → 10`}
+          java={`public static int sumOfDigits(int n) {
+    n = Math.abs(n);
+    if (n < 10) return n;
+    return (n % 10) + sumOfDigits(n / 10);
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function PowerFunctionLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Fast Exponentiation" iconEmoji="⚡" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Calculate x^n in O(log n) time using the property: x^n = (x^(n/2))^2 for even n,
+          and x^n = x × x^(n-1) for odd n. This is much faster than naive O(n) multiplication.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(log n)", description: "Divide exponent by 2 each step" }]}
+        spaceComplexity="O(log n)"
+        spaceDescription="Recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function power(x, n) {
+  if (n === 0) return 1;
+  if (n < 0) return 1 / power(x, -n);
+  
+  if (n % 2 === 0) {
+    const half = power(x, n / 2);
+    return half * half;
+  } else {
+    return x * power(x, n - 1);
+  }
+}
+// power(2, 10) → 1024`}
+          python={`def power(x, n):
+    if n == 0:
+        return 1
+    if n < 0:
+        return 1 / power(x, -n)
+    
+    if n % 2 == 0:
+        half = power(x, n // 2)
+        return half * half
+    else:
+        return x * power(x, n - 1)`}
+          java={`public static double power(double x, int n) {
+    if (n == 0) return 1;
+    if (n < 0) return 1 / power(x, -n);
+    
+    if (n % 2 == 0) {
+        double half = power(x, n / 2);
+        return half * half;
+    }
+    return x * power(x, n - 1);
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function GCDEuclideanLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Euclidean Algorithm" iconEmoji="🔄" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          The Euclidean algorithm finds the Greatest Common Divisor (GCD) using the property:
+          GCD(a, b) = GCD(b, a % b). Base case: GCD(a, 0) = a.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(log(min(a,b)))", description: "Logarithmic reduction" }]}
+        spaceComplexity="O(log(min(a,b)))"
+        spaceDescription="Recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function gcd(a, b) {
+  if (b === 0) return a;
+  return gcd(b, a % b);
+}
+// gcd(48, 18) → gcd(18, 12) → gcd(12, 6) → gcd(6, 0) → 6`}
+          python={`def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+# Or use iterative:
+def gcd_iter(a, b):
+    while b:
+        a, b = b, a % b
+    return a`}
+          java={`public static int gcd(int a, int b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function BinarySearchRecursiveLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Recursive Binary Search" iconEmoji="🔍" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Binary search expressed recursively: compare middle element, recurse on left or right half.
+          Cleaner logic but uses O(log n) stack space vs O(1) for iterative.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(log n)", description: "Halving search space" }]}
+        spaceComplexity="O(log n)"
+        spaceDescription="Recursion stack"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function binarySearch(arr, target, left = 0, right = arr.length - 1) {
+  if (left > right) return -1;
+  
+  const mid = Math.floor((left + right) / 2);
+  
+  if (arr[mid] === target) return mid;
+  if (arr[mid] > target) return binarySearch(arr, target, left, mid - 1);
+  return binarySearch(arr, target, mid + 1, right);
+}`}
+          python={`def binary_search(arr, target, left=0, right=None):
+    if right is None:
+        right = len(arr) - 1
+    if left > right:
+        return -1
+    
+    mid = (left + right) // 2
+    
+    if arr[mid] == target:
+        return mid
+    if arr[mid] > target:
+        return binary_search(arr, target, left, mid - 1)
+    return binary_search(arr, target, mid + 1, right)`}
+          java={`public static int binarySearch(int[] arr, int target, int left, int right) {
+    if (left > right) return -1;
+    
+    int mid = (left + right) / 2;
+    
+    if (arr[mid] == target) return mid;
+    if (arr[mid] > target) return binarySearch(arr, target, left, mid - 1);
+    return binarySearch(arr, target, mid + 1, right);
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function SudokuSolverLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Sudoku Solver (Backtracking)" iconEmoji="🧩" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Solve Sudoku using backtracking: find empty cell, try numbers 1-9, check validity,
+          recurse. If no valid number works, backtrack and try another number in previous cell.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "Worst Case", time: "O(9^(n²))", description: "Exponential, but pruned heavily" }]}
+        spaceComplexity="O(n²)"
+        spaceDescription="Recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function solveSudoku(board) {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (board[row][col] === '.') {
+        for (let num = 1; num <= 9; num++) {
+          if (isValid(board, row, col, String(num))) {
+            board[row][col] = String(num);
+            if (solveSudoku(board)) return true;
+            board[row][col] = '.';  // Backtrack
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;  // All cells filled
+}
+
+function isValid(board, row, col, num) {
+  for (let i = 0; i < 9; i++) {
+    if (board[row][i] === num) return false;
+    if (board[i][col] === num) return false;
+    const boxRow = 3 * Math.floor(row / 3) + Math.floor(i / 3);
+    const boxCol = 3 * Math.floor(col / 3) + (i % 3);
+    if (board[boxRow][boxCol] === num) return false;
+  }
+  return true;
+}`}
+          python={`def solve_sudoku(board):
+    for row in range(9):
+        for col in range(9):
+            if board[row][col] == '.':
+                for num in '123456789':
+                    if is_valid(board, row, col, num):
+                        board[row][col] = num
+                        if solve_sudoku(board):
+                            return True
+                        board[row][col] = '.'
+                return False
+    return True`}
+          java={`// Same backtracking approach with isValid() helper`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function RatInMazeLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Rat in a Maze" iconEmoji="🐀" color="from-emerald-500 to-green-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find a path from top-left to bottom-right in a maze. Use backtracking: try each direction,
+          mark cell as visited, recurse. If stuck, unmark and try another direction.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function solveMaze(maze) {
+  const n = maze.length;
+  const solution = Array(n).fill().map(() => Array(n).fill(0));
+  
+  function solve(x, y) {
+    if (x === n - 1 && y === n - 1 && maze[x][y] === 1) {
+      solution[x][y] = 1;
+      return true;
+    }
+    
+    if (x >= 0 && x < n && y >= 0 && y < n && 
+        maze[x][y] === 1 && solution[x][y] === 0) {
+      solution[x][y] = 1;
+      
+      if (solve(x + 1, y)) return true;  // Down
+      if (solve(x, y + 1)) return true;  // Right
+      
+      solution[x][y] = 0;  // Backtrack
+    }
+    return false;
+  }
+  
+  return solve(0, 0) ? solution : null;
+}`}
+          python={`def solve_maze(maze):
+    n = len(maze)
+    solution = [[0] * n for _ in range(n)]
+    
+    def solve(x, y):
+        if x == n - 1 and y == n - 1 and maze[x][y] == 1:
+            solution[x][y] = 1
+            return True
+        
+        if 0 <= x < n and 0 <= y < n and maze[x][y] == 1 and solution[x][y] == 0:
+            solution[x][y] = 1
+            
+            if solve(x + 1, y) or solve(x, y + 1):
+                return True
+            
+            solution[x][y] = 0  # Backtrack
+        return False
+    
+    return solution if solve(0, 0) else None`}
+          java={`// Similar recursive backtracking approach`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function GeneratePermutationsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Generate All Permutations" iconEmoji="🔀" color="from-pink-500 to-rose-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Generate all permutations using backtracking. Swap each element to the front position,
+          recurse on the remaining elements, then swap back (backtrack).
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n × n!)", description: "n! permutations, O(n) each" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Recursion depth"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function permute(nums) {
+  const result = [];
+  
+  function backtrack(start) {
+    if (start === nums.length) {
+      result.push([...nums]);
+      return;
+    }
+    
+    for (let i = start; i < nums.length; i++) {
+      [nums[start], nums[i]] = [nums[i], nums[start]];  // Swap
+      backtrack(start + 1);
+      [nums[start], nums[i]] = [nums[i], nums[start]];  // Backtrack
+    }
+  }
+  
+  backtrack(0);
+  return result;
+}
+// permute([1,2,3]) → [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,2,1],[3,1,2]]`}
+          python={`def permute(nums):
+    result = []
+    
+    def backtrack(start):
+        if start == len(nums):
+            result.append(nums[:])
+            return
+        
+        for i in range(start, len(nums)):
+            nums[start], nums[i] = nums[i], nums[start]
+            backtrack(start + 1)
+            nums[start], nums[i] = nums[i], nums[start]
+    
+    backtrack(0)
+    return result`}
+          java={`public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrack(nums, 0, result);
+    return result;
+}
+
+void backtrack(int[] nums, int start, List<List<Integer>> result) {
+    if (start == nums.length) {
+        result.add(arrayToList(nums));
+        return;
+    }
+    for (int i = start; i < nums.length; i++) {
+        swap(nums, start, i);
+        backtrack(nums, start + 1, result);
+        swap(nums, start, i);
+    }
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+// ==================== PHASE 6: TREES LESSONS ====================
+
+function IsBalancedLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Check if Tree is Balanced" iconEmoji="⚖️" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A balanced tree has height difference of at most 1 between left and right subtrees at every node.
+          Check recursively: if any subtree is unbalanced (-1), propagate this up.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Visit each node once" }]}
+        spaceComplexity="O(h)"
+        spaceDescription="Tree height (recursion)"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function isBalanced(root) {
+  function checkHeight(node) {
+    if (!node) return 0;
+    
+    const left = checkHeight(node.left);
+    if (left === -1) return -1;
+    
+    const right = checkHeight(node.right);
+    if (right === -1) return -1;
+    
+    if (Math.abs(left - right) > 1) return -1;
+    return Math.max(left, right) + 1;
+  }
+  
+  return checkHeight(root) !== -1;
+}`}
+          python={`def is_balanced(root):
+    def check_height(node):
+        if not node:
+            return 0
+        
+        left = check_height(node.left)
+        if left == -1:
+            return -1
+        
+        right = check_height(node.right)
+        if right == -1:
+            return -1
+        
+        if abs(left - right) > 1:
+            return -1
+        return max(left, right) + 1
+    
+    return check_height(root) != -1`}
+          java={`public boolean isBalanced(TreeNode root) {
+    return checkHeight(root) != -1;
+}
+
+int checkHeight(TreeNode node) {
+    if (node == null) return 0;
+    
+    int left = checkHeight(node.left);
+    if (left == -1) return -1;
+    
+    int right = checkHeight(node.right);
+    if (right == -1) return -1;
+    
+    if (Math.abs(left - right) > 1) return -1;
+    return Math.max(left, right) + 1;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function IsValidBSTLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Validate Binary Search Tree" iconEmoji="✓" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          A valid BST has all left subtree values &lt; node &lt; all right subtree values.
+          Track valid range (min, max) as you recurse. Inorder traversal should be sorted!
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Visit each node once" }]}
+        spaceComplexity="O(h)"
+        spaceDescription="Tree height"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function isValidBST(root, min = -Infinity, max = Infinity) {
+  if (!root) return true;
+  
+  if (root.val <= min || root.val >= max) {
+    return false;
+  }
+  
+  return isValidBST(root.left, min, root.val) && 
+         isValidBST(root.right, root.val, max);
+}`}
+          python={`def is_valid_bst(root, min_val=float('-inf'), max_val=float('inf')):
+    if not root:
+        return True
+    
+    if root.val <= min_val or root.val >= max_val:
+        return False
+    
+    return (is_valid_bst(root.left, min_val, root.val) and 
+            is_valid_bst(root.right, root.val, max_val))`}
+          java={`public boolean isValidBST(TreeNode root) {
+    return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+}
+
+boolean validate(TreeNode node, long min, long max) {
+    if (node == null) return true;
+    if (node.val <= min || node.val >= max) return false;
+    return validate(node.left, min, node.val) && 
+           validate(node.right, node.val, max);
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+// ==================== PHASE 6: HEAPS LESSONS ====================
+
+function KthSmallestLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="K-th Smallest Element" iconEmoji="🔢" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find the k-th smallest element using a max-heap of size k. If new element is smaller than
+          heap top, replace it. After processing all elements, heap top is the k-th smallest.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n log k)", description: "Heap of size k" }]}
+        spaceComplexity="O(k)"
+        spaceDescription="Heap size"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function kthSmallest(nums, k) {
+  // Use max-heap (negate values for min-heap behavior)
+  const maxHeap = new MaxPriorityQueue();
+  
+  for (const num of nums) {
+    if (maxHeap.size() < k) {
+      maxHeap.enqueue(num);
+    } else if (num < maxHeap.front().element) {
+      maxHeap.dequeue();
+      maxHeap.enqueue(num);
+    }
+  }
+  
+  return maxHeap.front().element;
+}`}
+          python={`import heapq
+
+def kth_smallest(nums, k):
+    # Use max-heap (negate values)
+    max_heap = []
+    
+    for num in nums:
+        heapq.heappush(max_heap, -num)
+        if len(max_heap) > k:
+            heapq.heappop(max_heap)
+    
+    return -max_heap[0]
+
+# Alternative: use nsmallest
+# return heapq.nsmallest(k, nums)[-1]`}
+          java={`public int kthSmallest(int[] nums, int k) {
+    PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+    
+    for (int num : nums) {
+        maxHeap.offer(num);
+        if (maxHeap.size() > k) {
+            maxHeap.poll();
+        }
+    }
+    
+    return maxHeap.peek();
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function MergeKSortedListsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Merge K Sorted Lists" iconEmoji="🔗" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Merge k sorted linked lists using a min-heap. Push head of each list into heap.
+          Pop smallest, add its next to heap. Repeat until heap is empty.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(N log k)", description: "N total nodes, k lists" }]}
+        spaceComplexity="O(k)"
+        spaceDescription="Heap of k elements"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function mergeKLists(lists) {
+  const minHeap = new MinPriorityQueue({ priority: x => x.val });
+  
+  // Add heads of all lists
+  for (const list of lists) {
+    if (list) minHeap.enqueue(list);
+  }
+  
+  const dummy = { next: null };
+  let curr = dummy;
+  
+  while (!minHeap.isEmpty()) {
+    const node = minHeap.dequeue().element;
+    curr.next = node;
+    curr = curr.next;
+    
+    if (node.next) {
+      minHeap.enqueue(node.next);
+    }
+  }
+  
+  return dummy.next;
+}`}
+          python={`import heapq
+
+def merge_k_lists(lists):
+    min_heap = []
+    
+    # Add heads (use index for tie-breaking)
+    for i, lst in enumerate(lists):
+        if lst:
+            heapq.heappush(min_heap, (lst.val, i, lst))
+    
+    dummy = ListNode(0)
+    curr = dummy
+    
+    while min_heap:
+        val, i, node = heapq.heappop(min_heap)
+        curr.next = node
+        curr = curr.next
+        
+        if node.next:
+            heapq.heappush(min_heap, (node.next.val, i, node.next))
+    
+    return dummy.next`}
+          java={`public ListNode mergeKLists(ListNode[] lists) {
+    PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);
+    
+    for (ListNode list : lists) {
+        if (list != null) minHeap.offer(list);
+    }
+    
+    ListNode dummy = new ListNode(0), curr = dummy;
+    while (!minHeap.isEmpty()) {
+        ListNode node = minHeap.poll();
+        curr.next = node;
+        curr = curr.next;
+        if (node.next != null) minHeap.offer(node.next);
+    }
+    return dummy.next;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function TopKFrequentLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Top K Frequent Elements" iconEmoji="📊" color="from-rose-500 to-red-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find k most frequent elements. Count frequencies with hash map, then use min-heap
+          of size k. Alternatively, use bucket sort for O(n) solution.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "Heap", time: "O(n log k)", description: "n elements, heap of k" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Frequency map"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function topKFrequent(nums, k) {
+  const freq = {};
+  for (const num of nums) {
+    freq[num] = (freq[num] || 0) + 1;
+  }
+  
+  // Bucket sort approach (O(n))
+  const buckets = Array(nums.length + 1).fill().map(() => []);
+  for (const [num, count] of Object.entries(freq)) {
+    buckets[count].push(Number(num));
+  }
+  
+  const result = [];
+  for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {
+    result.push(...buckets[i]);
+  }
+  return result.slice(0, k);
+}`}
+          python={`from collections import Counter
+
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    
+    # Bucket sort approach
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for num, count in freq.items():
+        buckets[count].append(num)
+    
+    result = []
+    for i in range(len(buckets) - 1, -1, -1):
+        for num in buckets[i]:
+            result.append(num)
+            if len(result) == k:
+                return result
+    return result`}
+          java={`// Use HashMap + PriorityQueue or bucket sort`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+// ==================== PHASE 6: HASHING LESSONS ====================
+
+function RehashingLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Rehashing" iconEmoji="🔄" color="from-blue-500 to-indigo-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          When load factor exceeds threshold (typically 0.7), double the table size and rehash
+          all existing keys. This maintains O(1) average operations despite growth.
+        </p>
+      </LearnCard>
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`class HashTable {
+  constructor() {
+    this.size = 8;
+    this.count = 0;
+    this.buckets = new Array(this.size).fill(null).map(() => []);
+  }
+  
+  rehash() {
+    const oldBuckets = this.buckets;
+    this.size *= 2;
+    this.count = 0;
+    this.buckets = new Array(this.size).fill(null).map(() => []);
+    
+    for (const bucket of oldBuckets) {
+      for (const [key, value] of bucket) {
+        this.set(key, value);
+      }
+    }
+  }
+  
+  set(key, value) {
+    if (this.count / this.size > 0.7) {
+      this.rehash();
+    }
+    // ... insert logic
+  }
+}`}
+          python={`class HashTable:
+    def __init__(self):
+        self.size = 8
+        self.count = 0
+        self.buckets = [[] for _ in range(self.size)]
+    
+    def _rehash(self):
+        old_buckets = self.buckets
+        self.size *= 2
+        self.count = 0
+        self.buckets = [[] for _ in range(self.size)]
+        
+        for bucket in old_buckets:
+            for key, value in bucket:
+                self.set(key, value)
+    
+    def set(self, key, value):
+        if self.count / self.size > 0.7:
+            self._rehash()
+        # ... insert logic`}
+          java={`// Similar approach: double size and reinsert all keys`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function GroupAnagramsLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Group Anagrams" iconEmoji="🔤" color="from-green-500 to-teal-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Group strings that are anagrams of each other. Key insight: all anagrams have the same
+          sorted characters. Use sorted string as hash map key.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n × k log k)", description: "n strings, k avg length" }]}
+        spaceComplexity="O(n × k)"
+        spaceDescription="Store all strings"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function groupAnagrams(strs) {
+  const map = {};
+  
+  for (const str of strs) {
+    const key = str.split('').sort().join('');
+    if (!map[key]) map[key] = [];
+    map[key].push(str);
+  }
+  
+  return Object.values(map);
+}
+// ["eat","tea","tan","ate","nat","bat"] → [["eat","tea","ate"],["tan","nat"],["bat"]]`}
+          python={`from collections import defaultdict
+
+def group_anagrams(strs):
+    groups = defaultdict(list)
+    
+    for s in strs:
+        key = ''.join(sorted(s))
+        groups[key].append(s)
+    
+    return list(groups.values())
+
+# Alternative: use character count as key
+def group_anagrams_v2(strs):
+    groups = defaultdict(list)
+    for s in strs:
+        count = [0] * 26
+        for c in s:
+            count[ord(c) - ord('a')] += 1
+        groups[tuple(count)].append(s)
+    return list(groups.values())`}
+          java={`public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> map = new HashMap<>();
+    for (String s : strs) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        String key = new String(chars);
+        map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
+    }
+    return new ArrayList<>(map.values());
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function LongestConsecutiveLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Longest Consecutive Sequence" iconEmoji="🔢" color="from-amber-500 to-orange-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find the longest consecutive sequence in O(n) time using a hash set.
+          For each number, only start counting if it&apos;s the start of a sequence (n-1 not in set).
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each number touched at most twice" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Hash set"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function longestConsecutive(nums) {
+  const set = new Set(nums);
+  let maxLen = 0;
+  
+  for (const num of set) {
+    // Only start from sequence beginning
+    if (!set.has(num - 1)) {
+      let current = num;
+      let length = 1;
+      
+      while (set.has(current + 1)) {
+        current++;
+        length++;
+      }
+      
+      maxLen = Math.max(maxLen, length);
+    }
+  }
+  
+  return maxLen;
+}
+// [100, 4, 200, 1, 3, 2] → 4 (sequence: 1,2,3,4)`}
+          python={`def longest_consecutive(nums):
+    num_set = set(nums)
+    max_len = 0
+    
+    for num in num_set:
+        if num - 1 not in num_set:  # Start of sequence
+            current = num
+            length = 1
+            
+            while current + 1 in num_set:
+                current += 1
+                length += 1
+            
+            max_len = max(max_len, length)
+    
+    return max_len`}
+          java={`public int longestConsecutive(int[] nums) {
+    Set<Integer> set = new HashSet<>();
+    for (int n : nums) set.add(n);
+    
+    int maxLen = 0;
+    for (int num : set) {
+        if (!set.contains(num - 1)) {
+            int current = num, len = 1;
+            while (set.contains(current + 1)) {
+                current++;
+                len++;
+            }
+            maxLen = Math.max(maxLen, len);
+        }
+    }
+    return maxLen;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function SubarrayZeroSumLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Subarray with Zero Sum" iconEmoji="0️⃣" color="from-violet-500 to-purple-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Find if any subarray has sum zero. Key insight: if prefix sum repeats, the subarray
+          between those indices has sum zero. Use hash set to track prefix sums.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Single pass" }]}
+        spaceComplexity="O(n)"
+        spaceDescription="Hash set for prefix sums"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function hasZeroSumSubarray(arr) {
+  const prefixSums = new Set();
+  prefixSums.add(0);  // Handle subarray starting at index 0
+  
+  let sum = 0;
+  for (const num of arr) {
+    sum += num;
+    if (prefixSums.has(sum)) {
+      return true;  // Found zero sum subarray
+    }
+    prefixSums.add(sum);
+  }
+  
+  return false;
+}
+// [4, 2, -3, 1, 6] → true (subarray [2, -3, 1] sums to 0)`}
+          python={`def has_zero_sum_subarray(arr):
+    prefix_sums = {0}  # Handle subarray starting at 0
+    curr_sum = 0
+    
+    for num in arr:
+        curr_sum += num
+        if curr_sum in prefix_sums:
+            return True
+        prefix_sums.add(curr_sum)
+    
+    return False`}
+          java={`public boolean hasZeroSumSubarray(int[] arr) {
+    Set<Integer> prefixSums = new HashSet<>();
+    prefixSums.add(0);
+    
+    int sum = 0;
+    for (int num : arr) {
+        sum += num;
+        if (prefixSums.contains(sum)) return true;
+        prefixSums.add(sum);
+    }
+    return false;
+}`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
+
+function CountDistinctWindowLesson({ locale }: { locale: string }) {
+  return (
+    <div className="space-y-8">
+      <LearnCard title="Count Distinct in Sliding Window" iconEmoji="🔢" color="from-sky-500 to-blue-500">
+        <p className="text-[var(--text-secondary)] leading-relaxed">
+          Count distinct elements in each window of size k. Use a hash map for element counts.
+          As window slides, increment for new element, decrement (and remove if 0) for outgoing.
+        </p>
+      </LearnCard>
+
+      <ComplexityTable
+        timeComplexity={[{ case: "All Cases", time: "O(n)", description: "Each element processed twice" }]}
+        spaceComplexity="O(k)"
+        spaceDescription="Window elements"
+      />
+
+      <LearnCard title="Code Implementation" iconEmoji="💻" color="from-cyan-500 to-blue-500">
+        <CodeTabs
+          javascript={`function countDistinctInWindow(arr, k) {
+  const result = [];
+  const count = {};
+  
+  for (let i = 0; i < arr.length; i++) {
+    // Add new element
+    count[arr[i]] = (count[arr[i]] || 0) + 1;
+    
+    // Remove element leaving window
+    if (i >= k) {
+      if (--count[arr[i - k]] === 0) {
+        delete count[arr[i - k]];
+      }
+    }
+    
+    // Record count for complete windows
+    if (i >= k - 1) {
+      result.push(Object.keys(count).length);
+    }
+  }
+  
+  return result;
+}
+// [1,2,1,3,4,2,3], k=4 → [3, 4, 4, 3]`}
+          python={`from collections import defaultdict
+
+def count_distinct_in_window(arr, k):
+    result = []
+    count = defaultdict(int)
+    
+    for i, num in enumerate(arr):
+        count[num] += 1
+        
+        if i >= k:
+            count[arr[i - k]] -= 1
+            if count[arr[i - k]] == 0:
+                del count[arr[i - k]]
+        
+        if i >= k - 1:
+            result.append(len(count))
+    
+    return result`}
+          java={`// Use HashMap with sliding window technique`}
+        />
+      </LearnCard>
+    </div>
+  );
+}
 
 
 
