@@ -198,13 +198,13 @@ export const topicLessons: Record<TopicKey, Lesson[]> = {
     { slug: "fibonacci", title: "Fibonacci Sequence", duration: "15 min", description: "Generate nth Fibonacci number", hasContent: true },
     { slug: "tower-of-hanoi", title: "Tower of Hanoi", duration: "20 min", description: "Classic recursion puzzle", hasContent: true },
     { slug: "n-queens", title: "N-Queens", duration: "30 min", description: "Place N queens without conflicts", hasContent: true },
-    { slug: "sum-of-digits", title: "Sum of Digits", duration: "10 min", description: "Calculate sum of digits recursively", hasContent: false },
-    { slug: "power-function", title: "Power Function", duration: "12 min", description: "Calculate power using recursion", hasContent: false },
-    { slug: "gcd-euclidean", title: "GCD (Euclidean)", duration: "12 min", description: "Find GCD using Euclidean algorithm", hasContent: false },
-    { slug: "binary-search-recursive", title: "Binary Search (Recursive)", duration: "15 min", description: "Recursive binary search implementation", hasContent: false },
-    { slug: "sudoku-solver", title: "Sudoku Solver", duration: "30 min", description: "Solve Sudoku using backtracking", hasContent: false },
-    { slug: "rat-in-maze", title: "Rat in a Maze", duration: "25 min", description: "Find path in maze using backtracking", hasContent: false },
-    { slug: "generate-permutations", title: "Generate Permutations", duration: "20 min", description: "Generate all permutations of array", hasContent: false },
+    { slug: "sum-of-digits", title: "Sum of Digits", duration: "10 min", description: "Calculate sum of digits recursively", hasContent: true },
+    { slug: "power-function", title: "Power Function", duration: "12 min", description: "Calculate power using recursion", hasContent: true },
+    { slug: "gcd-euclidean", title: "GCD (Euclidean)", duration: "12 min", description: "Find GCD using Euclidean algorithm", hasContent: true },
+    { slug: "binary-search-recursive", title: "Binary Search (Recursive)", duration: "15 min", description: "Recursive binary search implementation", hasContent: true },
+    { slug: "sudoku-solver", title: "Sudoku Solver", duration: "30 min", description: "Solve Sudoku using backtracking", hasContent: true },
+    { slug: "rat-in-maze", title: "Rat in a Maze", duration: "25 min", description: "Find path in maze using backtracking", hasContent: true },
+    { slug: "generate-permutations", title: "Generate Permutations", duration: "20 min", description: "Generate all permutations of array", hasContent: true },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -215,8 +215,8 @@ export const topicLessons: Record<TopicKey, Lesson[]> = {
     { slug: "tree-height", title: "Tree Height", duration: "12 min", description: "Calculate maximum depth", hasContent: true },
     { slug: "bst-operations", title: "BST Operations", duration: "25 min", description: "Insert, search, find min/max", hasContent: true },
     { slug: "lowest-common-ancestor", title: "Lowest Common Ancestor", duration: "20 min", description: "Find LCA of two nodes", hasContent: true },
-    { slug: "is-balanced", title: "Is Balanced", duration: "15 min", description: "Check if tree is height-balanced", hasContent: false },
-    { slug: "is-valid-bst", title: "Is Valid BST", duration: "15 min", description: "Validate binary search tree property", hasContent: false },
+    { slug: "is-balanced", title: "Is Balanced", duration: "15 min", description: "Check if tree is height-balanced", hasContent: true },
+    { slug: "is-valid-bst", title: "Is Valid BST", duration: "15 min", description: "Validate binary search tree property", hasContent: true },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -230,10 +230,10 @@ export const topicLessons: Record<TopicKey, Lesson[]> = {
     { slug: "build-heap", title: "Build Heap", duration: "15 min", description: "O(n) bottom-up heapification", hasContent: true },
     { slug: "heap-sort", title: "Heap Sort", duration: "20 min", description: "O(n log n) in-place sorting using heaps", hasContent: true },
     { slug: "kth-largest", title: "K-th Largest Element", duration: "18 min", description: "Find k-th largest using min-heap", hasContent: true },
-    { slug: "kth-smallest", title: "K-th Smallest Element", duration: "18 min", description: "Find k-th smallest using max-heap", hasContent: false },
-    { slug: "merge-k-sorted-lists", title: "Merge K Sorted Lists", duration: "22 min", description: "Merge k sorted lists using heap", hasContent: false },
+    { slug: "kth-smallest", title: "K-th Smallest Element", duration: "18 min", description: "Find k-th smallest using max-heap", hasContent: true },
+    { slug: "merge-k-sorted-lists", title: "Merge K Sorted Lists", duration: "22 min", description: "Merge k sorted lists using heap", hasContent: true },
     { slug: "median-of-stream", title: "Median of Stream", duration: "25 min", description: "Running median with two heaps", hasContent: true },
-    { slug: "top-k-frequent", title: "Top K Frequent Elements", duration: "20 min", description: "Find k most frequent elements", hasContent: false },
+    { slug: "top-k-frequent", title: "Top K Frequent Elements", duration: "20 min", description: "Find k most frequent elements", hasContent: true },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -243,12 +243,12 @@ export const topicLessons: Record<TopicKey, Lesson[]> = {
     { slug: "hash-functions", title: "Hash Functions", duration: "15 min", description: "Division and multiplication methods", hasContent: true },
     { slug: "chaining", title: "Chaining Hash Table", duration: "18 min", description: "Collision handling with linked lists", hasContent: true },
     { slug: "open-addressing", title: "Open Addressing", duration: "20 min", description: "Linear, quadratic, double hashing", hasContent: true },
-    { slug: "rehashing", title: "Rehashing", duration: "15 min", description: "Dynamic resizing of hash tables", hasContent: false },
+    { slug: "rehashing", title: "Rehashing", duration: "15 min", description: "Dynamic resizing of hash tables", hasContent: true },
     { slug: "two-sum-hashmap", title: "Two Sum (HashMap)", duration: "15 min", description: "Find pair with given sum", hasContent: true },
-    { slug: "group-anagrams", title: "Group Anagrams", duration: "18 min", description: "Group strings that are anagrams", hasContent: false },
-    { slug: "longest-consecutive", title: "Longest Consecutive", duration: "18 min", description: "Find longest consecutive sequence", hasContent: false },
-    { slug: "subarray-zero-sum", title: "Subarray Zero Sum", duration: "15 min", description: "Find subarray with zero sum", hasContent: false },
-    { slug: "count-distinct-window", title: "Count Distinct Window", duration: "18 min", description: "Count distinct elements in window", hasContent: false },
+    { slug: "group-anagrams", title: "Group Anagrams", duration: "18 min", description: "Group strings that are anagrams", hasContent: true },
+    { slug: "longest-consecutive", title: "Longest Consecutive", duration: "18 min", description: "Find longest consecutive sequence", hasContent: true },
+    { slug: "subarray-zero-sum", title: "Subarray Zero Sum", duration: "15 min", description: "Find subarray with zero sum", hasContent: true },
+    { slug: "count-distinct-window", title: "Count Distinct Window", duration: "18 min", description: "Count distinct elements in window", hasContent: true },
   ],
 
   // ─────────────────────────────────────────────────────────────────────────────
